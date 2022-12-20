@@ -28,6 +28,7 @@ context = {"now": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")}
 
 st.set_option("deprecation.showPyplotGlobalUse", False)
 
+st.header("""ePI Creator""")
 
 st.markdown("""Please upload the excel file for creating the FSH resources.""")
 
@@ -44,9 +45,16 @@ elements = [
     "PackagedProductDefinition",
     "Bundle",
 ]
+col1, col2 = st.columns(2)
 
-major_name = st.text_input("Product Name", "acme").replace(" ", "_")
-
+major_name = col1.text_input("Product Name", "acme").replace(" ", "_")
+fp = open("humira.xlsx", "rb")
+col2.download_button(
+    label="Download example excel",
+    data=fp,
+    file_name="humira.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+)
 uploaded_file = st.file_uploader("Choose a file")
 
 # Custom filter method
