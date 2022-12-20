@@ -45,7 +45,7 @@ elements = [
     "Bundle",
 ]
 
-major_name = st.text_input("Product Name", "acme")
+major_name = st.text_input("Product Name", "acme").replace(" ", "_")
 
 uploaded_file = st.file_uploader("Choose a file")
 
