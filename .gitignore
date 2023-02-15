@@ -132,3 +132,5 @@ temp/
 output/
 
 *.zip
+
+fsh-generated*

@@ -2,9 +2,9 @@
 # coding: utf-8
 
 import streamlit as st
-from os import listdir, getcwd, mkdir
+from os import listdir, getcwd, mkdir, system
 from os.path import exists
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, Template
 import pandas as pd
 import uuid
 import re
@@ -37,12 +37,14 @@ col1, col2 = st.columns(2)
 
 major_name = col1.text_input("Product Name", "acme").replace(" ", "_")
 fp = open("humira.xlsx", "rb")
+
 col2.download_button(
     label="Download example excel",
     data=fp,
     file_name="humira.xlsx",
     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 )
+
 uploaded_file = st.file_uploader("Choose a file")
 
 # Custom filter method
@@ -51,7 +53,8 @@ def regex_replace(s, find, replace):
     return re.sub(find, replace, s)
 
 
-env = Environment(loader=FileSystemLoader("./templates/"), trim_blocks=True)
+env = Environment(loader=FileSystemLoader("templates/"), trim_blocks=True)
+
 env.filters["regex_replace"] = regex_replace
 
 # print(getcwd())
@@ -59,7 +62,12 @@ temp_folder = getcwd() + "/temp/"
 if not exists(temp_folder):
     mkdir(temp_folder)
 
-real_output_folder = getcwd() + "/output/"
+zip_folder = getcwd() + "/output/"
+if exists(zip_folder):
+    shutil.rmtree(zip_folder)
+mkdir(zip_folder)
+
+real_output_folder = "input/fsh/examples/"
 if not exists(real_output_folder):
     mkdir(real_output_folder)
 
@@ -97,6 +105,7 @@ if uploaded_file is not None:
         # templateString = env.get_template(file.read())
 
         t = env.get_template(n_file + ".fsh")
+
         # t = Template(templateString, trim_blocks=True)
 
         df = pd.read_csv(temp_folder + n_file + ".csv", index_col=0)
@@ -149,13 +158,27 @@ if uploaded_file is not None:
 
     # zip folder
     # csv = convert_df(my_large_df)
-    zipfile = shutil.make_archive(major_name, "zip", real_output_folder)
+    zipfile = shutil.make_archive(major_name + "fsh", "zip", real_output_folder)
+    system("sushi .")
+    for json_file in listdir("fsh-generated/resources"):
+        if json_file.startswith("Bundle"):
+            shutil.move("fsh-generated/resources/" + json_file, zip_folder)
+    zipfile2 = shutil.make_archive(major_name + "json", "zip", zip_folder)
 
-    print(listdir("."))
+    # print(listdir("."))
+    col3, col4 = st.columns(2)
+
     with open(zipfile, "rb") as fp:
-        btn = st.download_button(
-            label="Download ZIP",
+        btn = col3.download_button(
+            label="Download ZIP with FSH files",
             data=fp,
-            file_name=major_name + ".zip",
+            file_name=major_name + "_fsh.zip",
+            mime="application/zip",
+        )
+    with open(zipfile2, "rb") as fp2:
+        btn2 = col4.download_button(
+            label="Download ZIP with JSON files",
+            data=fp2,
+            file_name=major_name + "_json.zip",
             mime="application/zip",
         )

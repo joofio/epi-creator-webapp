@@ -1,0 +1,126 @@
+# ╭────────────────────────────────────────────────────────────────────────────────────────────────╮
+# │  ACTION REQUIRED: REVIEW AND EDIT THIS FILE TO ENSURE IT ACCURATELY REFLECTS YOUR PROJECT!     │
+# │                                                                                                │
+# │  This file was generated from your existing project files and will be used for SUSHI           │
+# │  configuration from now on. You may delete your package.json as it is no longer needed.        │
+# ╰────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+# ╭──────────────────────────────ImplementationGuide-gh.json───────────────────────────────╮
+# │  The properties below are used to create the ImplementationGuide resource. For a list of       │
+# │  supported properties, see:                                                                    │
+# │  http://build.fhir.org/ig/HL7/fhir-shorthand/branches/beta/sushi.html#ig-development           │
+# ╰────────────────────────────────────────────────────────────────────────────────────────────────╯
+id: hl7.fhir.uv.emedicinal-product-info
+canonical: http://hl7.org/fhir/uv/emedicinal-product-info 
+version: 1.0.0-ballot
+name: EpiIG
+title: Electronic Medicinal Product Information (ePI) FHIR Implementation Guide
+status: active
+publisher: HL7
+contact:
+  - name: HL7 BR&R
+    telecom:
+      - system: url
+        value: http://www.hl7.org/Special/committees/rcrim
+description: BR&R creates and promotes standards to facilitate biomedical research and any subsequent regulatory evaluation of the safety, efficacy and quality of medical products that may arise from research.
+license: CC0-1.0
+fhirVersion: 5.0.0-snapshot3
+#dependencies:
+#  hl7.fhir.uv.ips: current
+parameters:
+  show-inherited-invariants: false
+  path-resource: !!seq
+  - input/resources/irbesartan
+  - input/resources/oxymetazoline-hydrochloride
+  - input/resources/dimethyl-fumarate
+  autoload-resources: true
+  jira-code: uv-emedicinal-product-info
+  produce-jekyll-data: true
+copyrightYear: 2021+
+releaseLabel: STU Ballot
+jurisdiction: http://unstats.un.org/unsd/methods/m49/m49.htm#001 "World"
+#resources:
+  
+    
+    
+#  Bundle/bundlepackageleaflet-2e8a8b1c9142de3ac8de0723812d3fef:
+#    name: ePI document Bundle for adalimumab Package Leaflet
+#    description: ePI document Bundle for adalimumab Package Leaflet 
+#    exampleBoolean: true
+#   Bundle/910d1748-674b-430c-b4ab-3665b266a31f:
+#     name: Irbesartan PIL (English)
+#     description: Example of English Product information leaflet for Irbesartan   
+#     exampleBoolean: true
+#   Bundle/995d3971-b899-43bf-857d-98c26634796d:
+#     name: Irbesartan PIL (Norwegian)
+#     description: Example of Norwegian Product information leaflet for Irbesartan   
+#     exampleBoolean: true
+    
+#   Bundle/8f7eede7-0aac-41ca-8552-8f1f1c059e6a:
+#     name: Oxymetazoline-hydrochloride  PIL (Greek)
+#     description: Example of Greek Product information leaflet for Oxymetazoline-hydrochloride    
+#     exampleBoolean: true
+#   Bundle/69b66755-94ef-4ff6-a794-43a74e16ff00:
+#     name: Oxymetazoline-hydrochloride PIL (English)
+#     description: Example of English Product information leaflet for Oxymetazoline-hydrochloride   
+#     exampleBoolean: true
+#   Bundle/d1a125cf-b46c-40cf-82cf-5b754eb0f19e:
+#     name: Oxymetazoline-hydrochloride PIL (Norwegian)
+#     description: Example of Norwegian Product information leaflet for Oxymetazoline-hydrochloride   
+#     exampleBoolean: true
+
+# ╭────────────────────────────────────────────menu.xml────────────────────────────────────────────╮
+# │  To use a provided input/includes/menu.xml file, delete the "menu" property below.             │
+# ╰────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+pages:
+  index.md:
+    title: Introduction
+  background.md:
+    title: Background
+  core-epi-structure.md:
+    title: Core ePI Profile
+  annotation.md:
+      title: Semantic Annotation
+  steps-to-create-core-epi.md:
+      title: Steps to create a Core FHIR ePI
+  capability.md:
+      title: Capability
+  general-technical-conformance-requirements.md:
+      title: General Technical Conformance Requirements
+  appendicies.md:
+      title: Appendix
+  downloads.md:
+      title: Downloads
+
+menu:
+  Table of Contents: toc.html
+  Introduction: index.html
+  Background: background.html
+  The Specification:
+      Core ePI Structure: core-epi-structure.html
+      Semantic Annotation: annotation.html
+      Step to create ePI: steps-to-create-core-epi.html
+      General Technical Conformance: general-technical-conformance-requirements.html
+  Capability: capability.html
+  Artifact Index: artifacts.html
+  Appendices: appendicies.html
+  Downloads: downloads.html
+
+
+instanceOptions:
+  # Determines for which types of Instances SUSHI will automatically set meta.profile
+  # if InstanceOf references a profile. Options are:
+  # - always: Set meta.profile for all Instances of profiles (default)
+  # - never: Do not set meta.profile on any Instances
+  # - inline-only: Set meta.profile for only Instances of profiles with Usage set to #inline
+  # - standalone-only: Set meta.profile for only Instances of profiles where Usage is any value other than #inline
+  setMetaProfile: always
+  # Determines for which types of Instances SUSHI will automatically set id
+  # if InstanceOf references a profile. Options are:
+  # - always: Set id for all Instances (default)
+  # - standalone-only: Set id for only Instances where Usage is any value other than #inline
+  setId: always
+
+
+FSHOnly: false

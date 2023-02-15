@@ -19,7 +19,7 @@
     <script>
 stlite.mount(
   {
-    requirements: ["pandas","jinja2"], // Packages to install
+    requirements: ["openpyxl","pandas","jinja2"], // Packages to install
     entrypoint: "streamlit_app.py", // The target file of the `streamlit run` command
     files: {
       "streamlit_app.py": `
@@ -61,12 +61,17 @@ elements = [
 col1, col2 = st.columns(2)
 
 major_name = col1.text_input("Product Name", "acme").replace(" ", "_")
-fp = open("humira.xlsx", "rb")
-col2.download_button(
-    label="Download example excel",
-    data=fp,
-    file_name="humira.xlsx",
-    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+# fp = open("humira.xlsx", "rb")
+
+# col2.download_button(
+#    label="Download example excel",
+#    data=fp,
+#    file_name="humira.xlsx",
+#    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+# )
+col2.markdown(
+    '<a href="https://github.com/joofio/epi-creator-webapp/raw/main/humira.xlsx">Download example file</a>',
+    unsafe_allow_html=True,
 )
 uploaded_file = st.file_uploader("Choose a file")
 
