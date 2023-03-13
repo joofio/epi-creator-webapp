@@ -10,7 +10,7 @@ import uuid
 import re
 from datetime import datetime
 import shutil
-
+import subprocess
 
 context = {"now": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")}
 
@@ -159,14 +159,20 @@ if uploaded_file is not None:
     # zip folder
     # csv = convert_df(my_large_df)
     zipfile = shutil.make_archive(major_name + "fsh", "zip", real_output_folder)
-    system("sushi .")
+    result = subprocess.run(["sushi", "."], stdout=subprocess.PIPE)
+    # system("sushi .")
+    f = open("result.txt", "w")
+    f.write(result.stdout.decode("utf-8"))
+    f.close()
+
+    # result.stdout
     for json_file in listdir("fsh-generated/resources"):
         if json_file.startswith("Bundle"):
             shutil.move("fsh-generated/resources/" + json_file, zip_folder)
     zipfile2 = shutil.make_archive(major_name + "json", "zip", zip_folder)
 
     # print(listdir("."))
-    col3, col4 = st.columns(2)
+    col3, col4, col5 = st.columns(3)
 
     with open(zipfile, "rb") as fp:
         btn = col3.download_button(
@@ -175,10 +181,17 @@ if uploaded_file is not None:
             file_name=major_name + "_fsh.zip",
             mime="application/zip",
         )
+
     with open(zipfile2, "rb") as fp2:
         btn2 = col4.download_button(
             label="Download ZIP with JSON files",
             data=fp2,
             file_name=major_name + "_json.zip",
             mime="application/zip",
+        )
+    with open("result.txt", "rb") as fp3:
+        btn2 = col5.download_button(
+            label="Download Log file",
+            data=fp3,
+            file_name="log.txt",
         )

@@ -1,27 +1,27 @@
 
-Instance: ap-humira40mgsolutionforinjectionsubcutaneoususeprefilledsyringeglass
+Instance: ap-hipricoarkopharmacpsulasduras
 InstanceOf: AdministrableProductDefinitionUvEpi
-Title: "Administrable product Humira 40 mg Solution for injection Subcutaneous use pre-filled syringe (glass)"
-Description: "Humira 40 mg Solution for injection Subcutaneous use pre-filled syringe (glass)"
+Title: "Administrable product HIPÉRICO ARKOPHARMA cápsulas duras"
+Description: "HIPÉRICO ARKOPHARMA cápsulas duras"
 Usage: #example
 
-* id = "a414f849-30e7-46c3-b757-02d21d66fa6d" 
+* id = "5be31d26-9639-4056-b88f-a0f6b148cc0c" 
 * identifier.system = $phpid
-* identifier.value = "nan" 
+* identifier.value = "xx" 
 
 * status = #active
 
-* formOf = Reference(mpHumira40mgSolutionforinjectionSubcutaneoususeprefilledsyringeglass)
-* administrableDoseForm = $spor-rms#11201000 "Solution for injection"
-* unitOfPresentation = $spor-rms#15052000 "Syringe"
+* formOf = Reference(mpHIPRICOARKOPHARMAcpsulasduras)
+* administrableDoseForm = $spor-rms#100000073681 "Hard capsules"
+* unitOfPresentation = $spor-rms#200000002152 "hard capsule"
 
 //this is just manufactured with extra steps?
 
 
 //reference to MedicinalProductDefinition: EU/1/97/049/001 Karvea 75 mg tablet
-* producedFrom = Reference(mid-humira40mgsolutionforinjectionsubcutaneoususeprefilledsyringeglass)
+* producedFrom = Reference(mid-hipricoarkopharmacpsulasduras)
 
 
-* routeOfAdministration.code = $spor-rms#20066000 "Subcutaneous use"
+* routeOfAdministration.code = $spor-rms#100000073619 "Oral use"
 
 * routeOfAdministration.targetSpecies.code = $spor-rms#100000109093 "Human"

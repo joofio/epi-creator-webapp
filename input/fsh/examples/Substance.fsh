@@ -1,12 +1,12 @@
 
-Instance: substance-adalimumab
+Instance: substance-hypericumperforatumwhole
 InstanceOf: SubstanceDefinitionUvEpi
-Description: "ADALIMUMAB"
+Description: "HYPERICUM PERFORATUM WHOLE"
 Usage: #example
-* id = "eabdc045-1c55-49ac-8487-6a0b4862ed3e" 
+* id = "5f89353a-0a87-4e50-8c6d-01a881a3c6cb" 
 
 * identifier.system = "https://gsrs.ncats.nih.gov/ginas/app/beta/"
-* identifier.value = "FYS6T7F842"
+* identifier.value = "XK4IUX8MNB"
 * identifier.use = #official
 
 * version = "1"
@@ -18,11 +18,16 @@ Usage: #example
 
  // Reference to Organization: MAH
  
-* manufacturer = Reference(org-marketingauthorisationholder-abbviedeutschlandgmbhcokg-acme)
+* manufacturer = Reference(org-marketingauthorisationholder-arkopharmalaboratoriossau-acme)
 
-* structure.molecularFormula = "C6448H10026O2016N1732S42"
+ 
 
-//* name.name = "nan"
+* molecularWeight[+].type.text = "exact"
+* molecularWeight[=].amount.value = 156.09
+* structure.molecularFormula = "C35H52O4"
 
+//* name.name = "Hyperforin"
+* name.name = "Hyperforin"
 
-//* name.type = https://gsrs.ncats.nih.gov/ginas/app/beta/#nan "nan"
+//* name.type = https://gsrs.ncats.nih.gov/ginas/app/beta/#x "Chemical Name"
+* name.type = https://gsrs.ncats.nih.gov/ginas/app/beta/#x "Chemical Name"

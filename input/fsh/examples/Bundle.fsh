@@ -1,19 +1,19 @@
 
-Instance: bundlepackageleaflet-humira
+Instance: bundlepackageleaflet-hipricoarkopharmacpsulasduras
 InstanceOf: BundleUvEpi
-Title: "ePI document Bundle for humira Package Leaflet"
-Description: "Bundle for humira Package Leaflet ePI document"
+Title: "ePI document Bundle for HIPÉRICO ARKOPHARMA cápsulas duras Package Leaflet"
+Description: "Bundle for HIPÉRICO ARKOPHARMA cápsulas duras Package Leaflet ePI document"
 Usage: #example
 
-* id = "6739a04d-e70a-40c7-aa72-544b39a5df39" 
+* id = "30cb5c79-5052-4ff5-9cf5-0c7a7bc15a3e" 
 * identifier.system = "https://www.gravitatehealth.eu/sid/doc" 
-* identifier.value = "nan"
+* identifier.value = "xx"
 * type = #document
-* timestamp = "2023-02-15T21:06:31Z"
+* timestamp = "2023-03-13T11:44:35Z"
 
 // Composition
-* entry[0].fullUrl = "Composition/ac797604-94f7-4062-a5de-8b1478096b3e"
-* entry[0].resource = compositionhumira
+* entry[0].fullUrl = "Composition/3206a76d-a94d-4001-8bd1-24844949eed4"
+* entry[0].resource = compositionCALCIOVITAMINAD3ROVI1000mg880UICOMPRIMIDOSEFERVESCENTES
 
  
  
@@ -24,89 +24,69 @@ Usage: #example
 
 // Ingredient
 
-* entry[+].fullUrl = "Ingredient/4245b64c-3649-4c10-9d57-ace91dda8cc7"
-* entry[=].resource = ingredient-for-acme-mannitol 
+* entry[+].fullUrl = "Ingredient/31a1da7b-eddf-4186-9e76-4033bc74b50a"
+* entry[=].resource = ingredient-for-acme-hypericumperforatuml 
 
 // Ingredient
 
-* entry[+].fullUrl = "Ingredient/f16dbbc7-37a6-46e1-9f1b-e910ba5c3ea3"
-* entry[=].resource = ingredient-for-acme-polysorbate80 
+* entry[+].fullUrl = "Ingredient/8bd176dd-01b8-40d3-beb5-3371d468dd4f"
+* entry[=].resource = ingredient-for-acme-microcrystallinecellulose 
 
 // Ingredient
 
-* entry[+].fullUrl = "Ingredient/6820b5a5-48de-4ec2-b311-ac2a6b871552"
-* entry[=].resource = ingredient-for-acme-adalimumab 
+* entry[+].fullUrl = "Ingredient/473a6055-4f3b-4c2b-8c5d-fbb16d236be8"
+* entry[=].resource = ingredient-for-acme-magnesiumstearate 
 
 // Ingredient
 
-* entry[+].fullUrl = "Ingredient/e5a802b1-0506-42b5-8c9a-4659a5b192d1"
-* entry[=].resource = ingredient-for-acme-sterilewaterforinjection 
+* entry[+].fullUrl = "Ingredient/e30941be-0305-4f77-8d91-231082f4028e"
+* entry[=].resource = ingredient-for-acme-colloidalhydrophobicsilica 
 
 // Ingredient
 
-* entry[+].fullUrl = "Ingredient/a790667e-4719-4f3e-acda-69053a5375cb"
-* entry[=].resource = ingredient-for-acme-citricacidmonohydrate 
-
-// Ingredient
-
-* entry[+].fullUrl = "Ingredient/6931238e-7076-4006-aa14-c1e9ca0374ef"
-* entry[=].resource = ingredient-for-acme-sodiumcitrateunspecifiedform 
-
-// Ingredient
-
-* entry[+].fullUrl = "Ingredient/8a3752f9-6b2d-4028-8a5f-fe0698d6d8d0"
-* entry[=].resource = ingredient-for-acme-sodiumphosphatemonobasicdihydrate 
-
-// Ingredient
-
-* entry[+].fullUrl = "Ingredient/2321e835-b61f-4836-898d-1c1902332381"
-* entry[=].resource = ingredient-for-acme-sodiumphosphatedibasicdihydrate 
-
-// Ingredient
-
-* entry[+].fullUrl = "Ingredient/7166c985-6b2d-4018-823b-781914ccad63"
-* entry[=].resource = ingredient-for-acme-sodiumchloride 
+* entry[+].fullUrl = "Ingredient/44845763-dae5-4d4a-aadf-aac468362369"
+* entry[=].resource = ingredient-for-acme-maltodextrin 
  
 
 // Substance
    
-* entry[+].fullUrl = "SubstanceDefinition/eabdc045-1c55-49ac-8487-6a0b4862ed3e"
-* entry[=].resource = substance-adalimumab 
+* entry[+].fullUrl = "SubstanceDefinition/5f89353a-0a87-4e50-8c6d-01a881a3c6cb"
+* entry[=].resource = substance-hypericumperforatumwhole 
  
 
 // AdministrableProductDefinition
 
-* entry[+].fullUrl = "AdministrableProductDefinition/a414f849-30e7-46c3-b757-02d21d66fa6d"
-* entry[=].resource = ap-humira40mgsolutionforinjectionsubcutaneoususeprefilledsyringeglass 
+* entry[+].fullUrl = "AdministrableProductDefinition/5be31d26-9639-4056-b88f-a0f6b148cc0c"
+* entry[=].resource = ap-hipricoarkopharmacpsulasduras 
  
 
 // RegulatedAuthorization
 
-* entry[+].fullUrl = "RegulatedAuthorization/525991cf-64c7-440b-8af7-2b627026e3aa"
-* entry[=].resource = authorizationhumira40mgsolutionforinjectioninprefilledsyringe 
+* entry[+].fullUrl = "RegulatedAuthorization/bd75538b-b198-420b-a99f-9c2d04f7d2a3"
+* entry[=].resource = authorizationhipricoarkopharmacpsulasduras 
  
 
 // Organization
 
-* entry[+].fullUrl = "Organization/dca60855-ac2f-4797-b424-7c5de9758041"
-* entry[=].resource = org-marketingauthorisationholder-abbviedeutschlandgmbhcokg-acme 
+* entry[+].fullUrl = "Organization/78af1cb0-066e-4c89-bebc-a9ee15a9aaa9"
+* entry[=].resource = org-marketingauthorisationholder-arkopharmalaboratoriossau-acme 
  
 
 // PackagedProductDefinition
 
-* entry[+].fullUrl = "PackagedProductDefinition/dae76ab8-8c68-4176-b797-e5f52f3e8f9f"
-* entry[=].resource = ppd-humira40mgsolutionforinjectioninprefilledsyringe2prefilledsyringes2alcoholpads 
+* entry[+].fullUrl = "PackagedProductDefinition/53df4e8e-543c-47f8-9cac-3afdf4c753d5"
+* entry[=].resource = ppd-hipricoarkopharmacpsulasduras 
  
 
 // MedicinalProductDefinition
 
-* entry[+].fullUrl = "MedicinalProductDefinition/ea5e812e-3dee-4aa3-9c99-034a63737c03"
-* entry[=].resource = mpHumira40mgSolutionforinjectionSubcutaneoususeprefilledsyringeglass 
+* entry[+].fullUrl = "MedicinalProductDefinition/c9f88440-4186-4ded-b95e-7c0dbc77b11e"
+* entry[=].resource = mpHIPRICOARKOPHARMAcpsulasduras 
  
 
 // ManufacturedItemDefinition
 
-* entry[+].fullUrl = "ManufacturedItemDefinition/c20c2604-9d28-4ad9-aa99-a5fc94301f6f"
-* entry[=].resource = mid-humira40mgsolutionforinjectionsubcutaneoususeprefilledsyringeglass 
+* entry[+].fullUrl = "ManufacturedItemDefinition/d4527e07-9365-47e9-a98d-30c0c10136e4"
+* entry[=].resource = mid-hipricoarkopharmacpsulasduras 
  
 

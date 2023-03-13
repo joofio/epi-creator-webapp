@@ -1,46 +1,41 @@
 
-Instance: ppd-humira40mgsolutionforinjectioninprefilledsyringe2prefilledsyringes2alcoholpads
+Instance: ppd-hipricoarkopharmacpsulasduras
 InstanceOf: PackagedProductDefinitionUvEpi
-Title: "Humira 40 mg solution for injection in pre-filled syringe 2 pre-filled syringes + 2 alcohol pads"
-Description: "Humira 40 mg solution for injection in pre-filled syringe 2 pre-filled syringes + 2 alcohol pads"
+Title: "HIPÉRICO ARKOPHARMA cápsulas duras"
+Description: "HIPÉRICO ARKOPHARMA cápsulas duras"
 Usage: #example
-* id = "dae76ab8-8c68-4176-b797-e5f52f3e8f9f" 
+* id = "53df4e8e-543c-47f8-9cac-3afdf4c753d5" 
 
 * identifier.system = $spor-prod
-* identifier.value = "nan"
+* identifier.value = "x"
 * identifier.use = #official
 
-* name = "Humira 40 mg solution for injection in pre-filled syringe 2 pre-filled syringes + 2 alcohol pads"
+* name = "HIPÉRICO ARKOPHARMA cápsulas duras"
 
-* type = $spor-rms#100000155527 ""
+* type = $spor-rms#100000155527 "Chemical Medicinal Prodcut"
 //* type = $spor-rms#100000155527
 
 
 * status = http://hl7.org/fhir/publication-status#active "Active"
-* statusDate = "2008-09-08"
+* statusDate = "2015-01-03"
 
 
-* containedItemQuantity = 40 'mg'
+* containedItemQuantity =  '175'
 
 
-* copackagedIndicator = true
+* copackagedIndicator = false
 
 
 * packaging
   * identifier.system = $spor-prod
-  * identifier.value = "xxxx"
-  * type = $spor-rms#100000073498 "100000073498"
-  * quantity = 1
-  * material = $spor-rms#200000003529 "Cardboard"
+  * identifier.value = "123456"
+  * type = $spor-rms#100000073496 "Blister"
+  * quantity = 30
+  * material = $spor-rms#xxx "cardboard"
 
 
-  * packaging.type = $spor-rms#30051000 "Pre-filled syringe"
-  * packaging.quantity = 2
- 
-
-  * packaging.material[+] = $spor-rms#200000003204 "Glass type I"
 
 //reference to MedicinalProductDefinition: EU/1/97/049/001 Karvea 75 mg tablet
-* packageFor = Reference(mpHumira40mgSolutionforinjectionSubcutaneoususeprefilledsyringeglass)
+* packageFor = Reference(mpHIPRICOARKOPHARMAcpsulasduras)
  // Reference to Organization: MAH
-* manufacturer = Reference(org-marketingauthorisationholder-abbviedeutschlandgmbhcokg-acme)
+* manufacturer = Reference(org-marketingauthorisationholder-arkopharmalaboratoriossau-acme)

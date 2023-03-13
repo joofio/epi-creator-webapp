@@ -1,257 +1,161 @@
 
-Instance: ingredient-for-acme-mannitol
+Instance: ingredient-for-acme-hypericumperforatuml
 InstanceOf: IngredientUvEpi
-Title: "Ingredient-excipient Mannitol"
-Description: "Mannitol"
+Title: "Ingredient-active Hypericum perforatum L."
+Description: "Hypericum perforatum L."
 Usage: #example
 
-* id = "4245b64c-3649-4c10-9d57-ace91dda8cc7" 
+* id = "31a1da7b-eddf-4186-9e76-4033bc74b50a" 
 
 * identifier.system = $ginas
-* identifier.value = "3OWL53L36A"
-* identifier.use = #official
-
-* role = $spor-rms#100000072082 "Excipient"
-
-* status = #active
-
-* substance.code.concept.coding = $ginas#3OWL53L36A "Mannitol"
-
-
-
-// Reference to manufactured item
-* for = Reference(mid-humira40mgsolutionforinjectionsubcutaneoususeprefilledsyringeglass)
-// Reference to Organization:  Reference to MAH
-
- 
-
-
-* manufacturer.manufacturer = Reference(org-marketingauthorisationholder-abbviedeutschlandgmbhcokg-acme)
-Instance: ingredient-for-acme-polysorbate80
-InstanceOf: IngredientUvEpi
-Title: "Ingredient-excipient Polysorbate 80"
-Description: "Polysorbate 80"
-Usage: #example
-
-* id = "f16dbbc7-37a6-46e1-9f1b-e910ba5c3ea3" 
-
-* identifier.system = $ginas
-* identifier.value = "6OZP39ZG8H"
-* identifier.use = #official
-
-* role = $spor-rms#100000072082 "Excipient"
-
-* status = #active
-
-* substance.code.concept.coding = $ginas#6OZP39ZG8H "Polysorbate 80"
-
-
-
-// Reference to manufactured item
-* for = Reference(mid-humira40mgsolutionforinjectionsubcutaneoususeprefilledsyringeglass)
-// Reference to Organization:  Reference to MAH
-
- 
-
-
-* manufacturer.manufacturer = Reference(org-marketingauthorisationholder-abbviedeutschlandgmbhcokg-acme)
-Instance: ingredient-for-acme-adalimumab
-InstanceOf: IngredientUvEpi
-Title: "Ingredient-active adalimumab"
-Description: "adalimumab"
-Usage: #example
-
-* id = "6820b5a5-48de-4ec2-b311-ac2a6b871552" 
-
-* identifier.system = $ginas
-* identifier.value = "FYS6T7F842"
+* identifier.value = "XK4IUX8MNB"
 * identifier.use = #official
 
 * role = $spor-rms#72072 "active"
 
 * status = #active
 
-* substance.code.concept.coding = $ginas#FYS6T7F842 "adalimumab"
+* substance.code.concept.coding = $ginas#XK4IUX8MNB "Hypericum perforatum L."
 
 
-* substance.strength.presentationQuantity = 40.0 'mg'
+* substance.strength.presentationQuantity = 175.0 'mg'
 
 * substance.strength.basis = http://terminology.hl7.org/CodeSystem/v3-RoleClass#ACTIB "active ingredient - basis of strength"
 
 
 // Reference to manufactured item
-* for = Reference(mid-humira40mgsolutionforinjectionsubcutaneoususeprefilledsyringeglass)
+* for = Reference(mid-hipricoarkopharmacpsulasduras)
 // Reference to Organization:  Reference to MAH
 
  
 
 
-* manufacturer.manufacturer = Reference(org-marketingauthorisationholder-abbviedeutschlandgmbhcokg-acme)
-Instance: ingredient-for-acme-sterilewaterforinjection
+* manufacturer.manufacturer = Reference(org-marketingauthorisationholder-arkopharmalaboratoriossau-acme)
+Instance: ingredient-for-acme-microcrystallinecellulose
 InstanceOf: IngredientUvEpi
-Title: "Ingredient-excipient STERILE WATER FOR INJECTION"
-Description: "STERILE WATER FOR INJECTION"
+Title: "Ingredient-excipient microcrystalline cellulose"
+Description: "microcrystalline cellulose"
 Usage: #example
 
-* id = "e5a802b1-0506-42b5-8c9a-4659a5b192d1" 
+* id = "8bd176dd-01b8-40d3-beb5-3371d468dd4f" 
 
 * identifier.system = $ginas
-* identifier.value = "059QF0KO0R"
+* identifier.value = "OP1R32D61U"
 * identifier.use = #official
 
-* role = $spor-rms#100000072082 "Excipient"
+* role = $spor-rms#100000072082 "excipient"
 
 * status = #active
 
-* substance.code.concept.coding = $ginas#059QF0KO0R "STERILE WATER FOR INJECTION"
+* substance.code.concept.coding = $ginas#OP1R32D61U "microcrystalline cellulose"
 
+
+* substance.strength.presentationQuantity = 140.0 'mg'
+
+* substance.strength.basis = http://terminology.hl7.org/CodeSystem/v3-RoleClass#nan "nan"
 
 
 // Reference to manufactured item
-* for = Reference(mid-humira40mgsolutionforinjectionsubcutaneoususeprefilledsyringeglass)
+* for = Reference(mid-hipricoarkopharmacpsulasduras)
 // Reference to Organization:  Reference to MAH
 
  
 
 
-* manufacturer.manufacturer = Reference(org-marketingauthorisationholder-abbviedeutschlandgmbhcokg-acme)
-Instance: ingredient-for-acme-citricacidmonohydrate
+* manufacturer.manufacturer = Reference(org-marketingauthorisationholder-arkopharmalaboratoriossau-acme)
+Instance: ingredient-for-acme-magnesiumstearate
 InstanceOf: IngredientUvEpi
-Title: "Ingredient-excipient CITRIC ACID MONOHYDRATE"
-Description: "CITRIC ACID MONOHYDRATE"
+Title: "Ingredient-excipient magnesium stearate"
+Description: "magnesium stearate"
 Usage: #example
 
-* id = "a790667e-4719-4f3e-acda-69053a5375cb" 
+* id = "473a6055-4f3b-4c2b-8c5d-fbb16d236be8" 
 
 * identifier.system = $ginas
-* identifier.value = "2968PHW8QP"
+* identifier.value = "70097M6I30"
 * identifier.use = #official
 
-* role = $spor-rms#100000072082 "Excipient"
+* role = $spor-rms#100000072082 "excipient"
 
 * status = #active
 
-* substance.code.concept.coding = $ginas#2968PHW8QP "CITRIC ACID MONOHYDRATE"
+* substance.code.concept.coding = $ginas#70097M6I30 "magnesium stearate"
 
+
+* substance.strength.presentationQuantity = 3.3 'mg'
+
+* substance.strength.basis = http://terminology.hl7.org/CodeSystem/v3-RoleClass#nan "nan"
 
 
 // Reference to manufactured item
-* for = Reference(mid-humira40mgsolutionforinjectionsubcutaneoususeprefilledsyringeglass)
+* for = Reference(mid-hipricoarkopharmacpsulasduras)
 // Reference to Organization:  Reference to MAH
 
  
 
 
-* manufacturer.manufacturer = Reference(org-marketingauthorisationholder-abbviedeutschlandgmbhcokg-acme)
-Instance: ingredient-for-acme-sodiumcitrateunspecifiedform
+* manufacturer.manufacturer = Reference(org-marketingauthorisationholder-arkopharmalaboratoriossau-acme)
+Instance: ingredient-for-acme-colloidalhydrophobicsilica
 InstanceOf: IngredientUvEpi
-Title: "Ingredient-excipient SODIUM CITRATE, UNSPECIFIED FORM"
-Description: "SODIUM CITRATE, UNSPECIFIED FORM"
+Title: "Ingredient-excipient colloidal hydrophobic silica"
+Description: "colloidal hydrophobic silica"
 Usage: #example
 
-* id = "6931238e-7076-4006-aa14-c1e9ca0374ef" 
+* id = "e30941be-0305-4f77-8d91-231082f4028e" 
 
 * identifier.system = $ginas
-* identifier.value = "1Q73Q2JULR"
+* identifier.value = "8MDF5V39QO"
 * identifier.use = #official
 
-* role = $spor-rms#100000072082 "Excipient"
+* role = $spor-rms#100000072082 "excipient"
 
 * status = #active
 
-* substance.code.concept.coding = $ginas#1Q73Q2JULR "SODIUM CITRATE, UNSPECIFIED FORM"
+* substance.code.concept.coding = $ginas#8MDF5V39QO "colloidal hydrophobic silica"
 
+
+* substance.strength.presentationQuantity = 2.0 'mg'
+
+* substance.strength.basis = http://terminology.hl7.org/CodeSystem/v3-RoleClass#nan "nan"
 
 
 // Reference to manufactured item
-* for = Reference(mid-humira40mgsolutionforinjectionsubcutaneoususeprefilledsyringeglass)
+* for = Reference(mid-hipricoarkopharmacpsulasduras)
 // Reference to Organization:  Reference to MAH
 
  
 
 
-* manufacturer.manufacturer = Reference(org-marketingauthorisationholder-abbviedeutschlandgmbhcokg-acme)
-Instance: ingredient-for-acme-sodiumphosphatemonobasicdihydrate
+* manufacturer.manufacturer = Reference(org-marketingauthorisationholder-arkopharmalaboratoriossau-acme)
+Instance: ingredient-for-acme-maltodextrin
 InstanceOf: IngredientUvEpi
-Title: "Ingredient-excipient SODIUM PHOSPHATE, MONOBASIC, DIHYDRATE"
-Description: "SODIUM PHOSPHATE, MONOBASIC, DIHYDRATE"
+Title: "Ingredient-excipient maltodextrin"
+Description: "maltodextrin"
 Usage: #example
 
-* id = "8a3752f9-6b2d-4028-8a5f-fe0698d6d8d0" 
+* id = "44845763-dae5-4d4a-aadf-aac468362369" 
 
 * identifier.system = $ginas
-* identifier.value = "5QWK665956"
+* identifier.value = "7CVR7L4A2D"
 * identifier.use = #official
 
-* role = $spor-rms#100000072082 "Excipient"
+* role = $spor-rms#100000072082 "excipient"
 
 * status = #active
 
-* substance.code.concept.coding = $ginas#5QWK665956 "SODIUM PHOSPHATE, MONOBASIC, DIHYDRATE"
+* substance.code.concept.coding = $ginas#7CVR7L4A2D "maltodextrin"
 
+
+* substance.strength.presentationQuantity = 10.0 'mg'
+
+* substance.strength.basis = http://terminology.hl7.org/CodeSystem/v3-RoleClass#nan "nan"
 
 
 // Reference to manufactured item
-* for = Reference(mid-humira40mgsolutionforinjectionsubcutaneoususeprefilledsyringeglass)
+* for = Reference(mid-hipricoarkopharmacpsulasduras)
 // Reference to Organization:  Reference to MAH
 
  
 
 
-* manufacturer.manufacturer = Reference(org-marketingauthorisationholder-abbviedeutschlandgmbhcokg-acme)
-Instance: ingredient-for-acme-sodiumphosphatedibasicdihydrate
-InstanceOf: IngredientUvEpi
-Title: "Ingredient-excipient SODIUM PHOSPHATE, DIBASIC, DIHYDRATE"
-Description: "SODIUM PHOSPHATE, DIBASIC, DIHYDRATE"
-Usage: #example
-
-* id = "2321e835-b61f-4836-898d-1c1902332381" 
-
-* identifier.system = $ginas
-* identifier.value = "94255I6E2T"
-* identifier.use = #official
-
-* role = $spor-rms#100000072082 "Excipient"
-
-* status = #active
-
-* substance.code.concept.coding = $ginas#94255I6E2T "SODIUM PHOSPHATE, DIBASIC, DIHYDRATE"
-
-
-
-// Reference to manufactured item
-* for = Reference(mid-humira40mgsolutionforinjectionsubcutaneoususeprefilledsyringeglass)
-// Reference to Organization:  Reference to MAH
-
- 
-
-
-* manufacturer.manufacturer = Reference(org-marketingauthorisationholder-abbviedeutschlandgmbhcokg-acme)
-Instance: ingredient-for-acme-sodiumchloride
-InstanceOf: IngredientUvEpi
-Title: "Ingredient-excipient Sodium chloride"
-Description: "Sodium chloride"
-Usage: #example
-
-* id = "7166c985-6b2d-4018-823b-781914ccad63" 
-
-* identifier.system = $ginas
-* identifier.value = "451W47IQ8X"
-* identifier.use = #official
-
-* role = $spor-rms#100000072082 "Excipient"
-
-* status = #active
-
-* substance.code.concept.coding = $ginas#451W47IQ8X "Sodium chloride"
-
-
-
-// Reference to manufactured item
-* for = Reference(mid-humira40mgsolutionforinjectionsubcutaneoususeprefilledsyringeglass)
-// Reference to Organization:  Reference to MAH
-
- 
-
-
-* manufacturer.manufacturer = Reference(org-marketingauthorisationholder-abbviedeutschlandgmbhcokg-acme)
+* manufacturer.manufacturer = Reference(org-marketingauthorisationholder-arkopharmalaboratoriossau-acme)

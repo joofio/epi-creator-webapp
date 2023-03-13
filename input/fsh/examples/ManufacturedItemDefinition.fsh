@@ -1,19 +1,19 @@
 
-Instance: mid-humira40mgsolutionforinjectionsubcutaneoususeprefilledsyringeglass
+Instance: mid-hipricoarkopharmacpsulasduras
 InstanceOf: ManufacturedItemDefinitionUvEpi
-Title: "Manufactured item Humira 40 mg Solution for injection Subcutaneous use pre-filled syringe (glass)"
-Description: "Humira 40 mg Solution for injection Subcutaneous use pre-filled syringe (glass)"
+Title: "Manufactured item HIPÉRICO ARKOPHARMA cápsulas duras"
+Description: "HIPÉRICO ARKOPHARMA cápsulas duras"
 Usage: #example
-* id = "c20c2604-9d28-4ad9-aa99-a5fc94301f6f" 
+* id = "d4527e07-9365-47e9-a98d-30c0c10136e4" 
 
 * identifier.system = "https://spor.ema.europa.eu/pmswi/#/"
-* identifier.value = "EU/1/03/256/001"
+* identifier.value = "79963"
 * identifier.use = #official
 
 * status = #active
-* manufacturedDoseForm = https://spor.ema.europa.eu/rmswi/#11201000 "Solution for injection"
+* manufacturedDoseForm = https://spor.ema.europa.eu/rmswi/#100000073681 "hard capsules"
 
-* unitOfPresentation = $spor-rms#15052000 "Syringe"
+* unitOfPresentation = $spor-rms#200000002152 "hard capsules"
 
 
  
@@ -21,4 +21,4 @@ Usage: #example
  
 
 
-* manufacturer = Reference(org-marketingauthorisationholder-abbviedeutschlandgmbhcokg-acme)
+* manufacturer = Reference(org-marketingauthorisationholder-arkopharmalaboratoriossau-acme)

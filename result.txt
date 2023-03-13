@@ -1,0 +1,47 @@
+info  Running SUSHI v2.7.0 (implements FHIR Shorthand specification v2.0.0)
+info  Arguments:
+info    /Users/joaoalmeida/Desktop/hl7Europe/gravitate/epi-creator-webapp
+info  No output path specified. Output to .
+info  Using configuration file: /Users/joaoalmeida/Desktop/hl7Europe/gravitate/epi-creator-webapp/sushi-config.yaml
+info  Importing FSH text...
+error mismatched input ''175'' expecting {'MS', 'SU', 'TU', 'N', 'D', 'true', 'false', 'codes', 'valueset', 'system', STRING, MULTILINE_STRING, NUMBER, CODE, DATETIME, TIME, REFERENCE, CANONICAL, SEQUENCE}
+  File: /Users/joaoalmeida/Desktop/hl7Europe/gravitate/epi-creator-webapp/input/fsh/examples/PackagedProductDefinition.fsh
+  Line: 23
+info  Preprocessed 34 documents with 58 aliases.
+info  Imported 68 definitions and 15 instances.
+warn  SUSHI support for pre-release versions of FHIR is experimental. Use at your own risk!
+info  Checking local cache for hl7.fhir.r5.core#5.0.0-snapshot3...
+info  Found hl7.fhir.r5.core#5.0.0-snapshot3 in local cache.
+info  Loaded package hl7.fhir.r5.core#5.0.0-snapshot3
+info  Converting FSH to FHIR resources...
+info  Converted 15 FHIR StructureDefinitions.
+info  Converted 5 FHIR CodeSystems.
+info  Converted 48 FHIR ValueSets.
+info  Converted 15 FHIR instances.
+info  Exporting FHIR resources as JSON...
+info  Exported 83 FHIR resources as JSON.
+info  Assembling Implementation Guide sources...
+info  Generated ImplementationGuide-hl7.fhir.uv.emedicinal-product-info.json
+info  Assembled Implementation Guide sources; ready for IG Publisher.
+info  The sample-ig located at https://github.com/FHIR/sample-ig contains scripts useful for downloading and running the IG Publisher.
+
+========================= SUSHI RESULTS ===========================
+|  -------------------------------------------------------------  |
+| |    Profiles   |  Extensions  |   Logicals   |   Resources   | |
+| |-------------------------------------------------------------| |
+| |      15       |      0       |      0       |       0       | |
+|  -------------------------------------------------------------  |
+|  -------------------------------------------------------------  |
+| |      ValueSets     |    CodeSystems    |     Instances      | |
+| |-------------------------------------------------------------| |
+| |         48         |         5         |         15         | |
+|  -------------------------------------------------------------  |
+|                                                                 |
+===================================================================
+| Call a FSH sturgeon!                    1 Error       1 Warning |
+===================================================================
+|    You are using SUSHI version 2.7.0, but the latest stable     |
+|  release is version 2.9.0. To install the latest release, run:  |
+|                    npm install -g fsh-sushi                     |
+===================================================================
+

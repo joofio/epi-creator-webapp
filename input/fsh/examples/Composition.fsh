@@ -1,24 +1,24 @@
 
-Instance: compositionhumira
+Instance: compositionCALCIOVITAMINAD3ROVI1000mg880UICOMPRIMIDOSEFERVESCENTES
 InstanceOf: CompositionUvEpi
-Title: "Composition for humira Package Leaflet"
-Description:  "Composition for humira Package Leaflet"
+Title: "Composition for CALCIO/VITAMINA D3 ROVI 1000 mg/880 UI COMPRIMIDOS EFERVESCENTES Package Leaflet"
+Description:  "Composition for CALCIO/VITAMINA D3 ROVI 1000 mg/880 UI COMPRIMIDOS EFERVESCENTES Package Leaflet"
 Usage: #example
 
-* id = "ac797604-94f7-4062-a5de-8b1478096b3e" 
+* id = "3206a76d-a94d-4001-8bd1-24844949eed4" 
 * identifier.system = "https://spor.ema.europa.eu/rmswi/"
-* identifier.value = "nan"
+* identifier.value = "cc"
 
 * status = #final
 
 * type = https://spor.ema.europa.eu/rmswi/#100000155538
 * type.text = "Package Leaflet"
 
-* subject = Reference(mpHumira40mgSolutionforinjectionSubcutaneoususeprefilledsyringeglass)
+* subject = Reference(mpHIPRICOARKOPHARMAcpsulasduras)
 * date = "2022-02-16T13:28:17Z"
-* author = Reference(org-marketingauthorisationholder-abbviedeutschlandgmbhcokg-acme)
+* author = Reference(org-marketingauthorisationholder-arkopharmalaboratoriossau-acme)
 
-* title = "TEST PURPOSES ONLY - humira"
+* title = "TEST PURPOSES ONLY - CALCIO/VITAMINA D3 ROVI 1000 mg/880 UI COMPRIMIDOS EFERVESCENTES"
 
 * section[+].
   * title = "Product Information"
@@ -30,75 +30,59 @@ Usage: #example
  
 
   // Ingredient
-//  * entry[+].fullUrl = 4245b64c-3649-4c10-9d57-ace91dda8cc7
-  * entry[+] = Reference(ingredient-for-acme-mannitol) 
+//  * entry[+].fullUrl = 31a1da7b-eddf-4186-9e76-4033bc74b50a
+  * entry[+] = Reference(ingredient-for-acme-hypericumperforatuml) 
 
   // Ingredient
-//  * entry[+].fullUrl = f16dbbc7-37a6-46e1-9f1b-e910ba5c3ea3
-  * entry[+] = Reference(ingredient-for-acme-polysorbate80) 
+//  * entry[+].fullUrl = 8bd176dd-01b8-40d3-beb5-3371d468dd4f
+  * entry[+] = Reference(ingredient-for-acme-microcrystallinecellulose) 
 
   // Ingredient
-//  * entry[+].fullUrl = 6820b5a5-48de-4ec2-b311-ac2a6b871552
-  * entry[+] = Reference(ingredient-for-acme-adalimumab) 
+//  * entry[+].fullUrl = 473a6055-4f3b-4c2b-8c5d-fbb16d236be8
+  * entry[+] = Reference(ingredient-for-acme-magnesiumstearate) 
 
   // Ingredient
-//  * entry[+].fullUrl = e5a802b1-0506-42b5-8c9a-4659a5b192d1
-  * entry[+] = Reference(ingredient-for-acme-sterilewaterforinjection) 
+//  * entry[+].fullUrl = e30941be-0305-4f77-8d91-231082f4028e
+  * entry[+] = Reference(ingredient-for-acme-colloidalhydrophobicsilica) 
 
   // Ingredient
-//  * entry[+].fullUrl = a790667e-4719-4f3e-acda-69053a5375cb
-  * entry[+] = Reference(ingredient-for-acme-citricacidmonohydrate) 
-
-  // Ingredient
-//  * entry[+].fullUrl = 6931238e-7076-4006-aa14-c1e9ca0374ef
-  * entry[+] = Reference(ingredient-for-acme-sodiumcitrateunspecifiedform) 
-
-  // Ingredient
-//  * entry[+].fullUrl = 8a3752f9-6b2d-4028-8a5f-fe0698d6d8d0
-  * entry[+] = Reference(ingredient-for-acme-sodiumphosphatemonobasicdihydrate) 
-
-  // Ingredient
-//  * entry[+].fullUrl = 2321e835-b61f-4836-898d-1c1902332381
-  * entry[+] = Reference(ingredient-for-acme-sodiumphosphatedibasicdihydrate) 
-
-  // Ingredient
-//  * entry[+].fullUrl = 7166c985-6b2d-4018-823b-781914ccad63
-  * entry[+] = Reference(ingredient-for-acme-sodiumchloride) 
+//  * entry[+].fullUrl = 44845763-dae5-4d4a-aadf-aac468362369
+  * entry[+] = Reference(ingredient-for-acme-maltodextrin) 
  
 
   // Substance
-//  * entry[+].fullUrl = eabdc045-1c55-49ac-8487-6a0b4862ed3e
-  * entry[+] = Reference(substance-adalimumab) 
+//  * entry[+].fullUrl = 5f89353a-0a87-4e50-8c6d-01a881a3c6cb
+  * entry[+] = Reference(substance-hypericumperforatumwhole) 
  
 
   // AdministrableProductDefinition
-//  * entry[+].fullUrl = a414f849-30e7-46c3-b757-02d21d66fa6d
-  * entry[+] = Reference(ap-humira40mgsolutionforinjectionsubcutaneoususeprefilledsyringeglass) 
+//  * entry[+].fullUrl = 5be31d26-9639-4056-b88f-a0f6b148cc0c
+  * entry[+] = Reference(ap-hipricoarkopharmacpsulasduras) 
  
 
   // RegulatedAuthorization
-//  * entry[+].fullUrl = 525991cf-64c7-440b-8af7-2b627026e3aa
-  * entry[+] = Reference(authorizationhumira40mgsolutionforinjectioninprefilledsyringe) 
+//  * entry[+].fullUrl = bd75538b-b198-420b-a99f-9c2d04f7d2a3
+  * entry[+] = Reference(authorizationhipricoarkopharmacpsulasduras) 
  
 
   // Organization
-//  * entry[+].fullUrl = dca60855-ac2f-4797-b424-7c5de9758041
-  * entry[+] = Reference(org-marketingauthorisationholder-abbviedeutschlandgmbhcokg-acme) 
+//  * entry[+].fullUrl = 78af1cb0-066e-4c89-bebc-a9ee15a9aaa9
+  * entry[+] = Reference(org-marketingauthorisationholder-arkopharmalaboratoriossau-acme) 
  
 
   // PackagedProductDefinition
-//  * entry[+].fullUrl = dae76ab8-8c68-4176-b797-e5f52f3e8f9f
-  * entry[+] = Reference(ppd-humira40mgsolutionforinjectioninprefilledsyringe2prefilledsyringes2alcoholpads) 
+//  * entry[+].fullUrl = 53df4e8e-543c-47f8-9cac-3afdf4c753d5
+  * entry[+] = Reference(ppd-hipricoarkopharmacpsulasduras) 
  
 
   // MedicinalProductDefinition
-//  * entry[+].fullUrl = ea5e812e-3dee-4aa3-9c99-034a63737c03
-  * entry[+] = Reference(mpHumira40mgSolutionforinjectionSubcutaneoususeprefilledsyringeglass) 
+//  * entry[+].fullUrl = c9f88440-4186-4ded-b95e-7c0dbc77b11e
+  * entry[+] = Reference(mpHIPRICOARKOPHARMAcpsulasduras) 
  
 
   // ManufacturedItemDefinition
-//  * entry[+].fullUrl = c20c2604-9d28-4ad9-aa99-a5fc94301f6f
-  * entry[+] = Reference(mid-humira40mgsolutionforinjectionsubcutaneoususeprefilledsyringeglass) 
+//  * entry[+].fullUrl = d4527e07-9365-47e9-a98d-30c0c10136e4
+  * entry[+] = Reference(mid-hipricoarkopharmacpsulasduras) 
    
 
 
@@ -125,17 +109,57 @@ Usage: #example
     * code.text = "Package leaflet: Information for the user"
     * text.status = #additional
        
-    * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>  <p>Humira 40 mg solution for injection in pre-filled syringe
-adalimumab</p>
-<p>Read all of this leaflet carefully before your child starts using this medicine because it contains important information.</p>
-<ul>
-<li>Keep this leaflet. You may need to read it again.</li>
-<li>Your doctor will also give you a Patient Reminder Card, which contains important safety information that you need to be aware of before your child begins using Humira and during treatment with Humira. Keep this Patient Reminder Card with you or your child.</li>
-<li>If you have any questions, ask your doctor or pharmacist.</li>
-<li>This medicine has been prescribed for your child only. Do not pass it on to others. It may harm them, even if their signs of illness are the same as your child.</li>
-<li>If your child gets any side effects, talk to your doctor or pharmacist. This includes any possible side effects not listed in this leaflet. See section 4.</li>
-</ul>
-         </div>"""   
+    * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>  <div xmlns='http://www.w3.org/1999/xhtml'> 
+<div>
+
+    <p style="margin:0pt; text-align:center; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">PROSPECTO: INFORMACIÓN PARA EL USUARIO</span></strong></p>
+
+ 
+
+   <p style="margin:0pt; text-align:center; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">HIPÉRICO ARKOPHARMA cápsulas duras</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:center; line-height:115%; font-size:11pt"><strong><em><span style="font-family:Times New Roman; font-size:11pt;">Hypericum perforatum</span></em></strong> <strong><span style="font-family:Times New Roman; font-size:11pt;">L.</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:center; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">&#xa0;</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Lea todo el prospecto detenidamente antes de empezar a tomar este medicamento, porque contiene información importante para usted.</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Siga exactamente las instrucciones de administración del medicamento contenidas en este prospecto o las indicadas por su farmacéutico, médico o enfermero.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">- Conserve este prospecto, ya que puede tener que volver a leerlo.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">- Si necesita consejo o más información, consulte a su farmacéutico.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">- Si experimenta efectos adversos, consulte a su médico, farmacéutico o enfermero, incluso si se trata de efectos adversos que no aparecen en este prospecto.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">- Debe consultar a un médico si empeora o si no mejora después de 28 días de tratamiento.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">&#xa0;</span></strong></p>
+
+ 
+
+   
+
+  </div>
+        </div>         </div>"""   
 
   * section[=].section[+]
     * title = "What is in this leaflet"
@@ -143,216 +167,387 @@ adalimumab</p>
     * code.text = "What is in this leaflet"
     * text.status = #additional
        
-    * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>  <p>What is in this leaflet</p>
-<ol>
-<li>What Humira is and what it is used for</li>
-<li>What you need to know before your child uses Humira</li>
-<li>How to use Humira</li>
-<li>Possible side effects</li>
-<li>How to store Humira</li>
-<li>Contents of the pack and other information</li>
-<li>Injecting Humira</li>
-</ol>         </div>"""             
+    * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>  <div xmlns='http://www.w3.org/1999/xhtml'> 
+      <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Contenido del prospecto</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">&#xa0;</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">1. Qué es</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">HIPÉRICO ARKOPHARMA</span></strong> <span style="font-family:Times New Roman; font-size:11pt">y para qué se utiliza</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">2. Qué necesita saber antes de empezar a tomar</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">HIPÉRICO ARKOPHARMA</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">3. Cómo tomar</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">HIPÉRICO ARKOPHARMA</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">4. Posibles efectos adversos</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">5. Conservación de</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">HIPÉRICO ARKOPHARMA</span></strong> <span style="font-family:Times New Roman; font-size:11pt">6. Contenido del envase e información adicional.</span></p>
+        </div>         </div>"""             
 
   * section[=].section[+]
-    * title = "1. What humira is and what it is used for"
+    * title = "1. What CALCIO/VITAMINA D3 ROVI 1000 mg/880 UI COMPRIMIDOS EFERVESCENTES is and what it is used for"
     * code = https://spor.ema.europa.eu/rmswi/#100000155538
-    * code.text = "1. What humira is and what it is used for"
+    * code.text = "1. What CALCIO/VITAMINA D3 ROVI 1000 mg/880 UI COMPRIMIDOS EFERVESCENTES is and what it is used for"
     * text.status = #additional
        
-    * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>  <p>What Humira is and what it is used for
-Humira contains the active substance adalimumab.
-Humira is intended for the treatment of the inflammatory diseases described below:</p>
-<ul>
-<li>Polyarticular juvenile idiopathic arthritis</li>
-<li>Enthesitis-related arthritis</li>
-<li>Paediatric plaque psoriasis</li>
-<li>Paediatric Crohn’s disease</li>
-<li>Paediatric uveitis
-The active ingredient in Humira, adalimumab, is a human monoclonal antibody. Monoclonal antibodies
-are proteins that attach to a specific target.</li>
-</ul>
-<p>The target of adalimumab is a protein called tumour necrosis factor (TNFα), which is involved in the
-immune (defence) system and is present at increased levels in the inflammatory diseases listed above. By
-attaching to TNFα, Humira decreases the process of inflammation in these diseases.</p>
-<p><strong>Polyarticular juvenile idiopathic arthritis</strong></p>
-<p>Polyarticular juvenile idiopathic arthritis is an inflammatory disease of the joints that usually first appears in childhood.</p>
-<p>Humira is used to treat polyarticular juvenile idiopathic arthritis in patients from 2 years of age. Your child
-may first be given other disease-modifying medicines, such as methotrexate. If these medicines do not
-work well enough, your child will be given Humira to treat his/her polyarticular juvenile idiopathic
-arthritis.
-Your doctor will decide if Humira should be used with methotrexate or alone.</p>
-<p><strong>Enthesitis-related arthritis</strong></p>
-<p>Enthesitis-related arthritis is an inflammatory disease of the joints and the places where tendons join the
-bone.
-Humira is used to treat enthesitis-related arthritis in patients from 6 years of age. Your child may first be
-given other disease-modifying medicines, such as methotrexate. If these medicines do not work well
-enough, your child will be given Humira to treat his/her enthesitis-related arthritis.</p>
-<p><strong>Paediatric plaque psoriasis</strong></p>
-<p>Plaque psoriasis is a skin condition that causes red, flaky, crusty patches of skin covered with silvery
-scales. Plaque psoriasis can also affect the nails, causing them to crumble, become thickened and lift away
-from the nail bed which can be painful. Psoriasis is believed to be caused by a problem with the body’s
-immune system that leads to an increased production of skin cells.
-Humira is used to treat severe chronic plaque psoriasis in children and adolescents aged 4 to 17 years for
-whom topical therapy and phototherapies have either not worked very well or are not suitable.</p>
-<p><strong>Paediatric Crohn’s disease</strong></p>
-<p>Crohn’s disease is an inflammatory disease of the digestive tract.
-Humira is used to treat moderate to severe Crohn’s disease in children and adolescents aged 6 to 17 years.
-Your child may first be given other medicines. If these medicines do not work well enough, your child
-will be given Humira to reduce the signs and symptoms of his/her disease.</p>
-<p><strong>Paediatric uveitis</strong></p>
-<p>Non-infectious uveitis is an inflammatory disease affecting certain parts of the eye.
-Humira is used to treat children with chronic non-infectious uveitis from 2 years of age with inflammation
-affecting the front of the eye
-This inflammation may lead to a decrease of vision and/or the presence of floaters in the eye (black dots or
-wispy lines that move across the field of vision). Humira works by reducing this inflammation.
-Your child may first be given other medicines. If these medicines do not work well enough, your child
-will be given Humira to reduce the signs and symptoms of his/her disease.</p>         </div>"""              
+    * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>  <div xmlns='http://www.w3.org/1999/xhtml'> 
+<div>
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Medicamento a base de plantas para el tratamiento sintomático de los estados de decaimiento que cursan con desánimo, pérdida de interés, cansancio y alteraciones del sueño.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Debe consultar a un médico si empeora o si no mejora después de 28 días.</span></p>
+
+  </div>
+        </div>         </div>"""              
   * section[=].section[+]
-    * title = "2. What you need to know before you take humira"
+    * title = "2. What you need to know before you take CALCIO/VITAMINA D3 ROVI 1000 mg/880 UI COMPRIMIDOS EFERVESCENTES"
     * code = https://spor.ema.europa.eu/rmswi/#100000155538
-    * code.text = "2. What you need to know before you take humira"
+    * code.text = "2. What you need to know before you take CALCIO/VITAMINA D3 ROVI 1000 mg/880 UI COMPRIMIDOS EFERVESCENTES"
     * text.status = #additional
        
 
-    * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>  <h2 id="warnings-and-precautions">Warnings and precautions</h2>
-<p>Talk to your doctor or pharmacist before using Humira.
-<strong>Allergic reactions</strong></p>
-<ul>
-<li>If your child gets allergic reactions with symptoms such as chest tightness, wheezing, dizziness, swelling or rash do not inject more Humira and contact your doctor immediately since, in rare cases, these reactions can be life threatening.</li>
-</ul>
-<p><strong>Infections</strong></p>
-<ul>
-<li>If your child has an infection, including long-term infection or an infection in one part of the body
-(for example, leg ulcer) consult your doctor before starting Humira. If you are unsure, contact
-your doctor.</li>
-<li>Your child might get infections more easily while he/she is receiving Humira treatment. This risk
-may increase if your child has problems with his/her lungs. These infections may be serious and
-include:<ul>
-<li>tuberculosis</li>
-<li>infections caused by viruses, fungi, parasites or bacteria</li>
-<li>severe infection in the blood (sepsis)
-In rare cases, these infections can be life-threatening. It is important to tell your doctor if your
-child gets symptoms such as fever, wounds, feeling tired or dental problems. Your doctor may tell
-you to stop using Humira for some time.</li>
-</ul>
-</li>
-<li>Tell your doctor if your child lives or travels in regions where fungal infections (for example,
-histoplasmosis, coccidioidomycosis or blastomycosis) are very common.</li>
-<li>Tell your doctor if your child has had infections which keep coming back or other conditions that
-increase the risk of infections.</li>
-<li>Your child and his/her doctor should pay special attention to signs of infection while your child is
-being treated with Humira. It is important to tell your doctor if your child gets symptoms of
-infections, such as fever, wounds, feeling tired or dental problems.</li>
-</ul>
-<p><strong>Tuberculosis</strong></p>
-<ul>
-<li>As cases of tuberculosis have been reported in patients treated with Humira, your doctor will
-check your child for signs and symptoms of tuberculosis before starting Humira. This will include
-a thorough medical evaluation including your child’s medical history and appropriate screening
-tests (for example, chest X-ray and a tuberculin test). The conduct and results of these tests should
-be recorded on your child’s Patient Reminder Card.<ul>
-<li>It is very important that you tell your doctor if your child has ever had tuberculosis, or if
-your child has been in close contact with someone who has had tuberculosis. If your child
-has active tuberculosis, do not use Humira.</li>
-<li>Tuberculosis can develop during therapy even if your child has received treatment for the
-prevention of tuberculosis.</li>
-<li>If symptoms of tuberculosis (for example, cough that does not go away, weight loss, lack
-of energy, mild fever), or any other infection appear during or after therapy tell your
-doctor immediately.</li>
-</ul>
-</li>
-</ul>
-<p><strong>Hepatitis B</strong></p>
-<ul>
-<li>Tell your doctor if your child is a carrier of the hepatitis B virus (HBV), if he/she has active HBV or if you think he/she might be at risk of getting HBV.</li>
-<li>Your doctor should test your child for HBV. In people who carry HBV, Humira can cause the virus to become active again.</li>
-<li>In some rare cases, especially if your child is taking other medicines that suppress theimmune system, reactivation of HBV can be life-threatening. </li>
-</ul>
-<p><strong>Surgery or dental procedure</strong></p>
-<ul>
-<li>If your child is about to have surgery or dental procedures please inform your doctor that your child is taking Humira. Your doctor may recommend temporary discontinuation of Humira.</li>
-</ul>
-<p><strong>Demyelinating disease</strong></p>
-<ul>
-<li>If your child has or develops a demyelinating disease (a disease that affects the insulating layer
-around the nerves, such as multiple sclerosis), your doctor will decide if he/she should receive or
-continue to receive Humira. Tell your doctor immediately if your child experiences symptoms like
-changes in vision, weakness in arms or legs or numbness or tingling in any part of the body.</li>
-</ul>
-<p><strong>Vaccinations</strong></p>
-<ul>
-<li>Certain vaccines may cause infections and should not be given while receiving Humira.<ul>
-<li>Check with your doctor before your child receives any vaccines.</li>
-<li>It is recommended that children, if possible, be given all the scheduled vaccinations for their age before they start treatment with Humira.</li>
-<li>If your child received Humira while she was pregnant, her baby may be at higher risk for getting such an infection for up to approximately five months after the last Humira dose she received during pregnancy. It is important that you tell her baby&#39;s doctors and other health care professionals about your child&#39;s Humira use during her pregnancy so they can decide when her baby should receive any vaccine.</li>
-</ul>
-</li>
-</ul>
-<p><strong>Heart failure</strong></p>
-<ul>
-<li>If your child has mild heart failure and is being treated with Humira, his/her heart failure status
-must be closely monitored by your doctor. It is important to tell your doctor if your child has had
-or has a serious heart condition. If he/she develops new or worsening symptoms of heart failure
-(e.g. shortness of breath, or swelling of your feet), you must contact your doctor immediately.
-Your doctor will decide if your child should receive Humira.
-<strong>Fever, bruising, bleeding or looking pale</strong></li>
-<li>In some patients the body may fail to produce enough of the blood cells that fight off infections or
-help your child to stop bleeding. Your doctor may decide to stop treatment. If your child develops
-a fever that does not go away, develops light bruises or bleeds very easily or looks very pale, call
-your doctor right away.</li>
-</ul>
-<p><strong>Cancer</strong> </p>
-<ul>
-<li>There have been very rare cases of certain kinds of cancer in children and adult patients taking
-Humira or other TNF blockers.<ul>
-<li>People with more serious rheumatoid arthritis that have had the disease for a long time
-may have a higher than average risk of getting lymphoma (a cancer that affects the lymph
-system) and leukaemia (a cancer that affects the blood and bone marrow).</li>
-<li>If your child takes Humira the risk of getting lymphoma, leukaemia, or other cancers may
-increase. On rare occasions, an uncommon and severe type of lymphoma, has been seen in
-patients taking Humira. Some of those patients were also treated with azathioprine or 6-
-mercaptopurine.</li>
-<li>Tell your doctor if your child is taking azathioprine or 6-mercaptopurine with Humira.</li>
-<li>Cases of non-melanoma skin cancer have been observed in patients taking Humira.</li>
-<li>If new skin lesions appear during or after therapy or if existing lesions change appearance,
-tell your doctor.</li>
-<li>There have been cases of cancers, other than lymphoma in patients with a specific type of lung
-disease called Chronic Obstructive Pulmonary Disease (COPD) treated with another TNF blocker.
-If your child has COPD, or is a heavy smoker, you should discuss with your doctor whether
-treatment with a TNF blocker is appropriate for your child.
-<strong>Autoimmune disease</strong></li>
-</ul>
-</li>
-<li>On rare occasions, treatment with Humira could result in lupus-like syndrome. Contact your
-doctor if symptoms such as persistent unexplained rash, fever, joint pain or tiredness occur.</li>
-</ul>         </div>"""              
+    * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>  <div xmlns='http://www.w3.org/1999/xhtml'> <div>
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:9pt"><strong><span style="font-family:Times New Roman; font-size:9pt;">&#xa0;</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">No tome HIPÉRICO ARKOPHARMA</span></strong></p>
+
+ 
+
+    <ul type="disc" style="margin:0pt; padding-left:0pt">
+
+      <li style="margin:0pt 0pt 0pt 21.3pt; text-indent:-18pt; text-align:justify; font-family:serif; font-size:11pt; list-style-position:inside"><span style="font:7.0pt Times New Roman">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span> <span style="font-family:Times New Roman; font-size:11pt">Si es menor de 18 años.</span></li>
+
+ 
+
+      <li style="margin:0pt 0pt 0pt 21.3pt; text-indent:-18pt; text-align:justify; font-family:serif; font-size:11pt; list-style-position:inside"><span style="font:7.0pt Times New Roman">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span> <span style="font-family:Times New Roman; font-size:11pt">Si usted está embarazada o en periodo de lactancia.</span></li>
+
+ 
+
+      <li style="margin:0pt 0pt 0pt 21.3pt; text-indent:-18pt; text-align:justify; font-family:serif; font-size:11pt; list-style-position:inside"><span style="font:7.0pt Times New Roman">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span> <span style="font-family:Times New Roman; font-size:11pt">Si es alérgico a</span> <em><span style="font-family:Times New Roman; font-size:11pt;">Hypericum perforatum</span></em> <span style="font-family:Times New Roman; font-size:11pt">L. o a cualquiera de los componentes del medicamento.</span></li>
+
+ 
+
+      <li style="margin:0pt 0pt 0pt 21.3pt; text-indent:-18pt; text-align:justify; font-family:serif; font-size:11pt; list-style-position:inside"><span style="font:7.0pt Times New Roman">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span> <span style="font-family:Times New Roman; font-size:11pt">Si va a someterse a alguna intervención quirúrgica que requiera tratamiento con otros medicamentos.</span></li>
+
+ 
+
+      <li style="margin:0pt 0pt 0pt 21.3pt; text-indent:-18pt; text-align:justify; font-family:serif; font-size:11pt; list-style-position:inside"><span style="font:7.0pt Times New Roman">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span> <span style="font-family:Times New Roman; font-size:11pt">Si usted está en tratamiento con alguno de los medicamentos indicados en este prospecto. Algunos componentes del hipérico (</span><em><span style="font-family:Times New Roman; font-size:11pt;">Hypericum perforatum</span></em> <span style="font-family:Times New Roman; font-size:11pt">L.) pueden producir interacciones farmacocinéticas con gran número de medicamentos, ocasionando un posible descenso de su efectividad&nbsp; (ver la información sobre la toma de otros medicamentos).</span></li>
+
+    </ul>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">&#xa0;</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Advertencias y precauciones</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Consulte a su farmacéutico, médico o enfermero antes de empezar a tomar HIPÉRICO ARKOPHARMA.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Si usted está tomando HIPÉRICO ARKOPHARMA, evite exposiciones intensas a los rayos UV (largas exposiciones al sol o baños de rayos UVA).</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Las mujeres que utilizan anticonceptivos orales no deben utilizar simultáneamente este medicamento porque puede producir sangrado entre los ciclos menstruales y falta de eficacia&nbsp; de los medicamentos anticonceptivos.</span><a name="OLE_LINK3" id="OLE_LINK3"></a></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:9pt"><span style="font-family:Times New Roman; font-size:9pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Evite las exposiciones a radiación solar intensa o a radiación ultravioleta artificial durante la toma de&nbsp; este medicamento. No se recomienda el uso de este medicamento durante tratamientos de fototerapia (tratamientos con rayos UVA) o si va a ser sometido a algún estudio de fotodiagnóstico, particularmente en personas de piel clara, ya que se podrían producir&nbsp; reacciones similares a las quemaduras solares en la piel expuesta</span><span style="font-family:Times New Roman; font-size:11pt">.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Si usted ha sido diagnosticado de depresión y está en tratamiento con medicamentos psicotrópicos o con antidepresivos inhibidores selectivos de la recaptación de serotonina o medicamentos del grupo de los triptanos, no debe utilizar este medicamento.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Se deberá dejar de tomar este medicamento 10 días antes de una operación quirúrgica u otra intervención clínica programada a fin de evitar interacciones potenciales con otros medicamentos, durante el uso de anestesia general o local.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Niños y adolescentes</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">No deben utilizar este medicamento los niños y adolescentes menores de 18 años.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Uso de HIPÉRICO ARKOPHARMA&nbsp; con otros medicamentos</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Algunos componentes del hipérico (</span><em><span style="font-family:Times New Roman; font-size:11pt;">Hypericum perforatum</span></em> <span style="font-family:Times New Roman; font-size:11pt">L.) pueden producir una reducción de los efectos terapéuticos de otros medicamentos, cuando se toman simultáneamente con hipérico. En los tratamientos que pueden verse afectados por este medicamento se incluyen los medicamentos recomendados por su médico y también los que usted puede adquirir sin prescripción del médico.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">No deben comenzar a utilizar preparados de hipérico sin consultar antes con su médico o farmacéutico, los pacientes que estén tomando los siguientes medicamentos:</span></p>
+
+ 
+
+    <ul type="disc" style="margin:0pt; padding-left:0pt">
+
+      <li style="margin:0pt 0pt 0pt 28.06pt; text-indent:0pt; text-align:justify; padding-left:7.94pt; font-family:serif; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">para el SIDA (antirretrovirales)</span></li>
+
+ 
+
+      <li style="margin:0pt 0pt 0pt 28.06pt; text-indent:0pt; text-align:justify; padding-left:7.94pt; font-family:serif; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">para el rechazo de trasplantes (ciclosporina)</span></li>
+
+ 
+
+      <li style="margin:0pt 0pt 0pt 28.06pt; text-indent:0pt; text-align:justify; padding-left:7.94pt; font-family:serif; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">para la epilepsia</span></li>
+
+ 
+
+      <li style="margin:0pt 0pt 0pt 28.06pt; text-indent:0pt; text-align:justify; padding-left:7.94pt; font-family:serif; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">para el corazón (digoxina)</span></li>
+
+ 
+
+      <li style="margin:0pt 0pt 0pt 28.06pt; text-indent:0pt; text-align:justify; padding-left:7.94pt; font-family:serif; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">para el tratamiento del asma o bronquitis crónica (teofilina)</span></li>
+
+ 
+
+      <li style="margin:0pt 0pt 0pt 28.06pt; text-indent:0pt; text-align:justify; padding-left:7.94pt; font-family:serif; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">para la migraña</span></li>
+
+ 
+
+      <li style="margin:0pt 0pt 0pt 28.06pt; text-indent:0pt; text-align:justify; padding-left:7.94pt; font-family:serif; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">para la depresión</span></li>
+
+ 
+
+      <li style="margin:0pt 0pt 0pt 28.06pt; text-indent:0pt; text-align:justify; padding-left:7.94pt; font-family:serif; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">anticoagulantes orales</span></li>
+
+ 
+
+      <li style="margin:0pt 0pt 0pt 28.06pt; text-indent:0pt; text-align:justify; padding-left:7.94pt; font-family:serif; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">anticonceptivos orales</span></li>
+
+    </ul>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Para mayor información, consulte la siguiente lista:</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">No tome este medicamento si usted está en tratamiento con cualquier medicamento de los indicados en este listado:</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">•Agonistas 5HT (Triptanes):</span></strong> <span style="font-family:Times New Roman; font-size:11pt">tales como almotriptan, eleptriptan, frovatriptan, naratriptan, rizatriptan, sumatriptan, zolmitriptan;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Analgésicos:</span></strong> <span style="font-family:Times New Roman; font-size:11pt">tales como tramadol;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Anestésicos/ medicamentos para la preparación de una intervención quirúrgica</span></strong><span style="font-family:Times New Roman; font-size:11pt">: tales como fentanilo, propofol, midazolam, sevoflurano;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Ansiolíticos</span></strong><span style="font-family:Times New Roman; font-size:11pt">: tales como buspirona;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Antagonistas hormonales:</span></strong><span style="font-family:Times New Roman; font-size:11pt">&nbsp; tales como exemestano;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Antianginosos:</span></strong> <span style="font-family:Times New Roman; font-size:11pt">tales como ivabradina;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Antiarrítmicos</span></strong><span style="font-family:Times New Roman; font-size:11pt">: tales como amiodarona;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">Antibacterianos</span></strong><span style="font-family:Times New Roman; font-size:11pt">: tales como eritromicina, claritromicina, telitromicina;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Anticoagulantes:</span></strong> <span style="font-family:Times New Roman; font-size:11pt">tales como warfarina, acenocumarol;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Anticonceptivos Hormonales:</span></strong> <span style="font-family:Times New Roman; font-size:11pt">anticonceptivos orales, anticonceptivos hormonales de emergencia (Píldora del día después), implantes e inyecciones hormonales, parches transdérmicos, dispositivos intrauterinos con hormonas;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Anticonvulsivantes (Antiepilépticos):</span></strong> <span style="font-family:Times New Roman; font-size:11pt">tales como carbamazepina, fenobarbital, fenitoína, primidona, valproato sódico;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Antidepresivos Tricíclicos</span></strong><span style="font-family:Times New Roman; font-size:11pt">: tales como amitriptilina, clomipramina;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">IMAO:</span></strong> <span style="font-family:Times New Roman; font-size:11pt">tales como moclobemida;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">ISRS</span></strong> <span style="font-family:Times New Roman; font-size:11pt">(inhibidores selectivos de la recaptación de serotonina) tales como citalopram, fluoxetina, fluvoxamina, paroxetina, sertralina;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">Otros antidepresivos</span></strong> <span style="font-family:Times New Roman; font-size:11pt">como duloxetina, venlafaxina;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Antifúngicos:</span></strong><span style="font-family:Times New Roman; font-size:11pt">&nbsp; tales como itraconazol, voriconazol;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Antimaláricos:</span></strong> <span style="font-family:Times New Roman; font-size:11pt">tales como lumefantrina;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Antiparkinsonianos:</span></strong> <span style="font-family:Times New Roman; font-size:11pt">tales como rasagilina;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Antisicóticos:</span></strong><span style="font-family:Times New Roman; font-size:11pt">&nbsp; tales como aripiprazol;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Todos los Antivirales:</span></strong><span style="font-family:Times New Roman; font-size:11pt">&nbsp; tales como</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">Inhibidores de Proteasa</span></strong> <span style="font-family:Times New Roman; font-size:11pt">(amprenavir, atazanavir, darunavir, fosamprenavir indinavir, lopinavir, nelfinavir, ritonavir, saquinavir, tipranavir);</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">Inhibidores de transcriptasa inversa no nucleósidos</span></strong> <span style="font-family:Times New Roman; font-size:11pt">(efavirenz, nevirapina, delavirdina);</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Aprepitant</span></strong> <strong><span style="font-family:Times New Roman; font-size:11pt;">(</span></strong><span style="font-family:Times New Roman; font-size:11pt">se utiliza para evitar vómitos, tras un tratamiento con quimioterapia);</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Barbituratos</span></strong> <span style="font-family:Times New Roman; font-size:11pt">tales como butobarbital, fenobarbital;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Bloqueadores de los canales del Calcio:</span></strong> <span style="font-family:Times New Roman; font-size:11pt">tales como amlodipina, nifedipina, verapamilo, felodipina;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Citotóxicos:</span></strong> <span style="font-family:Times New Roman; font-size:11pt">como irinotecan, dasatinib, erlotinib, imatinib, sorafenib, sunitinib, etoposido, mitotano;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Diuréticos:</span></strong> <span style="font-family:Times New Roman; font-size:11pt">tales como eplerenona;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Estimulantes de SNC:</span></strong><span style="font-family:Times New Roman; font-size:11pt">&nbsp; tales como metilfenidato;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Glucósidos cardiacos:</span></strong> <span style="font-family:Times New Roman; font-size:11pt">tales como digoxina;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Hipoglucemiantes orales</span></strong> <span style="font-family:Times New Roman; font-size:11pt">(antidiabéticos orales): tales como gliclazida;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Hipolipemiantes:</span></strong> <span style="font-family:Times New Roman; font-size:11pt">tales como&nbsp; simvastatina, atorvastatina;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Hormonas tiroideas:</span></strong> <span style="font-family:Times New Roman; font-size:11pt">todos los medicamentos de esta clase incluido Tiroxina;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Inhibidores de la bomba de protones:</span></strong> <span style="font-family:Times New Roman; font-size:11pt">tales como lansoprazol, omeprazol;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Inmunosupresores:</span></strong> <span style="font-family:Times New Roman; font-size:11pt">tales como ciclosporina, tacrolimus;</span> <strong><span style="font-family:Times New Roman; font-size:11pt;">•Litio; •Teofilina; •Terapia hormonal de remplazo:</span></strong> <span style="font-family:Times New Roman; font-size:11pt">tales como los parches, geles, anillo vaginal)</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">En caso de tratamiento concomitante de HIPÉRICO ARKOPHARMA con medicamentos anticoagulantes (como fenprocumona, warfarina, clopidogrel, ácido acetilsalicílico y otros antireumáticos no esteroideos) no puede excluirse que el efecto de estas preparaciones se vea aumentado</span><span style="font-family:Times New Roman; font-size:9pt">.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:9pt"><span style="font-family:Times New Roman; font-size:9pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">No puede excluirse que HIPÉRICO ARKOPHARMA actúe sobre la metabolización de otros medicamentos lo que puede afectar a la potencia y/o duración del efecto de los medicamentos a los que se refiere. Por esta razón, consulte con su médico o farmacéutico antes de tomar HIPÉRICO ARKOPHARMA con otros tratamientos.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Informe a su médico o farmacéutico si está tomando o ha tomado recientemente cualquier otro medicamento, incluso los adquiridos sin receta médica.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Informe también a su médico o farmacéutico sobre cualquier sospecha de cambio en los efectos de los medicamentos que está tomando a la vez que HIPÉRICO ARKOPHARMA.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Toma de HIPÉRICO ARKOPHARMA con los alimentos y bebidas</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Los alimentos y las bebidas no tienen influencia sobre el efecto del medicamento.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Embarazo, lactancia y fertilidad</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Si está embarazada o en periodo de lactancia, cree que pudiera estar embarazada o tiene intención de quedarse embarazada, consulte a su farmacéutico o médico antes de utilizar este medicamento. No se recomienda su administración en estas circunstancias.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Conducción y uso de máquinas</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">No se han realizado estudios sobre la capacidad de conducir y el uso de máquinas</span><span style="font-family:Times New Roman; font-size:9pt">.</span></p>
+
+  </div>
+        </div>         </div>"""              
   * section[=].section[+]
-    * title = "3. How to take humira"
+    * title = "3. How to take CALCIO/VITAMINA D3 ROVI 1000 mg/880 UI COMPRIMIDOS EFERVESCENTES"
     * code = https://spor.ema.europa.eu/rmswi/#100000155538
-    * code.text = "3. How to take humira"
+    * code.text = "3. How to take CALCIO/VITAMINA D3 ROVI 1000 mg/880 UI COMPRIMIDOS EFERVESCENTES"
     * text.status = #additional
           
-    * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>  <h2 id="how-to-use-humira">How to use Humira</h2>
-<p>Always use this medicine exactly as your doctor or pharmacist has told you. Check with your doctor or
-pharmacist if you are not sure.
-The recommended doses for Humira in each of the approved uses are shown in the following table. Your
-doctor may prescribe another strength of Humira if your child needs a different dose.</p>
-<p><strong>Method and route of administration</strong>
-Humira is administered by injection under the skin (by subcutaneous injection).
-<strong>Detailed instructions on how to inject Humira are provided in section 7 ‘Injecting Humira’.</strong></p>
-<p><strong>If you use more Humira than you should</strong>
-If you accidentally inject Humira more frequently than told to by your doctor or pharmacist, call your
-doctor or pharmacist and tell them that your child has taken more. Always take the outer carton of the
-medicine with you, even if it is empty.
-<strong>If you forget to use Humira</strong>
-If you forget to give your child an injection, you should inject the next dose of Humira as soon as you
-remember. Then give your child’s next dose as you would have on the originally scheduled day, had you
-not forgotten a dose.
-<strong>If you stop using Humira</strong>
-The decision to stop using Humira should be discussed with your doctor. Your child’s symptoms may
-return if you stop using Humira.
-If you have any further questions on the use of this medicine, ask your doctor or pharmacist.</p>         </div>"""          
+    * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>  <div xmlns='http://www.w3.org/1999/xhtml'> 
+            <div>
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Siga exactamente las instrucciones de administración del medicamento contenidas en este prospecto o las indicadas por su farmacéutico, médico o enfermero. En caso de duda, pregunte a su farmacéutico, médico o enfermero.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">La dosis recomendada es:</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Adultos: tomar 2 cápsulas, 2 ó 3 veces al día con un vaso de agua.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Es aconsejable que las tomas se realicen siempre a las mismas horas.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Este medicamento se utiliza vía oral.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">La duración de tratamiento es de 6 semanas.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">El efecto del medicamento aparece generalmente a las 4 semanas. Si los síntomas persisten, debería consultar con un profesional sanitario.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Una vez abierto el envase, se retirará la bolsita absorbente que no es apta para consumo humano y no debe ser ingerida.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Uso en niños y adolescentes</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">No utilizar en niños y adolescentes menores de 18 años</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Si toma más HIPÉRICO ARKOPHARMA del que debe</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Si se ha tomado una dosis excesiva de HIPÉRICO ARKOPHARMA pueden aparecer convulsiones o estado de confusión.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">En caso de la toma de una dosis excesiva de hipérico, se debe proteger de las radiaciones solares o de cualquier otra fuente de rayos UV durante 1-2 semanas.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">En caso de sobredosis o ingestión accidental, consulte inmediatamente a su farmacéutico o médico o llame al Servicio de Información Toxicológica, teléfono 91 562 04 20, indicando el producto y la cantidad ingerida.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Si olvidó tomar HIPÉRICO ARKOPHARMA</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">En caso de olvido de una dosis, tome el medicamento lo antes posible continuando el tratamiento de la forma prescrita. Sin embargo, si está próxima la siguiente dosis, es mejor que no tome la dosis olvidada y espere a la siguiente. En ningún caso tome una dosis doble para compensar la dosis olvidada</span><span style="font-family:Times New Roman; font-size:9pt">.</span></p>   
+        </div>         </div>"""          
 
           
   * section[=].section[+]
@@ -361,216 +556,200 @@ If you have any further questions on the use of this medicine, ask your doctor o
     * code.text = "4. Possible side effects"
     * text.status = #additional
                 
-    * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>  <h2 id="possible-side-effects">Possible side effects</h2>
-<p>Like all medicines, this medicine can cause side effects, although not everybody gets them. Most side
-effects are mild to moderate. However, some may be serious and require treatment. Side effects may occur
-at least up to 4 months after the last Humira injection. </p>
-<p><strong>Tell your doctor immediately if you notice any of the following</strong></p>
-<ul>
-<li>severe rash, hives or other signs of allergic reaction</li>
-<li>swollen face, hands, feet</li>
-<li>trouble breathing, swallowing</li>
-<li>shortness of breath with physical activity or upon lying down or swelling of the feet
-<strong>Tell your doctor as soon as possible if you notice any of the following</strong></li>
-<li>signs of infection such as fever, feeling sick, wounds, dental problems, burning on urination</li>
-<li>feeling weak or tired</li>
-<li>coughing</li>
-<li>tingling</li>
-<li>numbness</li>
-<li>double vision</li>
-<li>arm or leg weakness</li>
-<li>a bump or open sore that doesn&#39;t heal</li>
-<li>signs and symptoms suggestive of blood disorders such as persistent fever, bruising, bleeding, paleness
-The symptoms described above can be signs of the below listed side effects, which have been observed
-with Humira.</li>
-</ul>
-<p><strong>Very common</strong> (may affect more than 1 in 10 people) </p>
-<ul>
-<li>injection site reactions (including pain, swelling, redness or itching)</li>
-<li>respiratory tract infections (including cold, runny nose, sinus infection, pneumonia)</li>
-<li>headache</li>
-<li>abdominal pain</li>
-<li>nausea and vomiting</li>
-<li>rash</li>
-<li>musculoskeletal pain</li>
-</ul>
-<p><strong>Common</strong> (may affect up to 1 in 10 people)</p>
-<ul>
-<li>serious infections (including blood poisoning and influenza)</li>
-<li>intestinal infections (including gastroenteritis)</li>
-<li>skin infections (including cellulitis and shingles)</li>
-<li>ear infections</li>
-<li>oral infections (including tooth infections and cold sores)</li>
-<li>reproductive tract infections</li>
-<li>urinary tract infection</li>
-<li>fungal infections</li>
-<li>joint infections</li>
-<li>benign tumours</li>
-<li>skin cancer</li>
-<li>allergic reactions (including seasonal allergy)</li>
-<li>dehydration</li>
-<li>mood swings (including depression)</li>
-<li>anxiety</li>
-<li>difficulty sleeping</li>
-<li>sensation disorders such as tingling, prickling or numbness</li>
-<li>migraine</li>
-<li>nerve root compression (including low back pain and leg pain)</li>
-<li>vision disturbances</li>
-<li>eye inflammation</li>
-<li>inflammation of the eye lid and eye swelling</li>
-<li>vertigo (feeling of dizziness or spinning)</li>
-<li>sensation of heart beating rapidly</li>
-<li>high blood pressure</li>
-<li>flushing</li>
-<li>haematoma (collection of blood outside of blood vessels)</li>
-<li>cough</li>
-<li>asthma</li>
-<li>shortness of breath</li>
-<li>gastrointestinal bleeding</li>
-<li>dyspepsia (indigestion, bloating, heart burn)</li>
-<li>acid reflux disease</li>
-<li>sicca syndrome (including dry eyes and dry mouth)</li>
-<li>itching</li>
-<li>itchy rash</li>
-<li>bruising</li>
-<li>inflammation of the skin (such as eczema)</li>
-<li>breaking of finger nails and toe nails</li>
-<li>increased sweating</li>
-<li>hair loss</li>
-<li>new onset or worsening of psoriasis</li>
-<li>muscle spasms</li>
-<li>blood in urine</li>
-<li>kidney problems</li>
-<li>chest pain</li>
-<li>oedema (swelling)</li>
-<li>fever</li>
-<li>reduction in blood platelets which increases risk of bleeding or bruising</li>
-<li>impaired healing</li>
-</ul>
-<p><strong>Uncommon</strong> (may affect up to 1 in 100 people)</p>
-<ul>
-<li>opportunistic infections (which include tuberculosis and other infections that occur when resistance to disease is lowered)</li>
-<li>neurological infections (including viral meningitis)</li>
-<li>eye infections</li>
-<li>bacterial infections</li>
-<li>diverticulitis (inflammation and infection of the large intestine)</li>
-<li>cancer</li>
-<li>cancer that affects the lymph system</li>
-<li>melanoma</li>
-<li>immune disorders that could affect the lungs, skin and lymph nodes (most commonly presenting as sarcoidosis)</li>
-<li>vasculitis (inflammation of blood vessels)</li>
-<li>tremor (shaking)</li>
-<li>neuropathy (disorder of the nerves)</li>
-<li>stroke</li>
-<li>hearing loss, buzzing</li>
-<li>sensation of heart beating irregularly such as skipped beats</li>
-<li>heart problems that can cause shortness of breath or ankle swelling</li>
-<li>heart attack</li>
-<li>a sac in the wall of a major artery, inflammation and clot of a vein, blockage of a blood vessel</li>
-<li>lung diseases causing shortness of breath (including inflammation)</li>
-<li>pulmonary embolism (blockage in an artery of the lung)</li>
-<li>pleural effusion (abnormal collection of fluid in the pleural space)</li>
-<li>inflammation of the pancreas which causes severe pain in the abdomen and back</li>
-<li>difficulty in swallowing</li>
-<li>facial oedema (swelling of the face)</li>
-<li>gallbladder inflammation, gallbladder stones</li>
-<li>fatty liver</li>
-<li>night sweats</li>
-<li>scar</li>
-<li>abnormal muscle breakdown</li>
-<li>systemic lupus erythematosus (including inflammation of skin, heart, lung, joints and other organ
-systems)</li>
-<li>sleep interruptions</li>
-<li>impotence</li>
-<li>inflammations</li>
-</ul>
-<p><strong>Rare</strong> (may affect up to 1 in 1,000 people)</p>
-<ul>
-<li>leukaemia (cancer affecting the blood and bone marrow)</li>
-<li>severe allergic reaction with shock</li>
-<li>multiple sclerosis</li>
-<li>nerve disorders (such as eye nerve inflammation and Guillain-Barré syndrome that may cause
-muscle weakness, abnormal sensations, tingling in the arms and upper body)</li>
-<li>heart stops pumping</li>
-<li>pulmonary fibrosis (scarring of the lung)</li>
-<li>intestinal perforation (hole in the intestine)</li>
-<li>hepatitis</li>
-<li>reactivation of hepatitis B</li>
-<li>autoimmune hepatitis (inflammation of the liver caused by the body&#39;s own immune system)</li>
-<li>cutaneous vasculitis (inflammation of blood vessels in the skin)</li>
-<li>Stevens-Johnson syndrome (early symptoms include malaise, fever, headache and rash)</li>
-<li>facial oedema (swelling of the face) associated with allergic reactions</li>
-<li>erythema multiforme (inflammatory skin rash)</li>
-<li>lupus-like syndrome</li>
-<li>angioedema (localized swelling of the skin)</li>
-<li>lichenoid skin reaction (itchy reddish-purple skin rash)</li>
-</ul>
-<p><strong>Not known</strong> (frequency cannot be estimated from the available data)</p>
-<ul>
-<li>hepatosplenic T-cell lymphoma (a rare blood cancer that is often fatal)</li>
-<li>Merkel cell carcinoma (a type of skin cancer)</li>
-<li>Kaposi’s sarcoma, a rare cancer related to infection with human herpes virus 8. Kaposi’s sarcoma
-most commonly appears as purple lesions on the skin</li>
-<li>liver failure</li>
-<li>worsening of a condition called dermatomyositis (seen as a skin rash accompanying muscle weakness)</li>
-<li>weight gain (for most patients, the weight gain was small)
-Some side effects observed with Humira may not have symptoms and may only be discovered through
-blood tests. These include:
-<strong>Very common</strong> (may affect more than 1 in 10 people)</li>
-<li>low blood measurements for white blood cells</li>
-<li>low blood measurements for red blood cells</li>
-<li>increased lipids in the blood</li>
-<li>elevated liver enzymes</li>
-</ul>
-<p><strong>Common</strong> (may affect up to 1 in 10 people)</p>
-<ul>
-<li>high blood measurements for white blood cells</li>
-<li>low blood measurements for platelets</li>
-<li>increased uric acid in the blood</li>
-<li>abnormal blood measurements for sodium</li>
-<li>low blood measurements for calcium</li>
-<li>low blood measurements for phosphate</li>
-<li>high blood sugar</li>
-<li>high blood measurements for lactate dehydrogenase</li>
-<li>autoantibodies present in the blood</li>
-<li>low blood potassium
-<strong>Uncommon</strong> (may affect up to 1 in 100 people)</li>
-<li>elevated bilirubin measurement (liver blood test)
-<strong>Rare</strong> (may affect up to 1 in 1,000 people)</li>
-<li>low blood measurements for white blood cells, red blood cells and platelet count</li>
-</ul>
-<p><strong>Reporting of side effects</strong>
-If your child gets any side effects, talk to your doctor or pharmacist. This includes any possible side
-effects not listed in this leaflet. You can also report side effects directly via the national reporting system
-listed in Appendix V. By reporting side effects, you can help provide more information on the safety of
-this medicine. </p>         </div>"""   
+    * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>  <div xmlns='http://www.w3.org/1999/xhtml'> 
+            <div>
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Al igual que todos los medicamentos, este medicamento puede producir efectos adversos, aunque no todas las personas los sufran.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">En casos raros, con una frecuencia que afecta a menos de un caso por cada 1000 pacientes, se han descrito problemas digestivos tales como náusea, dolor abdominal, diarrea, pérdida de apetito; o reacciones en la piel como picor, irritación, enrojecimiento (urticaria) y muy raramente podrían ocurrir reacciones similares a las quemaduras solares, en la piel expuesta a radiación solar o artificial intensa.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">También se ha descrito dolor de cabeza, neuropatía, ansiedad, mareo, fatiga, manía o alergias, para los que se desconoce la frecuencia de aparición.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Comunicación de reacciones adversas</span></strong><span style="font-family:Times New Roman; font-size:11pt">:</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Si experimenta cualquier tipo de efecto adverso, consulte a su médico o farmacéutico, incluso si se trata de posibles efectos adversos que no aparecen en este prospecto. También puede comunicarlos directamente a través del Sistema Español de Farmacovigilancia de medicamentos de Uso Humano:</span> <a href="https://www.notificaram.es"><u><span style="font-family:Times New Roman; font-size:11pt; color:#0000ff">https://www.notificaram.es</span></u></a><span style="font-family:Times New Roman; font-size:11pt">. Mediante la comunicación de efectos adversos usted puede contribuir a proporcionar más información sobre la seguridad de este medicamento.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:9pt"><span style="font-family:Times New Roman; font-size:9pt">&#xa0;</span></p>
+
+  </div>
+        </div>         </div>"""   
           
   * section[=].section[+]
-    * title = "5. How to store humira"
+    * title = "5. How to store CALCIO/VITAMINA D3 ROVI 1000 mg/880 UI COMPRIMIDOS EFERVESCENTES"
     * code = https://spor.ema.europa.eu/rmswi/#100000155538
-    * code.text = "5. How to store humira"
+    * code.text = "5. How to store CALCIO/VITAMINA D3 ROVI 1000 mg/880 UI COMPRIMIDOS EFERVESCENTES"
     * text.status = #additional
                  
-    * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>  <h2 id="how-to-store-humira">How to store Humira</h2>
-<p>Keep this medicine out of the sight and reach of children.
-Do not use this medicine after the expiry date stated on the label/blister/carton after EXP.
-Store in a refrigerator (2ºC – 8ºC). Do not freeze. 
-Keep the pre-filled syringe in the outer carton in order to protect from light.
-Alternative Storage:
-When needed (for example, when you are travelling), a single Humira pre-filled syringe may be stored at
-room temperature (up to 25°C) for a maximum period of 14 days – be sure to protect it from light. Once
-removed from the refrigerator for room temperature storage, the syringe <strong>must be used within 14 days or
-discarded</strong>, even if it is returned to the refrigerator.
-You should record the date when the syringe is first removed from refrigerator and the date after which it
-should be discarded.
-Do not throw away any medicines via wastewater or household waste. Ask your doctor or pharmacist how
-to throw away medicines you no longer use. These measures will help protect the environment.</p>         </div>"""   
+    * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>  <div xmlns='http://www.w3.org/1999/xhtml'> 
+           <div>
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Mantener este medicamento fuera de la vista y del alcance de los niños.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">No conservar a temperatura superior a 25ºC.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Una vez abierto, desechar después de 21 días.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">No utilice HIPÉRICO ARKOPHARMA después de la fecha de caducidad que aparece en el envase, después de la abreviatura “CAD”. La fecha de caducidad es el último día del mes que se indica.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Los medicamentos no se deben tirar por los desagües ni a la basura. Deposite los envases y los medicamentos que no necesite en el Punto SIGRE</span> <span style="font-family:Times New Roman; font-size:11pt">de la farmacia. En caso de duda pregunte a su farmacéutico cómo deshacerse de los envases y de los medicamentos que no necesita. De esta forma, ayudará a proteger el medio ambiente</span><span style="font-family:Times New Roman; font-size:9pt">.</span></p>
+
+  </div>
+        </div>         </div>"""   
           
   * section[=].section[+]
     * title = "6. Contents of the pack and other information"
     * code = https://spor.ema.europa.eu/rmswi/#100000155538
     * code.text = "6. Contents of the pack and other information"
     * text.status = #additional
-    
-    * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>unavailable</div>"""
-    * emptyReason = http://terminology.hl7.org/CodeSystem/list-empty-reason#unavailable
+       
+    * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>  <div xmlns='http://www.w3.org/1999/xhtml'> 
+           <div>
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Composici&#243;n de HIP&#201;RICO ARKOPHARMA</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Cada c&#225;psula contiene como principio activo:</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">175 mg de extracto seco hidroalcoh&#243;lico de</span> <em><span style="font-family:Times New Roman; font-size:11pt;">Hypericum perforatum</span></em> <span style="font-family:Times New Roman; font-size:11pt">L. herba (sumidades floridas de hip&#233;rico) (3.5-6:1) que corresponden a: 0,27 mg a 0,46mg de hipericinas totales, &#8805; 10,5 mg de flavonoides y 2,71 mg a 4,63 mg de hiperforina.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Disolvente de extracci&#243;n: etanol 60% m/m</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Los dem&#225;s componentes son los excipientes: celulosa microcristalina, estearato de magnesio, s&#237;lice coloidalhidr&#243;foba y maltodextrina.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Composici&#243;n de la</span> <span style="font-family:Times New Roman; font-size:11pt">c&#225;psula: hipromelosa, di&#243;xido de titanio y &#243;xido de hierro amarillo.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Aspecto del producto y contenido del envase</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Existe 1 presentaci&#243;n en frascos que contienen 42 c&#225;psulas, con una bolsita absorbente en su interior.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">Una vez abierto el envase, se retirar&#225; la bolsita absorbente que no es apta para consumo humano y no debe ser ingerida.</span></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">&#xa0;</span></p>
+
+ 
+
+    <p style="margin:0pt; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">&#xa0;</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Titular de la autorizaci&#243;n de comercializaci&#243;n y responsable de la fabricaci&#243;n:</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">&#xa0;</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Titular</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Arkopharma LABORATORIOS, S.A.U,</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">C/ Amaltea, 9</span></p>
+
+ 
+
+    <p style="margin:0pt; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">28045 MADRID</span></p>
+
+ 
+
+    <p style="margin:0pt; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">&#xa0;</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Responsable de la fabricaci&#243;n</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">ARKOPHARMA</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">LABORATOIRES PHARMACEUTIQUES</span></p>
+
+ 
+
+    <p style="margin:0pt; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">BP 28 &#8211; 06511 CARROS Cedex - FRANCE</span></p>
+
+ 
+
+    <p style="margin:0pt; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">&#xa0;</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">Fecha de la &#250;ltima revisi&#243;n de este prospecto: septiembre 2016</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; line-height:115%; font-size:11pt"><strong><span style="font-family:Times New Roman; font-size:11pt;">&#xa0;</span></strong></p>
+
+ 
+
+    <p style="margin:0pt; text-align:justify; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman; font-size:11pt">La informaci&#243;n detallada y actualizada de este medicamento est&#225; disponible en la p&#225;gina web de la Agencia Espa&#241;ola de Medicamentos y Productos Sanitarios (AEMPS)</span> <a href="http://www.aemps.gob.es/"><u><span style="font-family:Times New Roman; font-size:11pt; color:#0000ff">http://www.aemps.gob.es/</span></u></a></p>
+
+  </div>
+                            
+                                  
+        </div>         </div>"""

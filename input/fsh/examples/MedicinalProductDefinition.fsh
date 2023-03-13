@@ -1,14 +1,14 @@
 
-Instance: mpHumira40mgSolutionforinjectionSubcutaneoususeprefilledsyringeglass
+Instance: mpHIPRICOARKOPHARMAcpsulasduras
 InstanceOf: MedicinalProductDefinitionUvEpi
-Title: "Medicinal Product Humira 40 mg Solution for injection Subcutaneous use pre-filled syringe (glass)"
-Description: "EU/1/97/049/001 Humira 40 mg Solution for injection Subcutaneous use pre-filled syringe (glass)"
+Title: "Medicinal Product HIPÉRICO ARKOPHARMA cápsulas duras"
+Description: "EU/1/97/049/001 HIPÉRICO ARKOPHARMA cápsulas duras"
 Usage: #example
 
 
-* id = "ea5e812e-3dee-4aa3-9c99-034a63737c03" 
+* id = "c9f88440-4186-4ded-b95e-7c0dbc77b11e" 
 * identifier.system = $spor-prod
-* identifier.value = "nan"
+* identifier.value = "xx"
 
 * type = http://hl7.org/fhir/medicinal-product-type#MedicinalProduct "Medicinal Product"
 
@@ -24,27 +24,27 @@ Usage: #example
 
 
 * name
-  * productName = "Humira 40 mg Solution for injection Subcutaneous use pre-filled syringe (glass)"
+  * productName = "HIPÉRICO ARKOPHARMA cápsulas duras"
   * type = $spor-productNamePartType-cs#220000000001
     * text = "Full name"
   
   * part[0]
-    * part = "Humira"
+    * part = "HIPÉRICO ARKOPHARMA"
     * type = $spor-productNamePartType-cs#220000000002
     * type.text = "Invented name part"
   
   * part[+]
-    * part = "Adalimumab"
+    * part = "Hypericum perforatum L."
     * type = $spor-productNamePartType-cs#220000000003
     * type.text = "Scientific name part"
   
   * part[+]
-    * part = "20 mg"
+    * part = "175 mg"
     * type = $spor-productNamePartType-cs#220000000004
     * type.text = "Strength part"
   
   * part[+]
-    * part = "Solution for injection"
+    * part = "hard capsules"
     * type = $spor-productNamePartType-cs#220000000005
     * type.text = "Pharmaceutical dose form part"
   
