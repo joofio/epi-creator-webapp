@@ -134,3 +134,5 @@ output/
 *.zip
 
 fsh-generated*
+
+.DS_STORE
