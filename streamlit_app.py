@@ -92,7 +92,7 @@ if uploaded_file is not None:
     data = {"dictionary": data_dict, "turn": "1"}
     print("temp")
     print(listdir(temp_folder))
-    print("real outpu")
+    print("real output")
     print(listdir(real_output_folder))
     print("templates")
     print(listdir("templates/"))
