@@ -4,9 +4,6 @@ info    /Users/joaoalmeida/Desktop/hl7Europe/gravitate/epi-creator-webapp
 info  No output path specified. Output to .
 info  Using configuration file: /Users/joaoalmeida/Desktop/hl7Europe/gravitate/epi-creator-webapp/sushi-config.yaml
 info  Importing FSH text...
-error mismatched input ''175'' expecting {'MS', 'SU', 'TU', 'N', 'D', 'true', 'false', 'codes', 'valueset', 'system', STRING, MULTILINE_STRING, NUMBER, CODE, DATETIME, TIME, REFERENCE, CANONICAL, SEQUENCE}
-  File: /Users/joaoalmeida/Desktop/hl7Europe/gravitate/epi-creator-webapp/input/fsh/examples/PackagedProductDefinition.fsh
-  Line: 23
 info  Preprocessed 34 documents with 58 aliases.
 info  Imported 68 definitions and 15 instances.
 warn  SUSHI support for pre-release versions of FHIR is experimental. Use at your own risk!
@@ -38,7 +35,7 @@ info  The sample-ig located at https://github.com/FHIR/sample-ig contains script
 |  -------------------------------------------------------------  |
 |                                                                 |
 ===================================================================
-| Call a FSH sturgeon!                    1 Error       1 Warning |
+| Looks like you are casting about.      0 Errors       1 Warning |
 ===================================================================
 |    You are using SUSHI version 2.7.0, but the latest stable     |
 |  release is version 2.9.0. To install the latest release, run:  |

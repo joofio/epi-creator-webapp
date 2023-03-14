@@ -23,7 +23,7 @@ Usage: #example
 
 {% if row["quantity"]|string !="nan"  %}
 
-* containedItemQuantity = {{ row["quantity"].split(' ')[0] }} '{{ row["quantity"].split(' ')[1] }}'
+* containedItemQuantity = {{ row["quantity"].strip().split(' ')[0] }} '{{ row["quantity"].strip().split(' ')[1] }}'
 {% endif %}
 
 {{ "* description = \"{}\"".format(row.description) if row.description|string !="nan"}}

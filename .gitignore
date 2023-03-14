@@ -137,3 +137,5 @@ fsh-generated*
 
 .DS_STORE
 input/fsh/examples/*
+
+results.txt
