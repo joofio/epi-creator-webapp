@@ -20,7 +20,7 @@ COPY templates /app/templates
 COPY humira.xlsx /app/humira.xlsx
 COPY streamlit_app.py /app/streamlit_app.py
 COPY index.html /app/index.html
-COPY input/ /app/input
+COPY input /app/input
 COPY sushi-config.yaml /app/sushi-config.yaml
 
 # Run the application

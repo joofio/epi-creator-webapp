@@ -58,11 +58,11 @@ env = Environment(loader=FileSystemLoader("templates/"), trim_blocks=True)
 env.filters["regex_replace"] = regex_replace
 
 # print(getcwd())
-temp_folder = getcwd() + "/temp/"
+temp_folder = getcwd() + "temp/"
 if not exists(temp_folder):
     mkdir(temp_folder)
 
-zip_folder = getcwd() + "/output/"
+zip_folder = getcwd() + "output/"
 if exists(zip_folder):
     shutil.rmtree(zip_folder)
 mkdir(zip_folder)
