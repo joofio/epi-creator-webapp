@@ -206,6 +206,14 @@ if __name__ == "__main__":
     major_name = DATA_FILE.lower().split("/")[-1].split(".")[0].replace(" ", "_")
     real_output_folder = OUTPUT_FOLDER + major_name + "-ema-automatic/"
 
-    create_env(TEMPLATE_FOLDER=TEMPLATE_FOLDER)
-    create_from_template(DATA_FILE, TEMPLATE_FOLDER, real_output_folder)
-    quality_checks(DATA_FILE=DATA_FILE, OUTPUT_FOLDER=real_output_folder)
+    env = create_env(TEMPLATE_FOLDER=TEMPLATE_FOLDER)
+    create_from_template(
+        env,
+        DATA_FILE=DATA_FILE,
+        TEMPLATE_FOLDER=TEMPLATE_FOLDER,
+        OUTPUT_FOLDER=real_output_folder,
+        major_name=major_name,
+    )
+    quality_checks(
+        DATA_FILE=DATA_FILE, OUTPUT_FOLDER=real_output_folder, major_name=major_name
+    )
