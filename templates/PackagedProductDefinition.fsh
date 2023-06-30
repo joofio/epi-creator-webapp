@@ -1,15 +1,14 @@
 {% for index,row in data["data"].iterrows() %}
 {% if row["skip"] not in ['y', 'Y', 'x', 'X'] %}
 
-Instance: ppd-{{ row["name"]| lower | regex_replace('[^A-Za-z0-9]+', '')}}
+Instance: ppd-{{ row["name"]| lower | regex_replace('[^A-Za-z0-9]+', '') | create_hash_id}}
 InstanceOf: PackagedProductDefinitionUvEpi
 Title: "{{ row["name"] }}"
 Description: "{{ row["name"] }}"
 Usage: #example
-* id = "{{row['id']}}" 
 
 * identifier.system = $spor-prod
-* identifier.value = "{{ row["identifier"] }}"
+* identifier.value = "{{ row["identifier"]|trim }}"
 * identifier.use = #official
 
 * name = "{{ row["name"] }}"
@@ -21,9 +20,14 @@ Usage: #example
 * status = http://hl7.org/fhir/publication-status#active "Active"
 * statusDate = "{{ row["statusDate"]}}"
 
-{% if row["quantity"]|string !="nan"  %}
+{% if row["quantity"].split(' ')[1]|string in ["tablet","tablets","vial","capsules"]  %}
+* containedItemQuantity = {{ row["quantity"].split(' ')[0] }} '{{ '{' }}{{ row["quantity"].split(' ')[1] }}{{ '}' }}'
 
-* containedItemQuantity = {{ row["quantity"].strip().split(' ')[0] }} '{{ row["quantity"].strip().split(' ')[1] }}'
+{% elif row["quantity"]|string !="nan" %}
+
+* containedItemQuantity = {{ row["quantity"].split(' ')[0] }} '{{ row["quantity"].split(' ')[1] }}'
+
+
 {% endif %}
 
 {{ "* description = \"{}\"".format(row.description) if row.description|string !="nan"}}
@@ -53,10 +57,27 @@ Usage: #example
 {% if data["turn"] != "1" %}
 * packageFor = Reference({{data["references"]["MedicinalProductDefinition"][0][0]}})
 {% endif %}
- // Reference to Organization: MAH
+
+
+
+{% set ns  = namespace(referenced=False) -%}
 {% if data["turn"] != "1" %}
-* manufacturer = Reference({{data["references"]["Organization"][0][0]}})
-{% endif %}
+{% for refs in data["references"]["Organization"] %} 
+{% if refs[0].startswith("man") and "mapi" not in refs[0]  %}
+{% set ns.referenced=True -%}
+
+* manufacturer = Reference({{refs[0]}})
+{%- endif %}
+{%- endfor %}
+
+{% if not ns.referenced  %}
+
+//* manufacturer = Reference({{data["references"]["Organization"][0][0]}})
+{%- endif %}
+{%- endif %}
+
+
+
 
 {%- endif %}
 {%- endfor %}

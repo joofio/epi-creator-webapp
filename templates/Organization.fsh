@@ -1,15 +1,37 @@
 {% for index,row in data["data"].iterrows() %}
 {% if row["skip"] not in ['y', 'Y', 'x', 'X'] %}
 
+{% set ns = namespace() %}
+{% set ns.one = row['type'] %}
+{% set ns.two = row['name'] %}
+{% set ns.three= data["dictionary"]["MajorName"] %}
+{% set ns.name_to_has= ns.one ~ ns.two ~ns.three  %}
 
-Instance: org-{{ row["type"] | lower | regex_replace('[^A-Za-z0-9]+', '') }}-{{ row["name"] | lower | regex_replace('[^A-Za-z0-9]+', '') }}-{{ data["dictionary"]["MajorName"]|lower}}
+//{{row["type"]}}
+{% if row["type"]| lower == "marketing authorisation holder" %}
+{% set ns.org_type= "mah" %}
+{% elif row["type"] == "Medicines Regulatory Authority" %}
+{% set ns.org_type= "mra" %}
+{% elif row["type"] == "Manufacturer Batch release" %}
+{% set ns.org_type= "mbr" %}
+{% elif row["type"] == "Manufacturer API" %}
+{% set ns.org_type= "mapi" %}
+{% elif row["type"] == "Manufacturer" %}
+{% set ns.org_type= "man" %}
+{% else %}
+{% set ns.org_type= "org" %}
+{% endif %}
+
+
+Instance: {{ns.org_type}}-{{ns.name_to_has| create_hash_id}}
+
 InstanceOf: OrganizationUvEpi
 Title: "{{ row["name"]  }} as {{ row["type"]  }}"
 Description: "{{ row["name"]  }} as {{ row["type"]  }}"
 Usage: #example
-* id = "{{row['id']}}" 
+
 * identifier.system = $spor-org
-* identifier.value = "{{ row["identifier"]  }}"
+* identifier.value = "{{ row["identifier"]|trim }}"
 * identifier.use = #official
 
 * active = {{ row["active"]|lower  }}

@@ -1,15 +1,14 @@
 {% for index,row in data["data"].iterrows() %}
 {% if row["skip"] not in ['y', 'Y', 'x', 'X'] %}
 
-Instance: mid-{{ row["name"] | lower | regex_replace('[^A-Za-z0-9]+', '') }}
+Instance: mid-{{ row["name"] | lower | regex_replace('[^A-Za-z0-9]+', '') | create_hash_id }}
 InstanceOf: ManufacturedItemDefinitionUvEpi
 Title: "Manufactured item {{ row["name"] }}"
 Description: "{{ row["name"] }}"
 Usage: #example
-* id = "{{row['id']}}" 
 
-* identifier.system = "https://spor.ema.europa.eu/pmswi/#/"
-* identifier.value = "{{ row["identifier"] }}"
+* identifier.system = "https://spor.ema.europa.eu/pmswi"
+* identifier.value = "{{ row["identifier"]|trim }}"
 * identifier.use = #official
 
 * status = #{{ row["status"] }}
@@ -23,7 +22,7 @@ Usage: #example
 {% set ns  = namespace(referenced=False) -%}
 {% if data["turn"] != "1" %}
 {% for refs in data["references"]["Organization"] %} 
-{% if refs[0].startswith("manufacturer") and "manufacturerapi" not in refs[0]  %}
+{% if refs[0].startswith("man") and "mapi" not in refs[0]  %}
 {% set ns.referenced=True -%}
 
 * manufacturer = Reference({{refs[0]}})
@@ -32,7 +31,7 @@ Usage: #example
 
 {% if not ns.referenced  %}
 
-* manufacturer = Reference({{data["references"]["Organization"][0][0]}})
+//* manufacturer = Reference({{data["references"]["Organization"][0][0]}})
 {%- endif %}
 {%- endif %}
 {%- endif %}

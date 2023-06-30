@@ -1,16 +1,18 @@
 {% for index,row in data["data"].iterrows() %}
 {% if row["skip"] not in ['y', 'Y', 'x', 'X'] %}
 
-Instance: mp{{ row["productname"]| regex_replace('[^A-Za-z0-9]+', '')  }}
+Instance: mp{{ row["productname"]| regex_replace('[^A-Za-z0-9]+', '') | create_hash_id }}
 InstanceOf: MedicinalProductDefinitionUvEpi
 Title: "Medicinal Product {{ row["productname"]}}"
-Description: "EU/1/97/049/001 {{ row["productname"]}}"
+Description: "{{ row["productname"]}}"
 Usage: #example
 
-
-* id = "{{row['id']}}" 
-* identifier.system = $spor-prod
-* identifier.value = "{{row['identifier']}}"
+{% if row["identifier_system"]|string != 'nan' %}
+{% for idx in range(0,row["identifier_system"].count("|")+1) %} 
+* identifier[+].system = "{{ row["identifier_system"].split("|")[idx]}}"
+* identifier[=].value = "{{ row["identifier_value"].split("|")[idx]}}"
+{%- endfor %}
+{%- endif %}
 
 * type = http://hl7.org/fhir/medicinal-product-type#MedicinalProduct "Medicinal Product"
 

@@ -1,17 +1,14 @@
 {% for index,row in data["data"].iterrows() %}
 {% if row["skip"] not in ['y', 'Y', 'x', 'X'] %}
 
-Instance: authorization{{ row["name"]| lower | regex_replace('[^A-Za-z0-9]+', '') }}
+Instance: authorization{{ row["name"]| lower | regex_replace('[^A-Za-z0-9]+', '') | create_hash_id }}
 InstanceOf: RegulatedAuthorizationUvEpi
 Title: "Regulated Authorization for {{ row["name"] }}"
 Description: "Regulated Authorization for {{ row["name"] }}"
 Usage: #example
 
-
-* id = "{{row['id']}}" 
-
 * identifier.system = $spor-prod
-* identifier.value = "{{ row["identifier"] }}"
+* identifier.value = "{{ row["identifier"]|trim }}"
 * identifier.use = #official
 
  // Reference to MedicinalProductDefinition: EU/1/97/049/001 Karvea 75 mg tablet
@@ -36,7 +33,7 @@ Usage: #example
 // * holder = Reference(sanofiaventisgroupe)
 {% if data["turn"] != "1" %}
 {% for refs in data["references"]["Organization"] %} 
-{% if refs[0].startswith("marketingauthorisationholder") %}
+{% if refs[0].startswith("mah") %}
 {% set ns.referenced=True -%}
 
 * holder = Reference({{refs[0]}})
@@ -57,7 +54,7 @@ Usage: #example
 
 {% if data["turn"] != "1" %}
 {% for refs in data["references"]["Organization"] %} 
-{% if refs[0].startswith("medicinesregulatoryauthority") %}
+{% if refs[0].startswith("mra") %}
  // Reference to Organization: EMA
 * regulator = Reference({{refs[0]}})
 {%- endif %}

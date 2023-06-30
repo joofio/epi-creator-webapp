@@ -1,18 +1,19 @@
 {% for index,row in data["data"].iterrows() %}
 {% if row["skip"] not in ['y', 'Y', 'x', 'X'] %}
 
-Instance: bundlepackageleaflet-{{row["name"] | lower | regex_replace('[^A-Za-z0-9]+', '')}}
+Instance: bundlepackageleaflet-{{row["name"] | lower | regex_replace('[^A-Za-z0-9]+', '') | create_hash_id}}
 InstanceOf: BundleUvEpi
 Title: "ePI document Bundle for {{row["name"]}} Package Leaflet"
 Description: "Bundle for {{row["name"]}} Package Leaflet ePI document"
 Usage: #example
 
-* id = "{{row['id']}}" 
 * identifier.system = "{{row['identifier_system']}}" 
-* identifier.value = "{{row["identifier_value"]}}"
+* identifier.value = "{{row["identifier_value"]|trim}}"
 * type = #document
-* timestamp = "{{ now }}"
+//* timestamp = "{{ now }}"
+* timestamp = "2023-06-27T10:09:22Z"
 {% if data["turn"] != "1" %}
+* language = #en
 
 // Composition
 * entry[0].fullUrl = "Composition/{{data["references"]["Composition"][0][1]}}"

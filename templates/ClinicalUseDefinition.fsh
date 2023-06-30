@@ -1,14 +1,20 @@
 {% for index,row in data["data"].iterrows() %}
 {% if row["skip"] not in ['y', 'Y', 'x', 'X'] %}
 
-Instance: {{row['type']}}-{{row["name"]|lower | regex_replace('[^A-Za-z0-9]+', '')}}
+{% set ns = namespace() %}
+{% set ns.one = row['type'] %}
+{% set ns.two = row['name']|lower | regex_replace('[^A-Za-z0-9]+', '') %}
+{% set ns.three= data["dictionary"]["MajorName"] %}
+{% set ns.name_to_has= ns.one ~ ns.two ~ns.three  %}
+
+
+Instance: cud-{{ns.name_to_has| create_hash_id}}
 InstanceOf: ClinicalUseDefinition-{{row['type']}}-uv-epi
 Description: "{{row['type']}} - {{row['name']}}"
 Usage: #example
-* id = "{{row['id']}}" 
 
 * identifier.system = "{{row['identifier_system']}}"
-* identifier.value = "{{row['identifier']}}"
+* identifier.value = "{{row['identifier']|trim}}"
 * identifier.use = #official
 
 * type = #{{row['type']}}
