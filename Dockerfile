@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
 RUN npm install -g fsh-sushi
 
 COPY templates /app/templates
-COPY humira.xlsx /app/humira.xlsx
+COPY acmeDrug.xlsx /app/acmeDrug.xlsx
 COPY streamlit_app.py /app/streamlit_app.py
 COPY functions.py /app/functions.py
 COPY validator.py /app/validator.py
