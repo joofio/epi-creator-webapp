@@ -18,7 +18,12 @@
 {% set ns.org_type= "mfh" %}
 {% elif row["type"]|lower == "contact location" %}
 {% set ns.org_type= "cl" %}
+{% elif row["type"]|lower == "manufacturer batch release" %}
+{% set ns.org_type= "mbr" %}
+{% elif row["type"]|lower == "manufacturer api" %}
+{% set ns.org_type= "mapi" %}
 {% else %}
+{{ "// ERROR[11] - Not a format for type  INDEX:{}".format(index+1)  }}
 {% set ns.org_type= "org" %}
 {% endif %}
 
@@ -35,8 +40,12 @@ Usage: #example
 * identifier.use = #official
 
 * active = true 
+{% if ns.org_type== "mapi" or ns.org_type== "mbr" -%}
+* type = $spor-rms#220000000033  "Manufacturer"
 
+{% else %}
 * type = $spor-rms#{{row["typeID"]}}  "{{ row["type"]  }}"
+{% endif %}
 * type.text = "{{ row["type"]  }}"
 * name = "{{ row["name"]  }}"
 
