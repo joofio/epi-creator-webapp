@@ -5,35 +5,31 @@ info  No output path specified. Output to .
 info  Using configuration file: /Users/joaoalmeida/Desktop/hl7Europe/gravitate/epi-creator-webapp/sushi-config.yaml
 warn  Configuration property publisher has a value with an unexpected type.
 info  Importing FSH text...
-info  Preprocessed 45 documents with 58 aliases.
-error Skipping Instance: an Instance named ingredient-for-acme-magnesiumstearate already exists.
-  File: /Users/joaoalmeida/Desktop/hl7Europe/gravitate/epi-creator-webapp/input/fsh/examples/acme-ema-automatic/Ingredient.fsh
-  Line: 115 - 138
-error Skipping Instance: an Instance named ingredient-for-acme-microcrystallinecellulose already exists.
-  File: /Users/joaoalmeida/Desktop/hl7Europe/gravitate/epi-creator-webapp/input/fsh/examples/acme-ema-automatic/Ingredient.fsh
-  Line: 185 - 208
-info  Imported 68 definitions and 28 instances.
+info  Preprocessed 16 documents with 58 aliases.
+info  Imported 53 definitions and 15 instances.
 info  Checking /Users/joaoalmeida/.fhir/packages for hl7.fhir.uv.tools#current...
 info  Found hl7.fhir.uv.tools#current in /Users/joaoalmeida/.fhir/packages.
 info  Loaded package hl7.fhir.uv.tools#current
 info  Checking /Users/joaoalmeida/.fhir/packages for hl7.terminology.r4#5.0.0...
 info  Found hl7.terminology.r4#5.0.0 in /Users/joaoalmeida/.fhir/packages.
 info  Loaded package hl7.terminology.r4#5.0.0
-info  Checking /Users/joaoalmeida/.fhir/packages for hl7.fhir.uv.extensions#1.0.0...
-info  Found hl7.fhir.uv.extensions#1.0.0 in /Users/joaoalmeida/.fhir/packages.
-info  Loaded package hl7.fhir.uv.extensions#1.0.0
+info  Checking /Users/joaoalmeida/.fhir/packages for hl7.fhir.uv.emedicinal-product-info#current...
+info  Found hl7.fhir.uv.emedicinal-product-info#current in /Users/joaoalmeida/.fhir/packages.
+info  Loaded package hl7.fhir.uv.emedicinal-product-info#current
+info  Checking /Users/joaoalmeida/.fhir/packages for hl7.fhir.uv.extensions.r5#1.0.0...
+info  Found hl7.fhir.uv.extensions.r5#1.0.0 in /Users/joaoalmeida/.fhir/packages.
+info  Loaded package hl7.fhir.uv.extensions.r5#1.0.0
 info  Checking /Users/joaoalmeida/.fhir/packages for hl7.fhir.r5.core#5.0.0...
 info  Found hl7.fhir.r5.core#5.0.0 in /Users/joaoalmeida/.fhir/packages.
 info  Loaded package hl7.fhir.r5.core#5.0.0
 info  Converting FSH to FHIR resources...
-info  Converted 15 FHIR StructureDefinitions.
 info  Converted 5 FHIR CodeSystems.
 info  Converted 48 FHIR ValueSets.
-info  Converted 28 FHIR instances.
+info  Converted 15 FHIR instances.
 info  Exporting FHIR resources as JSON...
-info  Exported 96 FHIR resources as JSON.
+info  Exported 68 FHIR resources as JSON.
 info  Assembling Implementation Guide sources...
-info  Generated ImplementationGuide-hl7.fhir.uv.emedicinal-product-info.json
+info  Generated ImplementationGuide-hl7.eu.fhir.gh.json
 info  Assembled Implementation Guide sources; ready for IG Publisher.
 info  The sample-ig located at https://github.com/FHIR/sample-ig contains scripts useful for downloading and running the IG Publisher.
 
@@ -41,15 +37,15 @@ info  The sample-ig located at https://github.com/FHIR/sample-ig contains script
 |  -------------------------------------------------------------  |
 | |    Profiles   |  Extensions  |   Logicals   |   Resources   | |
 | |-------------------------------------------------------------| |
-| |      15       |      0       |      0       |       0       | |
+| |       0       |      0       |      0       |       0       | |
 |  -------------------------------------------------------------  |
 |  -------------------------------------------------------------  |
 | |      ValueSets     |    CodeSystems    |     Instances      | |
 | |-------------------------------------------------------------| |
-| |         48         |         5         |         28         | |
+| |         48         |         5         |         15         | |
 |  -------------------------------------------------------------  |
 |                                                                 |
 ===================================================================
-| You're in deep water now.              2 Errors       1 Warning |
+| You are skating on fin ice.            0 Errors       1 Warning |
 ===================================================================
 

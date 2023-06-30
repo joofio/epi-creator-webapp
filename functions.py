@@ -61,21 +61,15 @@ def create_env(TEMPLATE_FOLDER):
     return env
 
 
-def quality_checks(DATA_FILE, OUTPUT_FOLDER, major_name=None):
+def quality_checks(DATA_FILE, OUTPUT_FOLDER, major_name):
     if OUTPUT_FOLDER[-1] != "/":
         OUTPUT_FOLDER += "/"
 
-    # major_name = DATA_FILE.lower().split("/")[-1].split(".")[0]
-    if not major_name:
-        major_name = DATA_FILE.lower().split("/")[-1].split(".")[0].replace(" ", "_")
-    # real_output_folder = OUTPUT_FOLDER + major_name + "-ema-automatic/"
-    real_output_folder = OUTPUT_FOLDER + major_name + "-ema-automatic/"
-
     # writing to file
 
-    for path in listdir(real_output_folder):
+    for path in listdir(OUTPUT_FOLDER):
         print(path)
-        file = open(real_output_folder + "/" + path, "r")
+        file = open(OUTPUT_FOLDER + "/" + path, "r")
         # with open(file) as f:
         lines = file.readlines()
         for idx, line in enumerate(lines):
@@ -90,9 +84,7 @@ def quality_checks(DATA_FILE, OUTPUT_FOLDER, major_name=None):
                 print(line)
 
 
-def create_from_template(
-    env, DATA_FILE, TEMPLATE_FOLDER, OUTPUT_FOLDER, major_name=None
-):
+def create_from_template(env, DATA_FILE, TEMPLATE_FOLDER, OUTPUT_FOLDER, major_name):
     elements = [
         "AdministrableProductDefinition",
         "Substance",
@@ -119,12 +111,9 @@ def create_from_template(
 
     if not exists(temp_folder):
         mkdir(temp_folder)
-    if not major_name:
-        major_name = DATA_FILE.lower().split("/")[-1].split(".")[0].replace(" ", "_")
-    real_output_folder = OUTPUT_FOLDER + major_name + "-ema-automatic/"
-    print(real_output_folder)
-    if not exists(real_output_folder):
-        mkdir(real_output_folder)
+    print(OUTPUT_FOLDER)
+    if not exists(OUTPUT_FOLDER):
+        mkdir(OUTPUT_FOLDER)
     for sheet in elements:
         # read an excel file and convert
         # into a dataframe object
@@ -154,16 +143,16 @@ def create_from_template(
 
         df = df.astype(str)
         data["data"] = df
-        t.stream(data=data, **context).dump(real_output_folder + n_file + ".fsh")
+        t.stream(data=data, **context).dump(OUTPUT_FOLDER + n_file + ".fsh")
 
         # get ids:
         ## goes for all, checks for ID and adds to list
         ## then creates again with references
     object_ids = {}
-    for file in listdir(real_output_folder):
+    for file in listdir(OUTPUT_FOLDER):
         #  print(file)
         # n_file = file.split(".")[0]
-        with open(real_output_folder + file, "r") as file1:
+        with open(OUTPUT_FOLDER + file, "r") as file1:
             Lines = file1.readlines()
             instances = []
             ids = []
@@ -210,10 +199,13 @@ def create_from_template(
         df = df.astype(str)
         data["data"] = df
         data["turn"] = "2"
-        t.stream(data=data, **context).dump(real_output_folder + n_file + ".fsh")
+        t.stream(data=data, **context).dump(OUTPUT_FOLDER + n_file + ".fsh")
 
 
 if __name__ == "__main__":
+    major_name = DATA_FILE.lower().split("/")[-1].split(".")[0].replace(" ", "_")
+    real_output_folder = OUTPUT_FOLDER + major_name + "-ema-automatic/"
+
     create_env(TEMPLATE_FOLDER=TEMPLATE_FOLDER)
-    create_from_template(DATA_FILE, TEMPLATE_FOLDER, OUTPUT_FOLDER)
-    quality_checks(DATA_FILE=DATA_FILE, OUTPUT_FOLDER=OUTPUT_FOLDER)
+    create_from_template(DATA_FILE, TEMPLATE_FOLDER, real_output_folder)
+    quality_checks(DATA_FILE=DATA_FILE, OUTPUT_FOLDER=real_output_folder)
