@@ -43,7 +43,7 @@ fp = open("humira.xlsx", "rb")
 col1.download_button(
     label="Download example excel",
     data=fp,
-    file_name="humira.xlsx",
+    file_name="acmeDrug.xlsx",
     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 )
 
