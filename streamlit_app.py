@@ -20,7 +20,12 @@ st.set_option("deprecation.showPyplotGlobalUse", False)
 st.header("""ePI Creator""")
 
 st.markdown(
-    """Please upload the excel file for creating the FSH resources. Name the file the product that you are creating."""
+    """Please upload the excel file for creating the FSH resources.
+    Name the file the product that you are creating.   
+    If you want to check the FHIR profiles, see [here](http://build.fhir.org/ig/HL7/emedicinal-product-info/artifacts.html).  
+    If you want to check examples, see [here](http://build.fhir.org/ig/hl7-eu/gravitate-health/).
+
+    """
 )
 
 elements = [
