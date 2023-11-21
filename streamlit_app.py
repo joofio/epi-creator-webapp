@@ -2,7 +2,7 @@
 # coding: utf-8
 
 import streamlit as st
-from os import listdir, getcwd, mkdir, system
+from os import listdir, getcwd, mkdir, system, remove
 from os.path import exists
 from jinja2 import Environment, FileSystemLoader, Template
 import pandas as pd
@@ -12,6 +12,8 @@ from datetime import datetime
 import shutil
 import subprocess
 from functions import create_from_template, create_env
+from zipfile import ZipFile
+
 
 context = {"now": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")}
 
@@ -80,7 +82,6 @@ if uploaded_file is not None:
     major_name = uploaded_file.name.replace(" ", "_").replace(".xlsx", "")
     env = create_env(templates_folder)
     with st.spinner("Processing..."):
-
         create_from_template(
             env,
             uploaded_file,
@@ -90,9 +91,7 @@ if uploaded_file is not None:
         )
         # zip folder
         # csv = convert_df(my_large_df)
-        zipfile = shutil.make_archive(
-            download_folder + "/" + major_name + "fsh", "zip", real_output_folder
-        )
+
         result = subprocess.run(["sushi", "."], stdout=subprocess.PIPE)
         # system("sushi .")
         f = open(download_folder + "/" + "result.txt", "w")
@@ -103,31 +102,31 @@ if uploaded_file is not None:
         for json_file in listdir("fsh-generated/resources"):
             if json_file.startswith("Bundle"):
                 shutil.move("fsh-generated/resources/" + json_file, zip_folder)
-        zipfile2 = shutil.make_archive(
-            download_folder + "/" + major_name + "json", "zip", zip_folder
-        )
 
-        # print(listdir("."))
-        col3, col4, col5 = st.columns(3)
+        # ...
 
-    with open(zipfile, "rb") as fp:
+        zip_file_name = major_name + "_results.zip"
+        # remove(zip_file_name)
+        myzipfile = ZipFile(zip_file_name, mode="a")
+        print(listdir(zip_folder))
+        # Add zip_folder to the zip file
+        myzipfile.write(zip_folder, arcname="zip_folder")
+        print(listdir(real_output_folder))
+
+        # Add real_output_folder to the zip file
+        myzipfile.write(real_output_folder, arcname="real_output_folder")
+        print(listdir(download_folder))
+
+        # Add download_folder to the zip file
+        myzipfile.write(download_folder + "/" + "result.txt", arcname="result.txt")
+        myzipfile.close()
+
+        col3, col4 = st.columns(2)
+
+    with open(zip_file_name, "rb") as fp:
         btn = col3.download_button(
-            label="Download ZIP with FSH files",
+            label="Download ZIP with results",
             data=fp,
-            file_name=download_folder + "/" + major_name + "_fsh.zip",
+            file_name=zip_file_name,
             mime="application/zip",
-        )
-
-    with open(zipfile2, "rb") as fp2:
-        btn2 = col4.download_button(
-            label="Download ZIP with JSON files",
-            data=fp2,
-            file_name=download_folder + "/" + major_name + "_json.zip",
-            mime="application/zip",
-        )
-    with open(download_folder + "/" + "result.txt", "rb") as fp3:
-        btn2 = col5.download_button(
-            label="Download Log file",
-            data=fp3,
-            file_name="log.txt",
         )
