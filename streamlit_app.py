@@ -2,17 +2,24 @@
 # coding: utf-8
 
 import streamlit as st
-from os import listdir, getcwd, mkdir, system, remove
+from os import listdir, getcwd, mkdir, path, walk
 from os.path import exists
 from jinja2 import Environment, FileSystemLoader, Template
-import pandas as pd
-import uuid
-import re
 from datetime import datetime
 import shutil
 import subprocess
 from functions import create_from_template, create_env
 from zipfile import ZipFile
+
+
+def add_folder_to_zip(zipfile, folder_path, arcname):
+    for root, dirs, files in walk(folder_path):
+        for file in files:
+            filepath = path.join(root, file)
+            zipfile.write(
+                filepath,
+                arcname=path.join(arcname, path.relpath(filepath, folder_path)),
+            )
 
 
 context = {"now": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")}
@@ -103,23 +110,11 @@ if uploaded_file is not None:
             if json_file.startswith("Bundle"):
                 shutil.move("fsh-generated/resources/" + json_file, zip_folder)
 
-        # ...
-
         zip_file_name = major_name + "_results.zip"
-        # remove(zip_file_name)
-        myzipfile = ZipFile(zip_file_name, mode="a")
-        print(listdir(zip_folder))
-        # Add zip_folder to the zip file
-        myzipfile.write(zip_folder, arcname="zip_folder")
-        print(listdir(real_output_folder))
-
-        # Add real_output_folder to the zip file
-        myzipfile.write(real_output_folder, arcname="real_output_folder")
-        print(listdir(download_folder))
-
-        # Add download_folder to the zip file
-        myzipfile.write(download_folder + "/" + "result.txt", arcname="result.txt")
-        myzipfile.close()
+        with ZipFile(zip_file_name, "w") as myzipfile:
+            add_folder_to_zip(myzipfile, zip_folder, "json-files")
+            add_folder_to_zip(myzipfile, real_output_folder, "fsh-files")
+            add_folder_to_zip(myzipfile, download_folder, "result")
 
         col3, col4 = st.columns(2)
 
