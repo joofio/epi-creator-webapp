@@ -13,6 +13,7 @@ import subprocess
 from zipfile import ZipFile
 
 context = {"now": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")}
+CANONICAL_URL = "http://hl7.eu/fhir/ig/gravitate-health/"
 
 
 elements = [
@@ -197,8 +198,17 @@ def create_from_template(env, DATA_FILE, TEMPLATE_FOLDER, OUTPUT_FOLDER, major_n
         #   print(df)
         df.to_csv(temp_folder + sheet + ".csv", index=True)
 
-    data_dict = {"MajorName": major_name}  # if needed
-    data = {"dictionary": data_dict, "turn": "1"}
+    df = pd.read_csv(temp_folder + "MedicinalProductDefinition.csv", index_col=0)
+    productname = df.loc[0, "productname"]
+    data_dict = {
+        "MajorName": major_name,
+        "url": CANONICAL_URL,
+        "productname": productname,
+    }  # if needed
+    data = {
+        "dictionary": data_dict,
+        "turn": "1",
+    }
 
     # multiple elementsa
     for file in listdir(temp_folder):
