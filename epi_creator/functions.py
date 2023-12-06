@@ -1,4 +1,4 @@
-from os import listdir, getcwd, mkdir, path, walk
+from os import listdir, getcwd, mkdir, path, walk, makedirs
 from os.path import exists
 from jinja2 import Environment, FileSystemLoader, Template
 import pandas as pd
@@ -53,8 +53,12 @@ def process_file(uploaded_file):
     mkdir(zip_folder)
 
     real_output_folder = getcwd() + "/input/fsh/examples/"
-    if not exists(real_output_folder):
-        mkdir(real_output_folder)
+    makedirs("input", exist_ok=True)
+    makedirs("input/fsh", exist_ok=True)
+    makedirs(real_output_folder, exist_ok=True)
+
+    # if not exists(real_output_folder):
+    #    mkdir(real_output_folder)
     download_folder = "downloads/"
     if not exists(download_folder):
         mkdir(download_folder)
