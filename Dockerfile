@@ -18,7 +18,6 @@ RUN apt-get install wget -y
 #RUN apt-get install llvm-7 -y
 #RUN apt-get -y install llvm-11*
 
-RUN mkdir /app
 RUN mkdir /app/epi_creator
 COPY epi_creator /app/epi_creator
 COPY sushi-config.yaml /app/sushi-config.yaml
@@ -36,7 +35,7 @@ COPY *.xlsx /app
 RUN pip install -r requirements.txt
 #RUN unzip model.zip 
 
-EXPOSE 5005
+EXPOSE 80
 #CMD python run.py
 RUN ["chmod", "+x", "./gunicorn.sh"]
 
