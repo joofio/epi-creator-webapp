@@ -10,7 +10,7 @@ if not app.debug:
         try:
             os.mkdir("logs")
         except FileExistsError:
-            print("The 'logs' directory already exists.")os.makedirs("logs", exist_ok=True)
+            print("The 'logs' directory already exists.")
     file_handler = RotatingFileHandler(
         "logs/epicreator.log", maxBytes=10240 * 1024, backupCount=10
     )
