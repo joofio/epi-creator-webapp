@@ -7,7 +7,10 @@ from epi_creator import app
 if not app.debug:
     # if app.debug:
     if not os.path.exists("logs"):
-        os.mkdir("logs")
+        try:
+            os.mkdir("logs")
+        except FileExistsError:
+            print("The 'logs' directory already exists.")os.makedirs("logs", exist_ok=True)
     file_handler = RotatingFileHandler(
         "logs/epicreator.log", maxBytes=10240 * 1024, backupCount=10
     )
