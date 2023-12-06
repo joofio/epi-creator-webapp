@@ -28,6 +28,7 @@ RUN python3 -m pip install --upgrade wheel setuptools
 COPY requirements.txt /app
 COPY run.py /app
 COPY gunicorn.sh /app
+COPY templates /app
 
 COPY *.xlsx /app
 
