@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/main.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+
+
+       
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <div class="container">
+  <h1>ePI Creator</h1>
+  <br/>
+<br/>
+<br/>
+  <h2>Quick notes</h2>
+<p>Please upload the excel file for creating the FSH resources. Name the file the product that you are creating.</p>
+
+<p>If you want to check the FHIR profiles, see <a href="http://build.fhir.org/ig/HL7/emedicinal-product-info/artifacts.html">here.</a></p>
+<p>If you want to check examples, see <a href="http://build.fhir.org/ig/hl7-eu/gravitate-health/">here.</a></p>
+
+<a href="/download?filename=acmeDrug.xlsx" class="btn btn-primary">Download File</a>
+
+
+<form id="upload-form" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" id="file-input">
+    <button type="button" id="upload-btn">Upload</button>
+</form>
+
+<div id="loading-indicator" style="display:none;">
+    <!-- Spinner -->
+    <div id="spinner"></div>
+
+    <!-- Text -->
+    Processing...
+</div>
+
+<a id="download-link" href="#" style="display:none;">Download Processed File</a>
+
+</body>
+
+<script>
+    document.getElementById('upload-btn').addEventListener('click', function() {
+    // Show the loading indicator
+    document.getElementById('loading-indicator').style.display = 'block';
+
+    // Prepare FormData
+    var formData = new FormData();
+    var fileInput = document.getElementById('file-input');
+    formData.append('file', fileInput.files[0]);
+
+    // Perform the upload
+    fetch('/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json()) // Assuming the server sends back JSON
+    .then(data => {
+        // Hide the loading indicator
+        document.getElementById('loading-indicator').style.display = 'none';
+
+        // Show the download link
+        var downloadLink = document.getElementById('download-link');
+        downloadLink.style.display = 'block';
+        console.log(data.downloadUrl);
+        downloadLink.href = data.downloadUrl; // The URL should be provided by your server
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Optionally handle the error
+    });
+});
+
+</script>
+
+</html>

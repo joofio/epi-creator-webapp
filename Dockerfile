@@ -1,4 +1,4 @@
-FROM python:3.9.16
+FROM python:3.10-slim
 
 
 # Install dependencies
@@ -10,21 +10,34 @@ RUN pip install -r requirements.txt
 RUN apt-get update && apt-get install -y \
     software-properties-common \
     npm
-#RUN npm install npm@latest -g && \
-#    npm install n -g && \
-#    n latest
 
 RUN npm install -g fsh-sushi
 
-COPY templates /app/templates
-COPY acmeDrug.xlsx /app/acmeDrug.xlsx
-COPY streamlit_app.py /app/streamlit_app.py
-COPY functions.py /app/functions.py
-COPY validator.py /app/validator.py
+RUN apt-get install zip -y
+RUN apt-get install wget -y
+#RUN apt-get install llvm-7 -y
+#RUN apt-get -y install llvm-11*
 
-COPY index.html /app/index.html
-COPY input /app/input
+RUN mkdir /app
+RUN mkdir /app/epi_creator
+COPY epi_creator /app/epi_creator
 COPY sushi-config.yaml /app/sushi-config.yaml
 
-# Run the application
-CMD streamlit run streamlit_app.py --server.port 80
+RUN python3 -m pip install pip --upgrade
+RUN python3 -m pip install --upgrade wheel setuptools
+
+COPY requirements.txt /app
+COPY run.py /app
+COPY gunicorn.sh /app
+COPY *.xlsx /app
+
+
+
+RUN pip install -r requirements.txt
+#RUN unzip model.zip 
+
+EXPOSE 5005
+#CMD python run.py
+RUN ["chmod", "+x", "./gunicorn.sh"]
+
+ENTRYPOINT ["./gunicorn.sh"]

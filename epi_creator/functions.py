@@ -1,33 +1,101 @@
-from os import listdir, getcwd, mkdir
+from os import listdir, getcwd, mkdir, path, walk
 from os.path import exists
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, Template
 import pandas as pd
-import sys
 import uuid
 import re
 from datetime import datetime
-from validator import pre_validation
+from epi_creator.validator import pre_validation
 import hashlib
 from html import unescape
+import shutil
+import subprocess
+from zipfile import ZipFile
 
 context = {"now": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")}
 
 
-# total arguments
-# n = len(sys.argv)
-# if n < 3:
-#    raise Exception(
-#        "Please provide the path to the input file and the path to the output file"
-#    )
+elements = [
+    "AdministrableProductDefinition",
+    "Substance",
+    "RegulatedAuthorization",
+    "Organization",
+    "ClinicalUseDefinition",
+    "Composition",
+    "Ingredient",
+    "MedicinalProductDefinition",
+    "ManufacturedItemDefinition",
+    "PackagedProductDefinition",
+    "Bundle",
+]
 
 
-# DATA_FILE = sys.argv[1]
-# TEMPLATE_FOLDER = sys.argv[2]
-# OUTPUT_FOLDER = sys.argv[3]
+def add_folder_to_zip(zipfile, folder_path, arcname):
+    for root, dirs, files in walk(folder_path):
+        for file in files:
+            filepath = path.join(root, file)
+            zipfile.write(
+                filepath,
+                arcname=path.join(arcname, path.relpath(filepath, folder_path)),
+            )
+
+
+def process_file(uploaded_file):
+    print(uploaded_file)
+    temp_folder = getcwd() + "/temp/"
+    print(temp_folder)
+    if not exists(temp_folder):
+        mkdir(temp_folder)
+
+    zip_folder = getcwd() + "/output/"
+    if exists(zip_folder):
+        shutil.rmtree(zip_folder)
+    mkdir(zip_folder)
+
+    real_output_folder = getcwd() + "/input/fsh/examples/"
+    if not exists(real_output_folder):
+        mkdir(real_output_folder)
+    download_folder = "downloads/"
+    if not exists(download_folder):
+        mkdir(download_folder)
+
+    templates_folder = "templates/"
+
+    major_name = uploaded_file.split("/")[-1].replace(" ", "_").replace(".xlsx", "")
+    print(major_name)
+    env = create_env(templates_folder)
+
+    create_from_template(
+        env,
+        uploaded_file,
+        templates_folder,
+        real_output_folder,
+        major_name=major_name,
+    )
+    # zip folder
+    # csv = convert_df(my_large_df)
+
+    result = subprocess.run(["sushi", "."], stdout=subprocess.PIPE)
+    # system("sushi .")
+    f = open(download_folder + "/" + "result.txt", "w")
+    f.write(result.stdout.decode("utf-8"))
+    f.close()
+
+    # result.stdout
+    for json_file in listdir("fsh-generated/resources"):
+        if json_file.startswith("Bundle"):
+            shutil.move("fsh-generated/resources/" + json_file, zip_folder)
+
+    zip_file_name = "epi_creator/" + major_name + "_results.zip"
+    with ZipFile(zip_file_name, "w") as myzipfile:
+        add_folder_to_zip(myzipfile, zip_folder, "json-files")
+        add_folder_to_zip(myzipfile, real_output_folder, "fsh-files")
+        add_folder_to_zip(myzipfile, download_folder, "result")
+
+    return zip_file_name
 
 
 def create_env(TEMPLATE_FOLDER):
-
     env = Environment(loader=FileSystemLoader(TEMPLATE_FOLDER), trim_blocks=True)
 
     # Custom filter method
@@ -171,9 +239,7 @@ def create_from_template(env, DATA_FILE, TEMPLATE_FOLDER, OUTPUT_FOLDER, major_n
             #     }
             # else:
             for line in Lines:
-
                 if "Instance: " in line:
-
                     instances.append(line.replace("Instance: ", "").strip())
                     # if "* id = " in line:
                     # print(line)
