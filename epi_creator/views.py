@@ -15,6 +15,11 @@ def hello():
     return render_template("index.html")
 
 
+@app.route("/faq", methods=["GET"])
+def faq():
+    return render_template("faq.html")
+
+
 @app.route("/download")
 def download_file():
     path = request.args.get("filename")  # default_value is optional

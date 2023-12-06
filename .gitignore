@@ -139,3 +139,4 @@ fsh-generated*
 input/fsh/examples/*
 
 results.txt
+/*.xlsx

@@ -12,7 +12,26 @@
         crossorigin="anonymous"></script>
 
 
-       
+        <style>
+            .container {
+                margin-top: 20px;
+            }
+    
+            #upload-form {
+                margin-top: 50px;
+                padding: 20px;
+
+            }
+    
+            #download-link {
+                margin-top: 100px; /* More space above the download link */
+                display: block; /* Makes the link take its own line */
+            }
+    
+            #loading-indicator {
+                margin-top: 20px;
+            }
+        </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -21,12 +40,12 @@
   <br/>
 <br/>
 <br/>
-  <h2>Quick notes</h2>
-<p>Please upload the excel file for creating the FSH resources. Name the file the product that you are creating.</p>
+  <h2>Quick reference</h2>
+<p>Please upload the excel file for creating the FHIR ePI resources. Name the file the product that you are creating.</p>
 
 <p>If you want to check the FHIR profiles, see <a href="http://build.fhir.org/ig/HL7/emedicinal-product-info/artifacts.html">here.</a></p>
 <p>If you want to check examples, see <a href="http://build.fhir.org/ig/hl7-eu/gravitate-health/">here.</a></p>
-
+<p>For more information, please check <a href="/faq">here</a></p>
 <a href="/download?filename=acmeDrug.xlsx" class="btn btn-primary">Download File</a>
 
 
@@ -44,8 +63,10 @@
     Processing...
 </div></div>
 
-<a id="download-link" href="#" style="display:none;" class="btn btn-primary">Download Processed File</a>
+<div class="container">
 
+<a id="download-link" href="#" style="display:none;" class="btn btn-primary">Download Processed File</a>
+</div>
 </body>
 
 <script>
@@ -70,7 +91,7 @@
 
         // Show the download link
         var downloadLink = document.getElementById('download-link');
-        downloadLink.style.display = 'block';
+        downloadLink.style.display = 'inline';
         console.log(data.downloadUrl);
         downloadLink.href = data.downloadUrl; // The URL should be provided by your server
     })
