@@ -1,15 +1,5 @@
 FROM python:3.10-slim
 
-RUN mkdir /input
-
-RUN mkdir /input/fsh
-
-RUN mkdir /input/fsh/examples
-
-COPY input/fsh/aliases.fsh /input/fsh
-
-RUN mkdir /templates
-COPY templates /templates
 
 
 # Install dependencies
@@ -29,6 +19,13 @@ RUN apt-get install wget -y
 #RUN apt-get install llvm-7 -y
 #RUN apt-get -y install llvm-11*
 
+RUN mkdir /app/input
+RUN mkdir /app/input/fsh
+RUN mkdir /app/input/fsh/examples
+COPY input/fsh/aliases.fsh /app/input/fsh
+
+RUN mkdir /templates
+COPY templates /templates
 RUN mkdir /app/epi_creator
 COPY epi_creator /app/epi_creator
 COPY sushi-config.yaml /app/sushi-config.yaml
