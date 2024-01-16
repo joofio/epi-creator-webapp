@@ -54,6 +54,7 @@ def process_file(uploaded_file):
     mkdir(zip_folder)
 
     real_output_folder = getcwd() + "/input/fsh/examples/"
+    print(real_output_folder)
     makedirs("input", exist_ok=True)
     makedirs("input/fsh", exist_ok=True)
     makedirs(real_output_folder, exist_ok=True)

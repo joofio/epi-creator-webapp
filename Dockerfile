@@ -22,7 +22,7 @@ RUN apt-get install wget -y
 RUN mkdir /app/input
 RUN mkdir /app/input/fsh
 RUN mkdir /app/input/fsh/examples
-COPY input/fsh/aliases.fsh /app/input/fsh
+COPY input/fsh/aliases.fsh /app/input/fsh/aliases.fsh
 
 RUN mkdir /templates
 COPY templates /templates
