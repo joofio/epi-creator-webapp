@@ -1,5 +1,12 @@
 FROM python:3.10-slim
 
+RUN mkdir /input
+
+RUN mkdir /input/fsh
+
+RUN mkdir /input/fsh/examples
+
+COPY input/fsh/aliases.fsh /input/fsh
 
 # Install dependencies
 RUN mkdir /app
