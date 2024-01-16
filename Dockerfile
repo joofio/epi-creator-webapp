@@ -8,6 +8,10 @@ RUN mkdir /input/fsh/examples
 
 COPY input/fsh/aliases.fsh /input/fsh
 
+RUN mkdir /templates
+COPY templates /templates
+
+
 # Install dependencies
 RUN mkdir /app
 WORKDIR /app
