@@ -72,6 +72,8 @@
 <script>
     document.getElementById('upload-btn').addEventListener('click', function() {
     // Show the loading indicator
+    var downloadLink = document.getElementById('download-link');
+        downloadLink.style.display = 'none';
     document.getElementById('loading-indicator').style.display = 'block';
 
     // Prepare FormData
