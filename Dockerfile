@@ -30,8 +30,9 @@ RUN mkdir /app/epi_creator
 COPY epi_creator /app/epi_creator
 COPY sushi-config.yaml /app/sushi-config.yaml
 
+ENV VIRTUAL_ENV=/usr/local
 RUN python3 -m pip install pip --upgrade
-RUN python3 -m pip install --upgrade wheel setuptools
+RUN python3 -m pip install uv
 
 COPY requirements.txt /app
 COPY run.py /app
@@ -46,7 +47,7 @@ COPY *.xlsx /app
 
 
 
-RUN pip install -r requirements.txt
+RUN uv pip install -r requirements.txt
 #RUN unzip model.zip 
 
 EXPOSE 80

@@ -140,3 +140,5 @@ input/fsh/examples/*
 
 results.txt
 /*.xlsx
+
+.vscode/
