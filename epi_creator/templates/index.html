@@ -45,8 +45,8 @@
 
 <p>If you want to check the FHIR profiles, see <a href="http://build.fhir.org/ig/HL7/emedicinal-product-info/artifacts.html">here.</a></p>
 <p>If you want to check examples, see <a href="http://build.fhir.org/ig/hl7-eu/gravitate-health/">here.</a></p>
-<p>For more information, please check <a href="/faq">here</a></p>
-<a href="/download?filename=acmeDrug.xlsx" class="btn btn-primary">Download Template File</a>
+<p>For more information, please check <a href="faq">here</a></p>
+<a href="download?filename=acmeDrug.xlsx" class="btn btn-primary">Download Template File</a>
 
 
 <form id="upload-form" method="post" enctype="multipart/form-data">
@@ -82,7 +82,7 @@
     formData.append('file', fileInput.files[0]);
 
     // Perform the upload
-    fetch('/upload', {
+    fetch('upload', {
         method: 'POST',
         body: formData
     })
