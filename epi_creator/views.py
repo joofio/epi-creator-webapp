@@ -1,6 +1,13 @@
 import os
 
-from flask import jsonify, request, session, render_template, send_from_directory
+from flask import (
+    jsonify,
+    request,
+    session,
+    render_template,
+    send_from_directory,
+    Blueprint,
+)
 from epi_creator import app
 from flask import Flask, request, redirect, url_for, flash
 import os
@@ -8,19 +15,20 @@ from werkzeug.utils import secure_filename
 from epi_creator.functions import process_file
 
 print(app.config)
+bp = Blueprint("burritos", __name__)
 
 
-@app.route("/", methods=["GET"])
+@bp.route("/", methods=["GET"])
 def hello():
     return render_template("index.html")
 
 
-@app.route("/faq", methods=["GET"])
+@bp.route("/faq", methods=["GET"])
 def faq():
     return render_template("faq.html")
 
 
-@app.route("/download")
+@bp.route("/download")
 def download_file():
     path = request.args.get("filename")  # default_value is optional
     print(path)
@@ -32,7 +40,7 @@ def download_file():
     )
 
 
-@app.route("/upload", methods=["GET", "POST"])
+@bp.route("/upload", methods=["GET", "POST"])
 def upload_file():
     if request.method == "POST":
         # check if the post request has the file part
@@ -52,3 +60,6 @@ def upload_file():
             return jsonify(
                 downloadUrl=url_for("download_file", filename=os.path.basename(result))
             )
+
+
+app.register_blueprint(bp, url_prefix="/gh-epi-creator")
