@@ -5,8 +5,8 @@ FROM python:3.10-slim
 # Install dependencies
 RUN mkdir /app
 WORKDIR /app
-COPY requirements.txt /app
-RUN pip install -r requirements.txt
+#COPY requirements.txt /app
+#RUN pip install -r requirements.txt
 
 RUN apt-get update && apt-get install -y \
     software-properties-common \
@@ -47,7 +47,7 @@ COPY *.xlsx /app
 
 
 
-RUN uv pip install -r requirements.txt
+RUN uv pip install --system -r requirements.txt
 #RUN unzip model.zip 
 
 EXPOSE 80
