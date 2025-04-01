@@ -142,3 +142,4 @@ results.txt
 /*.xlsx
 
 .vscode/
+epi-creator-venv/
