@@ -3,9 +3,9 @@ Description=FHIR ePI Creator Service
 After=network.target
 
 [Service]
-ExecStart=/home/joaoalmeida/epi-creator-webapp/epi-creator-venv/bin/gunicorn run:app -w 1 --threads 2 -b 0.0.0.0:8383 \
---access-logfile logs/access.log \
-    --error-logfile logs/error.log
+ExecStart=/home/joaoalmeida/gh_epi_creator_app/start.sh
+
+
 WorkingDirectory=/home/joaoalmeida/epi-creator-webapp
 StandardOutput=inherit
 StandardError=inherit

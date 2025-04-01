@@ -1,30 +1,39 @@
 import os
 
 from flask import (
+    Blueprint,
+    flash,
     jsonify,
-    request,
+    redirect,
     render_template,
+    request,
     send_from_directory,
+    url_for,
 )
-from epi_creator import app
-from flask import redirect, url_for, flash
+from flask import current_app as app
 from werkzeug.utils import secure_filename
+
 from epi_creator.functions import process_file
 
-print(app.config)
+gh_epi_creator = Blueprint("gh_epi_creator", __name__)
 
 
-@app.route("/", methods=["GET"])
+@gh_epi_creator.before_request
+def log_request_info():
+    app.logger.info(f"Request: {request.method} {request.path}")
+
+
+@gh_epi_creator.route("/", methods=["GET"])
 def hello():
     return render_template("index.html")
 
 
-@app.route("/faq", methods=["GET"])
+@gh_epi_creator.route("/faq", methods=["GET"])
 def faq():
     return render_template("faq.html")
 
 
-@app.route("/download")
+@gh_epi_creator.route("/download")
 def download_file():
     path = request.args.get("filename")  # default_value is optional
     print(path)
@@ -36,7 +45,7 @@ def download_file():
     )
 
 
-@app.route("/upload", methods=["GET", "POST"])
+@gh_epi_creator.route("/upload", methods=["GET", "POST"])
 def upload_file():
     if request.method == "POST":
         # check if the post request has the file part
@@ -54,5 +63,7 @@ def upload_file():
             result = process_file(os.path.join(app.config["UPLOAD_FOLDER"], filename))
             print(result)
             return jsonify(
-                downloadUrl=url_for("download_file", filename=os.path.basename(result))
+                downloadUrl=url_for(
+                    "gh_epi_creator.download_file", filename=os.path.basename(result)
+                )
             )
