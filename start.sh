@@ -2,6 +2,5 @@
 #!/bin/bash
 
 cd /home/joaoalmeida/gh_epi_creator_app
-exec gunicorn -w 4 -b 0.0.0.0:8000 run:app \
-  --access-logfile logs/access.log \
-  --error-logfile logs/error.log
+exec /home/joaoalmeida/epi-creator-webapp/epi-creator-venv/bin/gunicorn -w 1 --threads 2 -b 0.0.0.0:8383 run:app 
+
