@@ -3,7 +3,7 @@ Description=FHIR ePI Creator Service
 After=network.target
 
 [Service]
-ExecStart=/home/joaoalmeida/gh_epi_creator_app/start.sh
+ExecStart=/home/joaoalmeida/epi-creator-webapp/start.sh
 
 
 WorkingDirectory=/home/joaoalmeida/epi-creator-webapp
