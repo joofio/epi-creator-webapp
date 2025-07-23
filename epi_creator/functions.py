@@ -81,7 +81,7 @@ def process_file(uploaded_file):
     # zip folder
     # csv = convert_df(my_large_df)
 
-    result = subprocess.run(["sushi", "."], stdout=subprocess.PIPE)
+    result = subprocess.run(["npx","sushi", "."], stdout=subprocess.PIPE)
     # system("sushi .")
     f = open(download_folder + "/" + "result.txt", "w")
     f.write(result.stdout.decode("utf-8"))
