@@ -77,6 +77,9 @@ def create_app():
     app.logger.info("Starting GH EPI Creator app")
 
     from .views import gh_epi_creator
+    from . import lookup as lookup_module
+
+    lookup_module.load_lookups()
 
     app.register_blueprint(gh_epi_creator, url_prefix="/gh-epi-creator")
     app.config["UPLOAD_FOLDER"] = "./"

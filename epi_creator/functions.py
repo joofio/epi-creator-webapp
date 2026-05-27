@@ -135,6 +135,114 @@ def create_env(TEMPLATE_FOLDER):
     return env
 
 
+def build_dataframes(session_data):
+    dataframes = {}
+    for sheet in elements:
+        rows = session_data.get(sheet, [])
+        if not rows:
+            rows = [{}]
+        df = pd.DataFrame(rows)
+        if "id" in df.columns:
+            df["id_hash"] = df["id"].apply(lambda x: uuid.uuid4())
+            df["id"].fillna(df["id_hash"], inplace=True)
+        else:
+            df["id_hash"] = [uuid.uuid4() for _ in range(len(df))]
+            df["id"] = df["id_hash"]
+        df = df.astype(str)
+        dataframes[sheet] = df
+    return dataframes
+
+
+def create_from_session(env, session_data, TEMPLATE_FOLDER, OUTPUT_FOLDER, major_name):
+    if TEMPLATE_FOLDER[-1] != "/":
+        TEMPLATE_FOLDER += "/"
+    if OUTPUT_FOLDER[-1] != "/":
+        OUTPUT_FOLDER += "/"
+
+    if not exists(OUTPUT_FOLDER):
+        mkdir(OUTPUT_FOLDER)
+
+    dataframes = build_dataframes(session_data)
+
+    productname = "product"
+    if "MedicinalProductDefinition" in dataframes and len(dataframes["MedicinalProductDefinition"]) > 0:
+        productname = str(dataframes["MedicinalProductDefinition"].iloc[0].get("productname", "product"))
+
+    data_dict = {
+        "MajorName": major_name,
+        "url": CANONICAL_URL,
+        "productname": productname,
+    }
+
+    data = {
+        "dictionary": data_dict,
+        "turn": "1",
+    }
+
+    for sheet in elements:
+        df = dataframes[sheet]
+        t = env.get_template(sheet + ".fsh")
+        data["data"] = df
+        t.stream(data=data, **context).dump(OUTPUT_FOLDER + sheet + ".fsh")
+
+    object_ids = {}
+    for file in listdir(OUTPUT_FOLDER):
+        with open(OUTPUT_FOLDER + file, "r") as f:
+            lines = f.readlines()
+            instances = []
+            ids = []
+            for line in lines:
+                if "Instance: " in line:
+                    val = line.replace("Instance: ", "").strip()
+                    instances.append(val)
+                    ids.append(val)
+            object_ids[file.split(".")[0]] = [(i, j) for i, j in zip(instances, ids)]
+
+    data["references"] = object_ids
+
+    for sheet in elements:
+        df = dataframes[sheet]
+        t = env.get_template(sheet + ".fsh")
+        data["data"] = df
+        data["turn"] = "2"
+        t.stream(data=data, **context).dump(OUTPUT_FOLDER + sheet + ".fsh")
+
+
+def generate_from_session(session_data, major_name):
+    zip_folder = getcwd() + "/output/"
+    if exists(zip_folder):
+        shutil.rmtree(zip_folder)
+    mkdir(zip_folder)
+
+    real_output_folder = getcwd() + "/input/fsh/examples/"
+    makedirs("input", exist_ok=True)
+    makedirs("input/fsh", exist_ok=True)
+    makedirs(real_output_folder, exist_ok=True)
+
+    download_folder = "downloads/"
+    if not exists(download_folder):
+        mkdir(download_folder)
+
+    env = create_env("templates/")
+    create_from_session(env, session_data, "templates/", real_output_folder, major_name)
+
+    result = subprocess.run(["sushi", "."], stdout=subprocess.PIPE)
+    with open(download_folder + "/result.txt", "w") as f:
+        f.write(result.stdout.decode("utf-8"))
+
+    for json_file in listdir("fsh-generated/resources"):
+        if json_file.startswith("Bundle"):
+            shutil.move("fsh-generated/resources/" + json_file, zip_folder)
+
+    zip_file_name = "epi_creator/" + major_name + "_results.zip"
+    with ZipFile(zip_file_name, "w") as myzipfile:
+        add_folder_to_zip(myzipfile, zip_folder, "json-files")
+        add_folder_to_zip(myzipfile, real_output_folder, "fsh-files")
+        add_folder_to_zip(myzipfile, download_folder, "result")
+
+    return zip_file_name
+
+
 def quality_checks(DATA_FILE, OUTPUT_FOLDER, major_name):
     if OUTPUT_FOLDER[-1] != "/":
         OUTPUT_FOLDER += "/"
