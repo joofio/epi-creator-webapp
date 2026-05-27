@@ -2,20 +2,49 @@ import os
 
 from flask import (
     Blueprint,
-    flash,
     jsonify,
     redirect,
     render_template,
     request,
     send_from_directory,
+    session,
     url_for,
 )
 from flask import current_app as app
-from werkzeug.utils import secure_filename
 
-from epi_creator.functions import process_file
+from epi_creator.functions import generate_from_session
+from epi_creator.validator import validate_sheet_data, validate_pre_generation
+from epi_creator.lookup import get_lookup
 
 gh_epi_creator = Blueprint("gh_epi_creator", __name__)
+
+STEPS = [
+    "organization",
+    "medicinal-product",
+    "substance",
+    "ingredient",
+    "regulated-auth",
+    "manufactured-item",
+    "administrable-product",
+    "packaged-product",
+    "clinical-use",
+    "composition",
+    "bundle",
+]
+
+SHEET_NAMES = {
+    "organization": "Organization",
+    "medicinal-product": "MedicinalProductDefinition",
+    "substance": "Substance",
+    "ingredient": "Ingredient",
+    "regulated-auth": "RegulatedAuthorization",
+    "manufactured-item": "ManufacturedItemDefinition",
+    "administrable-product": "AdministrableProductDefinition",
+    "packaged-product": "PackagedProductDefinition",
+    "clinical-use": "ClinicalUseDefinition",
+    "composition": "Composition",
+    "bundle": "Bundle",
+}
 
 
 @gh_epi_creator.before_request
@@ -33,37 +62,210 @@ def faq():
     return render_template("faq.html")
 
 
-@gh_epi_creator.route("/download")
-def download_file():
-    path = request.args.get("filename")  # default_value is optional
-    print(path)
+@gh_epi_creator.route("/wizard/new", methods=["POST"])
+def wizard_new():
+    session.clear()
+    session["data"] = {}
+    return redirect(url_for("gh_epi_creator.wizard_step", step=STEPS[0]))
 
+
+@gh_epi_creator.route("/wizard/<step>", methods=["GET"])
+def wizard_step(step):
+    if "data" not in session:
+        session["data"] = {}
+    data = session["data"]
+    sheet_name = SHEET_NAMES.get(step)
+    rows = data.get(sheet_name, [])
+    is_single = sheet_name in (
+        "MedicinalProductDefinition",
+        "ManufacturedItemDefinition",
+        "AdministrableProductDefinition",
+    )
+
+    step_template = step.replace("-", "_") + ".html"
+    return render_template(
+        "wizard/" + step_template,
+        step=step,
+        sheet_name=sheet_name,
+        rows=rows,
+        steps=STEPS,
+        current_step=step,
+        step_title=sheet_name.replace("Definition", ""),
+        is_single=is_single,
+    )
+
+
+@gh_epi_creator.route("/wizard/<step>", methods=["POST"])
+def wizard_submit(step):
+    if "data" not in session:
+        session["data"] = {}
+    sheet_name = SHEET_NAMES.get(step)
+
+    form_data = request.form.to_dict(flat=False)
+    rows = _parse_form_rows(form_data, sheet_name)
+
+    validation_errors = validate_sheet_data(rows, sheet_name)
+
+    is_single = sheet_name in (
+        "MedicinalProductDefinition",
+        "ManufacturedItemDefinition",
+        "AdministrableProductDefinition",
+    )
+
+    if validation_errors:
+        step_template = step.replace("-", "_") + ".html"
+        return render_template(
+            "wizard/" + step_template,
+            step=step,
+            sheet_name=sheet_name,
+            rows=rows,
+            steps=STEPS,
+            current_step=step,
+            step_title=sheet_name.replace("Definition", ""),
+            errors=validation_errors,
+            is_single=is_single,
+        )
+
+    rows = _consolidate_pipe_fields(rows, sheet_name)
+    session["data"][sheet_name] = rows
+    session.modified = True
+
+    current_idx = STEPS.index(step)
+    if current_idx < len(STEPS) - 1:
+        next_step = STEPS[current_idx + 1]
+        return redirect(url_for("gh_epi_creator.wizard_step", step=next_step))
+
+    return redirect(url_for("gh_epi_creator.wizard_step", step="bundle"))
+
+
+@gh_epi_creator.route("/wizard/generate", methods=["POST"])
+def wizard_generate():
+    if "data" not in session or not session["data"]:
+        return "<div class='alert alert-danger'>No data to generate. Please fill in the forms first.</div>"
+
+    pre_gen_errors = validate_pre_generation(session["data"])
+    if pre_gen_errors:
+        items = "".join(f"<li>{e}</li>" for e in pre_gen_errors)
+        return f"<div class='alert alert-danger'><ul>{items}</ul></div>"
+
+    productname = "epi-product"
+    mp = session["data"].get("MedicinalProductDefinition", [{}])
+    if mp and mp[0].get("productname"):
+        productname = mp[0]["productname"].replace(" ", "_")
+
+    try:
+        zip_path = generate_from_session(session["data"], productname)
+        download_url = url_for(
+            "gh_epi_creator.wizard_download", filename=os.path.basename(zip_path)
+        )
+        return f"<div class='generated-link'><a href='{download_url}' class='btn btn-primary' download>Download Results (ZIP)</a></div>"
+    except Exception as e:
+        return f"<div class='alert alert-danger'>Generation failed: {str(e)}</div>"
+
+
+@gh_epi_creator.route("/wizard/download")
+def wizard_download():
+    filename = request.args.get("filename", "")
+    directory = os.path.dirname(filename)
+    if not directory:
+        directory = "."
     return send_from_directory(
-        directory=os.path.dirname(path),
-        path=os.path.basename(path),
+        directory=directory,
+        path=os.path.basename(filename),
         as_attachment=True,
     )
 
 
-@gh_epi_creator.route("/upload", methods=["GET", "POST"])
-def upload_file():
-    if request.method == "POST":
-        # check if the post request has the file part
-        if "file" not in request.files:
-            flash("No file part")
-            return redirect(request.url)
-        file = request.files["file"]
-        # if user does not select file, browser also submits an empty part without filename
-        if file.filename == "":
-            flash("No selected file")
-            return redirect(request.url)
-        if file:
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-            result = process_file(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-            print(result)
-            return jsonify(
-                downloadUrl=url_for(
-                    "gh_epi_creator.download_file", filename=os.path.basename(result)
-                )
-            )
+@gh_epi_creator.route("/api/lookup/<category>", methods=["GET"])
+def api_lookup(category):
+    q = request.args.get("q", "").lower()
+    items = get_lookup(category)
+
+    if q:
+        items = [i for i in items if q in str(i).lower()]
+
+    result = []
+    for item in items[:50]:
+        if isinstance(item, dict):
+            result.append(item)
+        else:
+            result.append({"label": str(item), "value": str(item)})
+    return jsonify(result)
+
+
+def _parse_form_rows(form_data, sheet_name):
+    rows = []
+
+    row_counts = []
+    for k, v in form_data.items():
+        if k.startswith("row_count"):
+            try:
+                row_counts.append(int(v[0]))
+            except (ValueError, TypeError):
+                pass
+
+    max_rows = max(row_counts) if row_counts else 1
+
+    for i in range(max_rows):
+        row = {}
+        suffix = "_" + str(i)
+        for key, values in form_data.items():
+            if key.startswith("row_count"):
+                continue
+            if key.endswith(suffix):
+                col_name = key[: -len(suffix)]
+                row[col_name] = values[0] if values else ""
+        if row:
+            rows.append(row)
+
+    if not rows and max_rows == 1:
+        row = {}
+        for key, values in form_data.items():
+            if key.startswith("row_count"):
+                continue
+            row[key] = values[0] if values else ""
+        if row:
+            rows.append(row)
+
+    return rows
+
+
+def _consolidate_pipe_fields(rows, sheet_name):
+    if sheet_name == "MedicinalProductDefinition":
+        for row in rows:
+            id_systems = []
+            id_values = []
+            cls_ids = []
+            cls_texts = []
+            for k, v in sorted(row.items()):
+                if k.startswith("identifier_system_0_p"):
+                    id_systems.append(v)
+                elif k.startswith("identifier_value_0_p"):
+                    id_values.append(v)
+                elif k.startswith("classification_ids_0_p"):
+                    cls_ids.append(v)
+                elif k.startswith("classification_texts_0_p"):
+                    cls_texts.append(v)
+            if id_systems or id_values:
+                row["identifier_system"] = "|".join(filter(None, id_systems))
+                row["identifier_value"] = "|".join(filter(None, id_values))
+            if cls_ids or cls_texts:
+                row["classification_ids"] = "|".join(filter(None, cls_ids))
+                row["classification_texts"] = "|".join(filter(None, cls_texts))
+            for k in list(row.keys()):
+                if "_0_p" in k:
+                    del row[k]
+    return rows
+
+
+# ---- keep download endpoint for backward compat / template download ----
+@gh_epi_creator.route("/download")
+def download_file():
+    path = request.args.get("filename", "")
+    if not path:
+        return "No filename", 400
+    return send_from_directory(
+        directory=os.path.dirname(path) if os.path.dirname(path) else ".",
+        path=os.path.basename(path),
+        as_attachment=True,
+    )
