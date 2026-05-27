@@ -1,13 +1,12 @@
 from os import listdir, getcwd, mkdir, path, walk, makedirs
 from os.path import exists
-from jinja2 import Environment, FileSystemLoader, Template
+from jinja2 import Environment, FileSystemLoader
 import pandas as pd
 import uuid
 import re
 from datetime import datetime
 
 import hashlib
-from html import unescape
 import shutil
 import subprocess
 from zipfile import ZipFile
@@ -39,66 +38,6 @@ def add_folder_to_zip(zipfile, folder_path, arcname):
                 filepath,
                 arcname=path.join(arcname, path.relpath(filepath, folder_path)),
             )
-
-
-def process_file(uploaded_file):
-    print(uploaded_file)
-    temp_folder = getcwd() + "/temp/"
-    print(temp_folder)
-    if not exists(temp_folder):
-        mkdir(temp_folder)
-
-    zip_folder = getcwd() + "/output/"
-    if exists(zip_folder):
-        shutil.rmtree(zip_folder)
-    mkdir(zip_folder)
-
-    real_output_folder = getcwd() + "/input/fsh/examples/"
-    print(real_output_folder)
-    makedirs("input", exist_ok=True)
-    makedirs("input/fsh", exist_ok=True)
-    makedirs(real_output_folder, exist_ok=True)
-
-    # if not exists(real_output_folder):
-    #    mkdir(real_output_folder)
-    download_folder = "downloads/"
-    if not exists(download_folder):
-        mkdir(download_folder)
-
-    templates_folder = "templates/"
-
-    major_name = uploaded_file.split("/")[-1].replace(" ", "_").replace(".xlsx", "")
-    print(major_name)
-    env = create_env(templates_folder)
-
-    create_from_template(
-        env,
-        uploaded_file,
-        templates_folder,
-        real_output_folder,
-        major_name=major_name,
-    )
-    # zip folder
-    # csv = convert_df(my_large_df)
-
-    result = subprocess.run(["sushi", "."], stdout=subprocess.PIPE)
-    # system("sushi .")
-    f = open(download_folder + "/" + "result.txt", "w")
-    f.write(result.stdout.decode("utf-8"))
-    f.close()
-
-    # result.stdout
-    for json_file in listdir("fsh-generated/resources"):
-        if json_file.startswith("Bundle"):
-            shutil.move("fsh-generated/resources/" + json_file, zip_folder)
-
-    zip_file_name = "epi_creator/" + major_name + "_results.zip"
-    with ZipFile(zip_file_name, "w") as myzipfile:
-        add_folder_to_zip(myzipfile, zip_folder, "json-files")
-        add_folder_to_zip(myzipfile, real_output_folder, "fsh-files")
-        add_folder_to_zip(myzipfile, download_folder, "result")
-
-    return zip_file_name
 
 
 def create_env(TEMPLATE_FOLDER):
@@ -384,25 +323,7 @@ def create_from_template(env, DATA_FILE, TEMPLATE_FOLDER, OUTPUT_FOLDER, major_n
         t = env.get_template(n_file + ".fsh")
 
         df = pd.read_csv(temp_folder + file, index_col=0)
-        # print(df)
         df = df.astype(str)
         data["data"] = df
         data["turn"] = "2"
         t.stream(data=data, **context).dump(OUTPUT_FOLDER + n_file + ".fsh")
-
-
-if __name__ == "__main__":
-    major_name = DATA_FILE.lower().split("/")[-1].split(".")[0].replace(" ", "_")
-    real_output_folder = OUTPUT_FOLDER + major_name + "-ema-automatic/"
-
-    env = create_env(TEMPLATE_FOLDER=TEMPLATE_FOLDER)
-    create_from_template(
-        env,
-        DATA_FILE=DATA_FILE,
-        TEMPLATE_FOLDER=TEMPLATE_FOLDER,
-        OUTPUT_FOLDER=real_output_folder,
-        major_name=major_name,
-    )
-    quality_checks(
-        DATA_FILE=DATA_FILE, OUTPUT_FOLDER=real_output_folder, major_name=major_name
-    )
