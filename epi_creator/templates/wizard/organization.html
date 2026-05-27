@@ -1,0 +1,130 @@
+{% extends "wizard/base.html" %}
+{% block content %}
+<h2>Organization</h2>
+<p class="section-description">Define the organizations involved (MAH, manufacturer, regulator, etc.). Add one row per organization.</p>
+
+<form method="post"
+      hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
+      hx-target="body" hx-swap="outerHTML">
+    <input type="hidden" name="row_count" value="{{ rows|length if rows else 1 }}">
+
+    <div id="org-rows">
+        {% set row_list = rows if rows and rows|length > 0 else [{}] %}
+        {% for row in row_list %}
+        <div class="card-entry mb-3">
+            <div class="card-entry-header">
+                <strong>Organization #{{ loop.index }}</strong>
+                <button type="button" class="btn btn-sm btn-outline-danger"
+                        onclick="this.closest('.card-entry').remove(); updateOrgCount();"
+                        {% if row_list|length <= 1 and loop.index0 == 0 %}style="display:none"{% endif %}>
+                    Remove
+                </button>
+            </div>
+            <div class="row g-2">
+                <div class="col-md-4">
+                    <label class="form-label">Name *</label>
+                    <input class="form-control {{ 'field-error' if errors else '' }}"
+                           name="name_{{ loop.index0 }}" value="{{ row.get('name','') }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Identifier</label>
+                    <input class="form-control" name="identifier_{{ loop.index0 }}" value="{{ row.get('identifier','') }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Organization Type *</label>
+                    <select class="form-select" name="type_{{ loop.index0 }}">
+                        <option value="">-- Select --</option>
+                        {% set types = ['Marketing Authorisation Holder','Medicines Regulatory Authority','Manufacturer','Master File Holder','Contact Location','Manufacturer Batch Release','Manufacturer API'] %}
+                        {% for t in types %}
+                        <option value="{{ t }}" {% if row.get('type','') == t %}selected{% endif %}>{{ t }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Type ID</label>
+                    <input class="form-control" name="typeID_{{ loop.index0 }}" value="{{ row.get('typeID','') }}" placeholder="auto-filled">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Address Line</label>
+                    <input class="form-control" name="address_line_{{ loop.index0 }}" value="{{ row.get('address_line','') }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">City</label>
+                    <input class="form-control" name="address_city_{{ loop.index0 }}" value="{{ row.get('address_city','') }}">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Country</label>
+                    <input class="form-control" name="address_country_{{ loop.index0 }}" value="{{ row.get('address_country','') }}">
+                </div>
+                <div class="col-md-1">
+                    <label class="form-label">Postal Code</label>
+                    <input class="form-control" name="address_postalCode_{{ loop.index0 }}" value="{{ row.get('address_postalCode','') }}">
+                </div>
+                <input type="hidden" name="id_{{ loop.index0 }}" value="{{ row.get('id','') }}">
+            </div>
+            {% if errors %}
+                {% for e_idx, e_msgs in errors %}
+                    {% if e_idx == loop.index0 %}
+                        {% for msg in e_msgs %}
+                            <div class="error-message">{{ msg }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <button type="button" class="btn btn-sm btn-outline-secondary mb-3" onclick="addOrgRow()">+ Add Organization</button>
+
+    <div class="d-flex justify-content-between mt-3">
+        {% if steps.index(step) > 0 %}
+        <a href="{{ url_for('gh_epi_creator.wizard_step', step=steps[steps.index(step)-1]) }}" class="btn btn-outline-secondary btn-nav">Back</a>
+        {% else %}
+        <span></span>
+        {% endif %}
+        <button type="submit" class="btn btn-primary btn-nav">Save &amp; Next</button>
+    </div>
+</form>
+
+<script>
+let orgRowCount = {{ row_list|length if row_list else 1 }};
+function addOrgRow() {
+    const container = document.getElementById('org-rows');
+    const div = document.createElement('div');
+    div.className = 'card-entry mb-3';
+    div.id = 'org-row-' + orgRowCount;
+    div.innerHTML = `<div class="card-entry-header">
+        <strong>Organization #${orgRowCount + 1}</strong>
+        <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateOrgCount();">Remove</button>
+    </div>
+    <div class="row g-2">
+        <div class="col-md-4"><label class="form-label">Name *</label><input class="form-control" name="name_${orgRowCount}"></div>
+        <div class="col-md-3"><label class="form-label">Identifier</label><input class="form-control" name="identifier_${orgRowCount}"></div>
+        <div class="col-md-3"><label class="form-label">Organization Type *</label><select class="form-select" name="type_${orgRowCount}"><option value="">-- Select --</option><option>Marketing Authorisation Holder</option><option>Medicines Regulatory Authority</option><option>Manufacturer</option><option>Master File Holder</option><option>Contact Location</option><option>Manufacturer Batch Release</option><option>Manufacturer API</option></select></div>
+        <div class="col-md-2"><label class="form-label">Type ID</label><input class="form-control" name="typeID_${orgRowCount}" placeholder="auto-filled"></div>
+        <div class="col-md-6"><label class="form-label">Address Line</label><input class="form-control" name="address_line_${orgRowCount}"></div>
+        <div class="col-md-3"><label class="form-label">City</label><input class="form-control" name="address_city_${orgRowCount}"></div>
+        <div class="col-md-2"><label class="form-label">Country</label><input class="form-control" name="address_country_${orgRowCount}"></div>
+        <div class="col-md-1"><label class="form-label">Postal Code</label><input class="form-control" name="address_postalCode_${orgRowCount}"></div>
+        <input type="hidden" name="id_${orgRowCount}">
+    </div>`;
+    container.appendChild(div);
+    orgRowCount++;
+    updateOrgCount();
+}
+function updateOrgCount() {
+    const rows = document.querySelectorAll('#org-rows .card-entry');
+    document.querySelector('input[name="row_count"]').value = rows.length;
+    rows.forEach((r, i) => {
+        r.id = 'org-row-' + i;
+        const h = r.querySelector('strong');
+        if (h) h.textContent = 'Organization #' + (i + 1);
+        r.querySelectorAll('input, select').forEach(el => {
+            el.name = el.name.replace(/_\d+$/, '_' + i);
+        });
+    });
+    orgRowCount = rows.length;
+}
+</script>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "wizard/base.html" %}
+{% block content %}
+<h2>Manufactured Item Definition</h2>
+<p class="section-description">Manufactured item details. Exactly one entry.</p>
+
+<form method="post"
+      hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
+      hx-target="body" hx-swap="outerHTML">
+    <input type="hidden" name="row_count" value="1">
+    {% set row = rows[0] if rows and rows|length > 0 else {} %}
+    <div class="row g-2 mb-3">
+        <div class="col-md-4"><label class="form-label">Identifier *</label><input class="form-control" name="identifier_0" value="{{ row.get('identifier','') }}"></div>
+        <div class="col-md-4"><label class="form-label">Dose Form</label><input class="form-control" name="doseForm_0" value="{{ row.get('doseForm','') }}"></div>
+        <div class="col-md-4"><label class="form-label">Dose Form ID</label><input class="form-control" name="doseFormID_0" value="{{ row.get('doseFormID','') }}"></div>
+        <div class="col-md-4"><label class="form-label">Unit Presentation</label><input class="form-control" name="unit_presentation_0" value="{{ row.get('unit_presentation','') }}"></div>
+        <div class="col-md-4"><label class="form-label">Unit Presentation ID</label><input class="form-control" name="unit_presentationID_0" value="{{ row.get('unit_presentationID','') }}"></div>
+    </div>
+    <input type="hidden" name="id_0" value="{{ row.get('id','') }}">
+
+    {% if errors %}{% for e_idx, e_msgs in errors %}{% for msg in e_msgs %}<div class="error-message">{{ msg }}</div>{% endfor %}{% endfor %}{% endif %}
+
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{{ url_for('gh_epi_creator.wizard_step', step=steps[steps.index(step)-1]) }}" class="btn btn-outline-secondary btn-nav">Back</a>
+        <button type="submit" class="btn btn-primary btn-nav">Save &amp; Next</button>
+    </div>
+</form>
+{% endblock %}

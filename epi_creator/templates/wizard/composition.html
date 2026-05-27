@@ -1,0 +1,56 @@
+{% extends "wizard/base.html" %}
+{% block content %}
+<h2>Composition (ePI Document)</h2>
+<p class="section-description">ePI document composition with leaflet sections. Add one per language.</p>
+
+<form method="post"
+      hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
+      hx-target="body" hx-swap="outerHTML">
+    <input type="hidden" name="row_count" value="{{ rows|length if rows else 1 }}">
+
+    <div id="rows">
+        {% set row_list = rows if rows and rows|length > 0 else [{}] %}
+        {% for row in row_list %}
+        <div class="card-entry mb-3">
+            <div class="card-entry-header">
+                <strong>Composition #{{ loop.index }}</strong>
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button>
+            </div>
+            <div class="row g-2">
+                <div class="col-md-4"><label class="form-label">Name</label><input class="form-control" name="name_{{ loop.index0 }}" value="{{ row.get('name','') }}"></div>
+                <div class="col-md-2"><label class="form-label">Language *</label><input class="form-control" name="language_{{ loop.index0 }}" value="{{ row.get('language','en') }}"></div>
+                <div class="col-md-3"><label class="form-label">Date</label><input type="date" class="form-control" name="date_{{ loop.index0 }}" value="{{ row.get('date','') }}"></div>
+                <div class="col-md-3"><label class="form-label">Identifier System</label><input class="form-control" name="identifier_system_{{ loop.index0 }}" value="{{ row.get('identifier_system','') }}"></div>
+                <input type="hidden" name="identifier_{{ loop.index0 }}" value="{{ row.get('identifier','') }}">
+            </div>
+            <hr>
+            <div class="row g-2">
+                <div class="col-md-6"><label class="form-label">Package Leaflet (HTML)</label><textarea class="form-control" name="package_leaflet_{{ loop.index0 }}" rows="3">{{ row.get('package_leaflet','') }}</textarea></div>
+                <div class="col-md-6"><label class="form-label">Information for the User</label><textarea class="form-control" name="information_user_{{ loop.index0 }}" rows="3">{{ row.get('information_user','') }}</textarea></div>
+                <div class="col-md-6"><label class="form-label">What is in this leaflet</label><textarea class="form-control" name="what_in_leaflet_{{ loop.index0 }}" rows="3">{{ row.get('what_in_leaflet','') }}</textarea></div>
+                <div class="col-md-6"><label class="form-label">What the product is</label><textarea class="form-control" name="what_product_is_{{ loop.index0 }}" rows="3">{{ row.get('what_product_is','') }}</textarea></div>
+                <div class="col-md-6"><label class="form-label">Before you take</label><textarea class="form-control" name="before_take_{{ loop.index0 }}" rows="3">{{ row.get('before_take','') }}</textarea></div>
+                <div class="col-md-6"><label class="form-label">How to take</label><textarea class="form-control" name="how_to_take_{{ loop.index0 }}" rows="3">{{ row.get('how_to_take','') }}</textarea></div>
+                <div class="col-md-6"><label class="form-label">Side Effects</label><textarea class="form-control" name="side_effects_{{ loop.index0 }}" rows="3">{{ row.get('side_effects','') }}</textarea></div>
+                <div class="col-md-6"><label class="form-label">How to Store</label><textarea class="form-control" name="how_to_store_{{ loop.index0 }}" rows="3">{{ row.get('how_to_store','') }}</textarea></div>
+                <div class="col-md-6"><label class="form-label">Other Information</label><textarea class="form-control" name="other_info_{{ loop.index0 }}" rows="3">{{ row.get('other_info','') }}</textarea></div>
+                <input type="hidden" name="id_{{ loop.index0 }}" value="{{ row.get('id','') }}">
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <button type="button" class="btn btn-sm btn-outline-secondary mb-3" onclick="addRow()">+ Add Composition</button>
+
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{{ url_for('gh_epi_creator.wizard_step', step=steps[steps.index(step)-1]) }}" class="btn btn-outline-secondary btn-nav">Back</a>
+        <button type="submit" class="btn btn-primary btn-nav">Save &amp; Next</button>
+    </div>
+</form>
+
+<script>
+let rc = {{ row_list|length if row_list else 1 }};
+function addRow() { const c=document.getElementById('rows'), d=document.createElement('div'); d.className='card-entry mb-3'; d.innerHTML=`<div class="card-entry-header"><strong>Composition #${rc+1}</strong><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove();updateRowCount()">Remove</button></div><div class="row g-2"><div class="col-md-4"><label class="form-label">Name</label><input class="form-control" name="name_${rc}"></div><div class="col-md-2"><label class="form-label">Language *</label><input class="form-control" name="language_${rc}" value="en"></div><div class="col-md-3"><label class="form-label">Date</label><input type="date" class="form-control" name="date_${rc}"></div><div class="col-md-3"><label class="form-label">Identifier System</label><input class="form-control" name="identifier_system_${rc}"></div><input type="hidden" name="identifier_${rc}"></div><hr><div class="row g-2"><div class="col-md-6"><label class="form-label">Package Leaflet (HTML)</label><textarea class="form-control" name="package_leaflet_${rc}" rows="3"></textarea></div><div class="col-md-6"><label class="form-label">Information for the User</label><textarea class="form-control" name="information_user_${rc}" rows="3"></textarea></div><div class="col-md-6"><label class="form-label">What is in this leaflet</label><textarea class="form-control" name="what_in_leaflet_${rc}" rows="3"></textarea></div><div class="col-md-6"><label class="form-label">What the product is</label><textarea class="form-control" name="what_product_is_${rc}" rows="3"></textarea></div><div class="col-md-6"><label class="form-label">Before you take</label><textarea class="form-control" name="before_take_${rc}" rows="3"></textarea></div><div class="col-md-6"><label class="form-label">How to take</label><textarea class="form-control" name="how_to_take_${rc}" rows="3"></textarea></div><div class="col-md-6"><label class="form-label">Side Effects</label><textarea class="form-control" name="side_effects_${rc}" rows="3"></textarea></div><div class="col-md-6"><label class="form-label">How to Store</label><textarea class="form-control" name="how_to_store_${rc}" rows="3"></textarea></div><div class="col-md-6"><label class="form-label">Other Information</label><textarea class="form-control" name="other_info_${rc}" rows="3"></textarea></div><input type="hidden" name="id_${rc}"></div>`; c.appendChild(d); rc++; updateRowCount(); }
+function updateRowCount() { const rows = document.querySelectorAll('#rows .card-entry'); document.querySelector('input[name="row_count"]').value = rows.length; rows.forEach((r,i) => { r.querySelector('strong').textContent='Composition #'+(i+1); r.querySelectorAll('input,textarea').forEach(el => el.name = el.name.replace(/_\d+$/,'_'+i)); }); rc=rows.length; }
+</script>
+{% endblock %}

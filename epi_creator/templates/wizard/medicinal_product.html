@@ -1,0 +1,133 @@
+{% extends "wizard/base.html" %}
+{% block content %}
+<h2>Medicinal Product Definition</h2>
+<p class="section-description">Core details of the medicinal product. Exactly one entry.</p>
+
+<form method="post"
+      hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
+      hx-target="body" hx-swap="outerHTML">
+    <input type="hidden" name="row_count" value="1">
+    {% set row = rows[0] if rows and rows|length > 0 else {} %}
+    <div class="row g-2 mb-3">
+        <div class="col-md-6">
+            <label class="form-label">Product Name *</label>
+            <input class="form-control {{ 'field-error' if errors else '' }}" name="productname_0" value="{{ row.get('productname','') }}">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Invented Name Part</label>
+            <input class="form-control" name="inventedNamePart_0" value="{{ row.get('inventedNamePart','') }}">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Scientific Name Part</label>
+            <input class="form-control" name="ScientificNamePart_0" value="{{ row.get('ScientificNamePart','') }}">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Strength Part</label>
+            <input class="form-control" name="StrengthPart_0" value="{{ row.get('StrengthPart','') }}">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Pharmaceutical Dose Part</label>
+            <input class="form-control" name="PharmaceuticalDosePart_0" value="{{ row.get('PharmaceuticalDosePart','') }}">
+        </div>
+    </div>
+    <div class="row g-2 mb-3">
+        <div class="col-md-4">
+            <label class="form-label">Country</label>
+            <input class="form-control" name="country_0" value="{{ row.get('country','') }}">
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Country Code</label>
+            <input class="form-control" name="countryCode_0" value="{{ row.get('countryCode','') }}" placeholder="e.g. EU">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Language</label>
+            <input class="form-control" name="language_0" value="{{ row.get('language','') }}" placeholder="e.g. English">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Language ID</label>
+            <input class="form-control" name="languageID_0" value="{{ row.get('languageID','') }}" placeholder="e.g. en">
+        </div>
+    </div>
+    <div class="row g-2 mb-3">
+        <div class="col-md-4">
+            <label class="form-label">Status Supply</label>
+            <input class="form-control" name="statusSuply_0" value="{{ row.get('statusSuply','') }}">
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Status Supply ID</label>
+            <input class="form-control" name="statusSuplyID_0" value="{{ row.get('statusSuplyID','') }}">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Indication (narrative text)</label>
+            <textarea class="form-control" name="indication_0" rows="3">{{ row.get('indication','') }}</textarea>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Identifiers (pipe-separated)</label>
+        <div id="id-container">
+            {% set id_systems = (row.get('identifier_system','') or '').split('|') %}
+            {% set id_values = (row.get('identifier_value','') or '').split('|') %}
+            {% set max_id = [id_systems|length, id_values|length, 1]|max %}
+            {% for i in range(max_id) %}
+            <div class="input-group mb-1 pipe-group">
+                <input class="form-control" name="identifier_system_0_p{{ i }}" value="{{ id_systems[i] if i < id_systems|length else '' }}" placeholder="System URI">
+                <input class="form-control" name="identifier_value_0_p{{ i }}" value="{{ id_values[i] if i < id_values|length else '' }}" placeholder="Value">
+                <button type="button" class="btn btn-outline-danger" onclick="this.closest('.pipe-group').remove()">x</button>
+            </div>
+            {% endfor %}
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="addPipeRow('id')">+ Add Identifier</button>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">ATC Classifications (pipe-separated)</label>
+        <div id="class-container">
+            {% set cls_ids = (row.get('classification_ids','') or '').split('|') %}
+            {% set cls_texts = (row.get('classification_texts','') or '').split('|') %}
+            {% set max_cls = [cls_ids|length, cls_texts|length, 1]|max %}
+            {% for i in range(max_cls) %}
+            <div class="input-group mb-1 pipe-group">
+                <input class="form-control" name="classification_ids_0_p{{ i }}" value="{{ cls_ids[i] if i < cls_ids|length else '' }}" placeholder="ATC Code">
+                <input class="form-control" name="classification_texts_0_p{{ i }}" value="{{ cls_texts[i] if i < cls_texts|length else '' }}" placeholder="Text">
+                <button type="button" class="btn btn-outline-danger" onclick="this.closest('.pipe-group').remove()">x</button>
+            </div>
+            {% endfor %}
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="addPipeRow('class')">+ Add Classification</button>
+    </div>
+
+    <input type="hidden" name="id_0" value="{{ row.get('id','') }}">
+
+    {% if errors %}
+        {% for e_idx, e_msgs in errors %}
+            {% for msg in e_msgs %}
+                <div class="error-message">{{ msg }}</div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+    <div class="d-flex justify-content-between mt-4">
+        {% if steps.index(step) > 0 %}
+        <a href="{{ url_for('gh_epi_creator.wizard_step', step=steps[steps.index(step)-1]) }}" class="btn btn-outline-secondary btn-nav">Back</a>
+        {% else %}
+        <span></span>
+        {% endif %}
+        <button type="submit" class="btn btn-primary btn-nav">Save &amp; Next</button>
+    </div>
+</form>
+
+<script>
+let pipeCounters = { id: {{ max_id|default(0) }}, class: {{ max_cls|default(0) }} };
+function addPipeRow(type) {
+    pipeCounters[type] = (pipeCounters[type] || 0) + 1;
+    const i = pipeCounters[type];
+    const cid = type === 'id' ? 'id-container' : 'class-container';
+    const prefix = type === 'id' ? 'identifier' : 'classification';
+    const div = document.createElement('div');
+    div.className = 'input-group mb-1 pipe-group';
+    div.innerHTML = `<input class="form-control" name="${prefix}_system_0_p${i}" placeholder="System/Code"><input class="form-control" name="${prefix}_value_0_p${i}" placeholder="Value/Text"><button type="button" class="btn btn-outline-danger" onclick="this.closest('.pipe-group').remove()">x</button>`;
+    document.getElementById(cid).appendChild(div);
+}
+</script>
+{% endblock %}
