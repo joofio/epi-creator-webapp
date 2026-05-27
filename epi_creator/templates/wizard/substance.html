@@ -4,7 +4,7 @@
 <p class="section-description">Define the active substance(s). Add one row per substance.</p>
 
 <form method="post"
-      hx-target="#wizard-container" hx-swap="outerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
+      hx-target="#wizard-container" hx-swap="innerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
     <input type="hidden" name="row_count" value="{{ rows|length if rows else 1 }}">
 
