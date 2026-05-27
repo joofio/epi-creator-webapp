@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ePI Creator — {{ step_title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+            crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    <style>
+        .wizard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        .wizard-sidebar {
+            width: 280px;
+            background: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            padding: 20px 15px;
+            flex-shrink: 0;
+        }
+        .wizard-sidebar .step {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            margin-bottom: 4px;
+            border-radius: 6px;
+            font-size: 14px;
+            text-decoration: none;
+            color: #6c757d;
+            transition: background 0.15s;
+        }
+        .wizard-sidebar .step.active {
+            background: #0d6efd;
+            color: #fff;
+            font-weight: 600;
+        }
+        .wizard-sidebar .step.completed {
+            color: #198754;
+            cursor: pointer;
+        }
+        .wizard-sidebar .step.completed:hover {
+            background: #e9ecef;
+        }
+        .wizard-sidebar .step.pending {
+            color: #adb5bd;
+            pointer-events: none;
+        }
+        .wizard-sidebar .step-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #dee2e6;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .wizard-sidebar .step.active .step-icon {
+            background: #fff;
+            color: #0d6efd;
+        }
+        .wizard-sidebar .step.completed .step-icon {
+            background: #198754;
+            color: #fff;
+        }
+        .wizard-main {
+            flex: 1;
+            padding: 30px 40px;
+            overflow-y: auto;
+        }
+        .wizard-main h2 {
+            margin-bottom: 6px;
+        }
+        .wizard-main .section-description {
+            color: #6c757d;
+            margin-bottom: 24px;
+        }
+        .wizard-main form {
+            max-width: 1100px;
+        }
+        .btn-nav {
+            min-width: 100px;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+        .field-error {
+            border-color: #dc3545 !important;
+        }
+        .autocomplete-wrapper {
+            position: relative;
+        }
+        .autocomplete-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: #fff;
+            border: 1px solid #ced4da;
+            border-top: none;
+            max-height: 200px;
+            overflow-y: auto;
+            border-radius: 0 0 6px 6px;
+        }
+        .autocomplete-dropdown .item {
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .autocomplete-dropdown .item:hover {
+            background: #e9ecef;
+        }
+        .pipe-group {
+            margin-bottom: 6px;
+        }
+        .pipe-group .input-group {
+            margin-bottom: 4px;
+        }
+        .card-entry {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .card-entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .generated-link {
+            display: block;
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: #d1e7dd;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+<div class="wizard-container">
+    {% include 'wizard/_sidebar.html' %}
+    <div class="wizard-main">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+</body>
+</html>

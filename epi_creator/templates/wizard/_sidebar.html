@@ -1,0 +1,54 @@
+<div class="wizard-sidebar" id="wizard-sidebar" hx-swap-oob="true">
+    <h5 style="margin-bottom:16px;font-weight:700">ePI Creator</h5>
+
+    {% set all_steps = [
+        ('organization', '1. Organization'),
+        ('medicinal-product', '2. Medicinal Product'),
+        ('substance', '3. Substance'),
+        ('ingredient', '4. Ingredient'),
+        ('regulated-auth', '5. Regulated Auth'),
+        ('manufactured-item', '6. Manufactured Item'),
+        ('administrable-product', '7. Administrable Product'),
+        ('packaged-product', '8. Packaged Product'),
+        ('clinical-use', '9. Clinical Use'),
+        ('composition', '10. Composition'),
+        ('bundle', '11. Bundle'),
+    ] %}
+
+    {% set current_index = steps.index(current_step) if current_step in steps else 0 %}
+
+    {% for step_key, step_label in all_steps %}
+        {% set idx = loop.index0 %}
+        {% if idx < current_index %}
+            {% set state = 'completed' %}
+            {% set icon = '&#10003;' %}
+        {% elif idx == current_index %}
+            {% set state = 'active' %}
+            {% set icon = loop.index|string %}
+        {% else %}
+            {% set state = 'pending' %}
+            {% set icon = loop.index|string %}
+        {% endif %}
+        <a href="{{ url_for('gh_epi_creator.wizard_step', step=step_key) }}"
+           class="step {{ state }}">
+            <span class="step-icon">{{ icon|safe }}</span>
+            {{ step_label }}
+        </a>
+    {% endfor %}
+
+    {% set data_count = session.get('data', {})|length %}
+    <button id="generate-btn"
+            class="btn btn-success generate-btn w-100"
+            hx-post="{{ url_for('gh_epi_creator.wizard_generate') }}"
+            hx-target="#generate-result"
+            hx-swap="innerHTML"
+            hx-indicator="#generate-spinner"
+            style="margin-top:20px"
+            {% if data_count < 11 %}disabled{% endif %}>
+        Generate FHIR Package
+    </button>
+    <div id="generate-spinner" class="htmx-indicator text-center mt-2" style="font-size:13px;color:#6c757d">
+        Processing...
+    </div>
+    <div id="generate-result" class="mt-2"></div>
+</div>
