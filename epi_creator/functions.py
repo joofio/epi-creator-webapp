@@ -1,15 +1,15 @@
-from os import listdir, getcwd, mkdir, path, walk, makedirs
-from os.path import exists
-from jinja2 import Environment, FileSystemLoader
-import pandas as pd
-import uuid
-import re
-from datetime import datetime
-
 import hashlib
+import re
 import shutil
 import subprocess
+import uuid
+from datetime import datetime
+from os import getcwd, listdir, makedirs, mkdir, path, walk
+from os.path import exists
 from zipfile import ZipFile
+
+import pandas as pd
+from jinja2 import Environment, FileSystemLoader
 
 context = {"now": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")}
 CANONICAL_URL = "http://hl7.eu/fhir/ig/gravitate-health/"
@@ -104,8 +104,15 @@ def create_from_session(env, session_data, TEMPLATE_FOLDER, OUTPUT_FOLDER, major
     dataframes = build_dataframes(session_data)
 
     productname = "product"
-    if "MedicinalProductDefinition" in dataframes and len(dataframes["MedicinalProductDefinition"]) > 0:
-        productname = str(dataframes["MedicinalProductDefinition"].iloc[0].get("productname", "product"))
+    if (
+        "MedicinalProductDefinition" in dataframes
+        and len(dataframes["MedicinalProductDefinition"]) > 0
+    ):
+        productname = str(
+            dataframes["MedicinalProductDefinition"]
+            .iloc[0]
+            .get("productname", "product")
+        )
 
     data_dict = {
         "MajorName": major_name,
