@@ -2,9 +2,14 @@ import pandas as pd
 import os
 
 _lookups = {}
+_loaded = False
 
 
 def load_lookups(excel_path="acmeDrug_1.xlsx"):
+    global _loaded
+    if _loaded:
+        return
+    _loaded = True
     if not os.path.exists(excel_path):
         print(f"WARNING: lookup file {excel_path} not found, lookups will be empty")
         return

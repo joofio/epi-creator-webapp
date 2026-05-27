@@ -70,19 +70,18 @@ def create_app():
     stderr_logger.setLevel(logging.ERROR)
     stderr_logger.addHandler(stderr_handler)
 
-    # Redirect print() and uncaught exceptions
-    sys.stdout = StreamToLogger(stdout_logger, logging.INFO)
-    sys.stderr = StreamToLogger(stderr_logger, logging.ERROR)
-    # Example log
-    app.logger.info("Starting GH EPI Creator app")
-
     from .views import gh_epi_creator
     from . import lookup as lookup_module
-
-    lookup_module.load_lookups()
 
     app.register_blueprint(gh_epi_creator, url_prefix="/gh-epi-creator")
     app.config["UPLOAD_FOLDER"] = "./"
     app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # 16 MB limit
+
+    lookup_module.load_lookups()
+
+    if os.environ.get("LOG_TO_FILES"):
+        sys.stdout = StreamToLogger(stdout_logger, logging.INFO)
+        sys.stderr = StreamToLogger(stderr_logger, logging.ERROR)
+    app.logger.info("Starting GH EPI Creator app")
 
     return app
