@@ -144,4 +144,5 @@ results.txt
 .vscode/
 epi-creator-venv/
 .superpowers/
-flask_session/.venv/
+flask_session/
+.venv/

@@ -151,7 +151,7 @@
         }
     </style>
 </head>
-<body>
+<body hx-select=".wizard-container" hx-target="body" hx-swap="innerHTML">
 <div class="wizard-container">
     {% include 'wizard/_sidebar.html' %}
     <div class="wizard-main">

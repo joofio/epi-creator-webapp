@@ -5,7 +5,7 @@
 
 <form method="post"
       hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
-      hx-target="body" hx-swap="outerHTML">
+      >
     <input type="hidden" name="row_count" value="{{ rows|length if rows else 1 }}">
 
     <div id="ingredient-rows">
