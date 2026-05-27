@@ -2,4 +2,6 @@ pandas
 openpyxl==3.1.0
 gunicorn
 flask
+flask-session
+cachelib
 

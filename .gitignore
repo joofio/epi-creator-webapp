@@ -143,3 +143,5 @@ results.txt
 
 .vscode/
 epi-creator-venv/
+.superpowers/
+flask_session/
