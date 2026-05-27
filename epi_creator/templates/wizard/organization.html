@@ -1,10 +1,10 @@
-{% extends "wizard/base.html" %}
+{% extends base_template %}
 {% block content %}
 <h2>Organization</h2>
 <p class="section-description">Define the organizations involved (MAH, manufacturer, regulator, etc.). Add one row per organization.</p>
 
 <form method="post"
-      hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
+      hx-target="#wizard-container" hx-swap="outerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
     <input type="hidden" name="row_count" value="{{ rows|length if rows else 1 }}">
 
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Organization Type *</label>
-                    <select class="form-select" name="type_{{ loop.index0 }}">
+                    <select class="form-select" name="type_{{ loop.index0 }}" onchange="autoFillTypeID(this)">
                         <option value="">-- Select --</option>
                         {% set types = ['Marketing Authorisation Holder','Medicines Regulatory Authority','Manufacturer','Master File Holder','Contact Location','Manufacturer Batch Release','Manufacturer API'] %}
                         {% for t in types %}
@@ -40,10 +40,7 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label">Type ID</label>
-                    <input class="form-control" name="typeID_{{ loop.index0 }}" value="{{ row.get('typeID','') }}" placeholder="auto-filled">
-                </div>
+                <input type="hidden" name="typeID_{{ loop.index0 }}" value="{{ row.get('typeID','') }}">
                 <div class="col-md-6">
                     <label class="form-label">Address Line</label>
                     <input class="form-control" name="address_line_{{ loop.index0 }}" value="{{ row.get('address_line','') }}">
@@ -88,6 +85,20 @@
 </form>
 
 <script>
+const ORG_TYPE_IDS = {
+    'Marketing Authorisation Holder': '220000000008',
+    'Medicines Regulatory Authority': '220000000032',
+    'Manufacturer': '220000000033',
+    'Master File Holder': '220000000034',
+    'Contact Location': '220000000035',
+    'Manufacturer Batch Release': '220000000036',
+    'Manufacturer API': '220000000037',
+};
+function autoFillTypeID(select) {
+    const card = select.closest('.card-entry');
+    const typeID = card.querySelector('input[name*="typeID"]');
+    if (typeID) typeID.value = ORG_TYPE_IDS[select.value] || '';
+}
 let orgRowCount = {{ row_list|length if row_list else 1 }};
 function addOrgRow() {
     const container = document.getElementById('org-rows');
@@ -101,8 +112,8 @@ function addOrgRow() {
     <div class="row g-2">
         <div class="col-md-4"><label class="form-label">Name *</label><input class="form-control" name="name_${orgRowCount}"></div>
         <div class="col-md-3"><label class="form-label">Identifier</label><input class="form-control" name="identifier_${orgRowCount}"></div>
-        <div class="col-md-3"><label class="form-label">Organization Type *</label><select class="form-select" name="type_${orgRowCount}"><option value="">-- Select --</option><option>Marketing Authorisation Holder</option><option>Medicines Regulatory Authority</option><option>Manufacturer</option><option>Master File Holder</option><option>Contact Location</option><option>Manufacturer Batch Release</option><option>Manufacturer API</option></select></div>
-        <div class="col-md-2"><label class="form-label">Type ID</label><input class="form-control" name="typeID_${orgRowCount}" placeholder="auto-filled"></div>
+        <div class="col-md-3"><label class="form-label">Organization Type *</label><select class="form-select" name="type_${orgRowCount}" onchange="autoFillTypeID(this)"><option value="">-- Select --</option><option>Marketing Authorisation Holder</option><option>Medicines Regulatory Authority</option><option>Manufacturer</option><option>Master File Holder</option><option>Contact Location</option><option>Manufacturer Batch Release</option><option>Manufacturer API</option></select></div>
+        <input type="hidden" name="typeID_${orgRowCount}">
         <div class="col-md-6"><label class="form-label">Address Line</label><input class="form-control" name="address_line_${orgRowCount}"></div>
         <div class="col-md-3"><label class="form-label">City</label><input class="form-control" name="address_city_${orgRowCount}"></div>
         <div class="col-md-2"><label class="form-label">Country</label><input class="form-control" name="address_country_${orgRowCount}"></div>

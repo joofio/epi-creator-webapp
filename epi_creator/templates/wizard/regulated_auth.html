@@ -1,10 +1,10 @@
-{% extends "wizard/base.html" %}
+{% extends base_template %}
 {% block content %}
 <h2>Regulated Authorization</h2>
 <p class="section-description">Marketing authorization details. Add one row per authorization.</p>
 
 <form method="post"
-      hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
+      hx-target="#wizard-container" hx-swap="outerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
     <input type="hidden" name="row_count" value="{{ rows|length if rows else 1 }}">
 

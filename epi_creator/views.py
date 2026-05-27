@@ -83,16 +83,12 @@ def wizard_step(step):
     )
 
     step_template = step.replace("-", "_") + ".html"
-    return render_template(
-        "wizard/" + step_template,
-        step=step,
-        sheet_name=sheet_name,
-        rows=rows,
-        steps=STEPS,
-        current_step=step,
-        step_title=sheet_name.replace("Definition", ""),
-        is_single=is_single,
-    )
+    ctx = dict(step=step, sheet_name=sheet_name, rows=rows, steps=STEPS,
+               current_step=step, step_title=sheet_name.replace("Definition", ""),
+               is_single=is_single, base_template="wizard/base.html")
+    if request.headers.get("HX-Request"):
+        return _render_htmx(step_template, **ctx)
+    return render_template("wizard/" + step_template, **ctx)
 
 
 @gh_epi_creator.route("/wizard/<step>", methods=["POST"])
@@ -112,19 +108,16 @@ def wizard_submit(step):
         "AdministrableProductDefinition",
     )
 
+    step_template = step.replace("-", "_") + ".html"
+    ctx = dict(step=step, sheet_name=sheet_name, rows=rows, steps=STEPS,
+               current_step=step, step_title=sheet_name.replace("Definition", ""),
+               is_single=is_single)
+
     if validation_errors:
-        step_template = step.replace("-", "_") + ".html"
-        return render_template(
-            "wizard/" + step_template,
-            step=step,
-            sheet_name=sheet_name,
-            rows=rows,
-            steps=STEPS,
-            current_step=step,
-            step_title=sheet_name.replace("Definition", ""),
-            errors=validation_errors,
-            is_single=is_single,
-        )
+        if request.headers.get("HX-Request"):
+            return _render_htmx(step_template, errors=validation_errors, **ctx)
+        ctx["errors"] = validation_errors
+        return render_template("wizard/" + step_template, **ctx)
 
     rows = _consolidate_pipe_fields(rows, sheet_name)
     session["data"][sheet_name] = rows
@@ -256,6 +249,11 @@ def _consolidate_pipe_fields(rows, sheet_name):
                 if "_0_p" in k:
                     del row[k]
     return rows
+
+
+def _render_htmx(template_name, **context):
+    context["base_template"] = "wizard/_htmx_base.html"
+    return render_template("wizard/" + template_name, **context)
 
 
 # ---- keep download endpoint for backward compat / template download ----

@@ -1,10 +1,10 @@
-{% extends "wizard/base.html" %}
+{% extends base_template %}
 {% block content %}
 <h2>Packaged Product Definition</h2>
 <p class="section-description">Package details. Add one row per package variant (e.g., 28-count blister, 96-count blister).</p>
 
 <form method="post"
-      hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
+      hx-target="#wizard-container" hx-swap="outerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
     <input type="hidden" name="row_count" value="{{ rows|length if rows else 1 }}">
 

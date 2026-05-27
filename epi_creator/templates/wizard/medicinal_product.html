@@ -1,10 +1,10 @@
-{% extends "wizard/base.html" %}
+{% extends base_template %}
 {% block content %}
 <h2>Medicinal Product Definition</h2>
 <p class="section-description">Core details of the medicinal product. Exactly one entry.</p>
 
 <form method="post"
-      hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
+      hx-target="#wizard-container" hx-swap="outerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
     <input type="hidden" name="row_count" value="1">
     {% set row = rows[0] if rows and rows|length > 0 else {} %}
@@ -18,53 +18,61 @@
             <input class="form-control" name="inventedNamePart_0" value="{{ row.get('inventedNamePart','') }}">
         </div>
         <div class="col-md-6">
-            <label class="form-label">Scientific Name Part</label>
+            <label class="form-label">Scientific Name Part *</label>
             <input class="form-control" name="ScientificNamePart_0" value="{{ row.get('ScientificNamePart','') }}">
         </div>
         <div class="col-md-3">
-            <label class="form-label">Strength Part</label>
+            <label class="form-label">Strength Part *</label>
             <input class="form-control" name="StrengthPart_0" value="{{ row.get('StrengthPart','') }}">
         </div>
         <div class="col-md-3">
-            <label class="form-label">Pharmaceutical Dose Part</label>
+            <label class="form-label">Pharmaceutical Dose Part *</label>
             <input class="form-control" name="PharmaceuticalDosePart_0" value="{{ row.get('PharmaceuticalDosePart','') }}">
         </div>
     </div>
     <div class="row g-2 mb-3">
         <div class="col-md-4">
-            <label class="form-label">Country</label>
+            <label class="form-label">Country *</label>
             <input class="form-control" name="country_0" value="{{ row.get('country','') }}">
         </div>
         <div class="col-md-2">
-            <label class="form-label">Country Code</label>
+            <label class="form-label">Country Code *</label>
             <input class="form-control" name="countryCode_0" value="{{ row.get('countryCode','') }}" placeholder="e.g. EU">
         </div>
         <div class="col-md-3">
-            <label class="form-label">Language</label>
+            <label class="form-label">Language *</label>
             <input class="form-control" name="language_0" value="{{ row.get('language','') }}" placeholder="e.g. English">
         </div>
         <div class="col-md-3">
-            <label class="form-label">Language ID</label>
+            <label class="form-label">Language ID *</label>
             <input class="form-control" name="languageID_0" value="{{ row.get('languageID','') }}" placeholder="e.g. en">
         </div>
     </div>
     <div class="row g-2 mb-3">
         <div class="col-md-4">
-            <label class="form-label">Status Supply</label>
-            <input class="form-control" name="statusSuply_0" value="{{ row.get('statusSuply','') }}">
+            <label class="form-label">Status Supply *</label>
+            <select class="form-select" name="statusSuply_0" onchange="autoFillStatusID(this)">
+                <option value="">-- Select --</option>
+                {% set statuses = [
+                    'Valid', 'No information available', 'Never valid', 'No supplied',
+                    'Withdrawn', 'Expired', 'Suspended', 'Not ongoing',
+                    'Ongoing but no marketing authorisation issued', 'Renewed',
+                    'Revoked', 'Refused', 'Transferred'
+                ] %}
+                {% for s in statuses %}
+                <option value="{{ s }}" {% if row.get('statusSuply','') == s %}selected{% endif %}>{{ s }}</option>
+                {% endfor %}
+            </select>
         </div>
-        <div class="col-md-2">
-            <label class="form-label">Status Supply ID</label>
-            <input class="form-control" name="statusSuplyID_0" value="{{ row.get('statusSuplyID','') }}">
-        </div>
-        <div class="col-md-6">
+        <input type="hidden" name="statusSuplyID_0" value="{{ row.get('statusSuplyID','') }}">
+        <div class="col-md-8">
             <label class="form-label">Indication (narrative text)</label>
             <textarea class="form-control" name="indication_0" rows="3">{{ row.get('indication','') }}</textarea>
         </div>
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Identifiers (pipe-separated)</label>
+        <label class="form-label">Identifiers *</label>
         <div id="id-container">
             {% set id_systems = (row.get('identifier_system','') or '').split('|') %}
             {% set id_values = (row.get('identifier_value','') or '').split('|') %}
@@ -81,7 +89,7 @@
     </div>
 
     <div class="mb-3">
-        <label class="form-label">ATC Classifications (pipe-separated)</label>
+        <label class="form-label">ATC Classifications</label>
         <div id="class-container">
             {% set cls_ids = (row.get('classification_ids','') or '').split('|') %}
             {% set cls_texts = (row.get('classification_texts','') or '').split('|') %}
@@ -118,6 +126,26 @@
 </form>
 
 <script>
+const STATUS_SUPPLY_IDS = {
+    'No information available': '100000072078',
+    'Never valid': '100000072079',
+    'No supplied': '100000072080',
+    'Valid': '100000072081',
+    'Withdrawn': '100000072082',
+    'Expired': '100000072083',
+    'Suspended': '100000072084',
+    'Not ongoing': '100000072164',
+    'Ongoing but no marketing authorisation issued': '100000072170',
+    'Renewed': '200000019455',
+    'Revoked': '200000019456',
+    'Refused': '200000019457',
+    'Transferred': '200000019458',
+};
+function autoFillStatusID(select) {
+    const hidden = document.querySelector('input[name="statusSuplyID_0"]');
+    if (hidden) hidden.value = STATUS_SUPPLY_IDS[select.value] || '';
+}
+
 let pipeCounters = { id: {{ max_id|default(0) }}, class: {{ max_cls|default(0) }} };
 function addPipeRow(type) {
     pipeCounters[type] = (pipeCounters[type] || 0) + 1;
