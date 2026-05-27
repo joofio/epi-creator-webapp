@@ -5,7 +5,7 @@ import pandas as pd
 import uuid
 import re
 from datetime import datetime
-from epi_creator.validator import pre_validation
+
 import hashlib
 from html import unescape
 import shutil
