@@ -3,6 +3,7 @@ import os
 from flask import (
     Blueprint,
     jsonify,
+    make_response,
     redirect,
     render_template,
     request,
@@ -14,7 +15,7 @@ from flask import current_app as app
 
 from epi_creator.functions import generate_from_session
 from epi_creator.validator import validate_sheet_data, validate_pre_generation
-from epi_creator.lookup import get_lookup
+from epi_creator.lookup import get_lookup, get_category_id
 
 gh_epi_creator = Blueprint("gh_epi_creator", __name__)
 
@@ -85,7 +86,8 @@ def wizard_step(step):
     step_template = step.replace("-", "_") + ".html"
     ctx = dict(step=step, sheet_name=sheet_name, rows=rows, steps=STEPS,
                current_step=step, step_title=sheet_name.replace("Definition", ""),
-               is_single=is_single, base_template="wizard/base.html")
+               is_single=is_single, base_template="wizard/base.html",
+               languages=get_lookup("languages"))
     if request.headers.get("HX-Request"):
         return _render_htmx(step_template, **ctx)
     return render_template("wizard/" + step_template, **ctx)
@@ -98,6 +100,10 @@ def wizard_submit(step):
     sheet_name = SHEET_NAMES.get(step)
 
     form_data = request.form.to_dict(flat=False)
+
+    if sheet_name == "Substance":
+        form_data = _consolidate_substance_mw(form_data)
+
     rows = _parse_form_rows(form_data, sheet_name)
 
     validation_errors = validate_sheet_data(rows, sheet_name)
@@ -111,7 +117,8 @@ def wizard_submit(step):
     step_template = step.replace("-", "_") + ".html"
     ctx = dict(step=step, sheet_name=sheet_name, rows=rows, steps=STEPS,
                current_step=step, step_title=sheet_name.replace("Definition", ""),
-               is_single=is_single)
+               is_single=is_single, base_template="wizard/base.html",
+               languages=get_lookup("languages"))
 
     if validation_errors:
         if request.headers.get("HX-Request"):
@@ -126,9 +133,17 @@ def wizard_submit(step):
     current_idx = STEPS.index(step)
     if current_idx < len(STEPS) - 1:
         next_step = STEPS[current_idx + 1]
-        return redirect(url_for("gh_epi_creator.wizard_step", step=next_step))
+    else:
+        next_step = "bundle"
 
-    return redirect(url_for("gh_epi_creator.wizard_step", step="bundle"))
+    redirect_url = url_for("gh_epi_creator.wizard_step", step=next_step)
+
+    if request.headers.get("HX-Request"):
+        resp = make_response("")
+        resp.headers["HX-Redirect"] = redirect_url
+        return resp
+
+    return redirect(redirect_url)
 
 
 @gh_epi_creator.route("/wizard/generate", methods=["POST"])
@@ -177,12 +192,24 @@ def api_lookup(category):
     if q:
         items = [i for i in items if q in str(i).lower()]
 
+    category_to_id = {
+        "doseForms": "doseForm",
+        "routes": "route",
+        "unitPresentations": "unitPresentation",
+    }
+
     result = []
     for item in items[:50]:
         if isinstance(item, dict):
             result.append(item)
         else:
-            result.append({"label": str(item), "value": str(item)})
+            entry = {"label": str(item), "value": str(item)}
+            id_category = category_to_id.get(category)
+            if id_category:
+                code = get_category_id(id_category, str(item))
+                if code:
+                    entry["id"] = code
+            result.append(entry)
     return jsonify(result)
 
 
@@ -249,6 +276,36 @@ def _consolidate_pipe_fields(rows, sheet_name):
                 if "_0_p" in k:
                     del row[k]
     return rows
+
+
+def _consolidate_substance_mw(form_data):
+    mw_counts = {}
+    for k in list(form_data.keys()):
+        if k.startswith("mw_count_"):
+            try:
+                idx = int(k.split("_")[2])
+                mw_counts[idx] = int(form_data[k][0])
+            except (IndexError, ValueError):
+                pass
+
+    for substance_idx, count in mw_counts.items():
+        values = []
+        types = []
+        for mw_idx in range(count):
+            v_key = f"mw_value_{substance_idx}_{mw_idx}"
+            t_key = f"mw_type_{substance_idx}_{mw_idx}"
+            if v_key in form_data:
+                values.append(form_data[v_key][0])
+            if t_key in form_data:
+                types.append(form_data[t_key][0])
+        form_data[f"moleclularWeigth_{substance_idx}"] = ["|".join(values)]
+        form_data[f"moleclularWeigthType_{substance_idx}"] = ["|".join(types)]
+
+    for k in list(form_data.keys()):
+        if k.startswith("mw_value_") or k.startswith("mw_type_") or k.startswith("mw_count_"):
+            del form_data[k]
+
+    return form_data
 
 
 def _render_htmx(template_name, **context):

@@ -1,15 +1,20 @@
 document.addEventListener('alpine:init', () => {
-    Alpine.data('autocomplete', (category, idField) => ({
+    Alpine.data('autocomplete', (category, idField, labelField) => ({
         query: '',
         items: [],
         open: false,
         selectedLabel: '',
         selectedId: '',
         idFieldName: idField || '',
+        labelFieldName: labelField || '',
 
         init() {
             const hidden = this.$el.querySelector('input[type="hidden"]');
             this.selectedId = hidden ? hidden.value : '';
+            if (this.labelFieldName) {
+                const labelInput = this.$el.querySelector(`input[name="${this.labelFieldName}"]`);
+                this.selectedLabel = labelInput ? labelInput.value : '';
+            }
         },
 
         async search() {
@@ -44,6 +49,10 @@ document.addEventListener('alpine:init', () => {
                 const hidden = this.$el.querySelector(`input[name="${this.idFieldName}"]`);
                 if (hidden) hidden.value = this.selectedId;
             }
+            if (this.labelFieldName) {
+                const labelInput = this.$el.querySelector(`input[name="${this.labelFieldName}"]`);
+                if (labelInput) labelInput.value = this.selectedLabel;
+            }
         },
 
         clear() {
@@ -53,6 +62,10 @@ document.addEventListener('alpine:init', () => {
             if (this.idFieldName) {
                 const hidden = this.$el.querySelector(`input[name="${this.idFieldName}"]`);
                 if (hidden) hidden.value = '';
+            }
+            if (this.labelFieldName) {
+                const labelInput = this.$el.querySelector(`input[name="${this.labelFieldName}"]`);
+                if (labelInput) labelInput.value = '';
             }
         }
     }));

@@ -146,3 +146,5 @@ epi-creator-venv/
 .superpowers/
 flask_session/
 .venv/
+.opencode/
+logs/

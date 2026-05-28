@@ -18,7 +18,7 @@ def load_lookups(excel_path="acmeDrug_1.xlsx"):
     data_val = pd.read_excel(excel_path, sheet_name="DATA_VAL")
 
     _lookups["doseForms"] = sorted(
-        extra["100000072057_descr"].dropna().unique().tolist()
+        extra["200000000004_descr"].dropna().unique().tolist()
     )
 
     _lookups["routes"] = sorted(
@@ -26,7 +26,7 @@ def load_lookups(excel_path="acmeDrug_1.xlsx"):
     )
 
     _lookups["unitPresentations"] = sorted(
-        extra["100000000002_descr"].dropna().unique().tolist()
+        extra["200000000014_descr"].dropna().unique().tolist()
     )
 
     _lookups["countries"] = sorted(
@@ -49,18 +49,17 @@ def load_lookups(excel_path="acmeDrug_1.xlsx"):
         extra["sms_descr"].dropna().unique().tolist()
     )
 
-    _lookups["packagingTypes"] = [
-        "Blister", "Bottle", "Carton", "Vial", "Ampoule",
-        "Tube", "Sachet", "Syringe", "Bag", "Jar",
-        "Pre-filled pen", "Pre-filled syringe",
-        "Container", "Box", "Pouch", "Strip",
-    ]
+    _lookups["packagingTypes"] = sorted(
+        extra["100000073346_descr"].dropna().unique().tolist()
+    )
 
-    _lookups["packagingMaterials"] = [
-        "PVC", "Aluminium", "Glass", "HDPE", "LDPE",
-        "PET", "Paper", "Cardboard", "PVC/PVDC",
-        "Aluminium/PVC", "Polypropylene", "Polystyrene",
-    ]
+    _lookups["packagingMaterials"] = sorted(
+        extra["200000003199_descr"].dropna().unique().tolist()
+    )
+
+    _lookups["packagedProductTypes"] = sorted(
+        extra["100000155526_descr"].dropna().unique().tolist()
+    )
 
     _lookups["languages"] = [
         {"code": "en", "name": "English"},
@@ -124,6 +123,16 @@ def load_lookups(excel_path="acmeDrug_1.xlsx"):
         {"id": "100000072082", "name": "Solvent / Diluent"},
     ]
 
+    _lookups["authorizationTypes"] = [
+        {"id": "220000000061", "name": "Marketing Authorisation"},
+        {"id": "220000000062", "name": "Orphan Designation"},
+        {"id": "220000000063", "name": "Parallel Trade Approval"},
+        {"id": "220000000064", "name": "Minor Use Minor Species"},
+        {"id": "220000000065", "name": "Paediatric Investigational Plan"},
+        {"id": "200000015756", "name": "Homeopathic Registration"},
+        {"id": "200000016178", "name": "Exemption for veterinary medicinal products"},
+    ]
+
     _lookups["classificationItems"] = sorted(
         extra["100000155526_descr"].dropna().unique().tolist()
     )
@@ -132,8 +141,8 @@ def load_lookups(excel_path="acmeDrug_1.xlsx"):
 
     _lookups["doseFormIDLookup"] = {}
     for _, row in extra.iterrows():
-        code = row.get("100000072057")
-        desc = row.get("100000072057_descr")
+        code = row.get("200000000004")
+        desc = row.get("200000000004_descr")
         if pd.notna(code) and pd.notna(desc):
             _lookups["doseFormIDLookup"][str(desc)] = str(int(code))
 
@@ -146,10 +155,31 @@ def load_lookups(excel_path="acmeDrug_1.xlsx"):
 
     _lookups["unitPresentationIDLookup"] = {}
     for _, row in extra.iterrows():
-        code = row.get("100000000002")
-        desc = row.get("100000000002_descr")
+        code = row.get("200000000014")
+        desc = row.get("200000000014_descr")
         if pd.notna(code) and pd.notna(desc):
             _lookups["unitPresentationIDLookup"][str(desc)] = str(int(code))
+
+    _lookups["packagedProductTypeIDLookup"] = {}
+    for _, row in extra.iterrows():
+        code = row.get(100000155526)
+        desc = row.get("100000155526_descr")
+        if pd.notna(code) and pd.notna(desc):
+            _lookups["packagedProductTypeIDLookup"][str(desc)] = str(int(code))
+
+    _lookups["packagingTypeIDLookup"] = {}
+    for _, row in extra.iterrows():
+        code = row.get("100000073346")
+        desc = row.get("100000073346_descr")
+        if pd.notna(code) and pd.notna(desc):
+            _lookups["packagingTypeIDLookup"][str(desc)] = str(int(code))
+
+    _lookups["packagingMaterialIDLookup"] = {}
+    for _, row in extra.iterrows():
+        code = row.get("200000003199")
+        desc = row.get("200000003199_descr")
+        if pd.notna(code) and pd.notna(desc):
+            _lookups["packagingMaterialIDLookup"][str(desc)] = str(int(code))
 
     print(f"lookup.py: Loaded {len(_lookups)} lookup categories")
 

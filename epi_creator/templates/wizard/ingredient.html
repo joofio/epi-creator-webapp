@@ -13,14 +13,14 @@
         {% for row in row_list %}
         <div class="card-entry mb-3">
             <div class="card-entry-header">
-                <strong>Ingredient #{{ loop.index }} ({{ row.get('role','New') }})</strong>
+                <strong>{{ row.get('role','New') }}</strong>
                 <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button>
             </div>
             <div class="row g-2">
                 <div class="col-md-4"><label class="form-label">Name *</label><input class="form-control" name="name_{{ loop.index0 }}" value="{{ row.get('name','') }}"></div>
                 <div class="col-md-3">
                     <label class="form-label">Role</label>
-                    <select class="form-select" name="role_{{ loop.index0 }}" onchange="this.closest('.card-entry').querySelector('strong').textContent = 'Ingredient ' + this.value">
+                    <select class="form-select" name="role_{{ loop.index0 }}" onchange="this.closest('.card-entry').querySelector('strong').textContent = this.value || 'New'">
                         <option value="">-- Select --</option>
                         <option value="Active" {% if row.get('role','')=='Active' %}selected{% endif %}>Active</option>
                         <option value="Excipient" {% if row.get('role','')=='Excipient' %}selected{% endif %}>Excipient</option>
@@ -28,8 +28,7 @@
                         <option value="Solvent / Diluent" {% if row.get('role','')=='Solvent / Diluent' %}selected{% endif %}>Solvent / Diluent</option>
                     </select>
                 </div>
-                <div class="col-md-2"><label class="form-label">Role ID</label><input class="form-control" name="roleID_{{ loop.index0 }}" value="{{ row.get('roleID','') }}" placeholder="e.g. 100000072070"></div>
-                <div class="col-md-3"><label class="form-label">Identifier (GSRS)</label><input class="form-control" name="identifier_{{ loop.index0 }}" value="{{ row.get('identifier','') }}"></div>
+                <div class="col-md-5"><label class="form-label">Identifier (GSRS)</label><input class="form-control" name="identifier_{{ loop.index0 }}" value="{{ row.get('identifier','') }}"></div>
             </div>
             <div class="row g-2 mt-1">
                 <div class="col-md-3"><label class="form-label">Strength Basis</label><input class="form-control" name="StrengthBasis_{{ loop.index0 }}" value="{{ row.get('StrengthBasis','') }}"></div>
@@ -56,15 +55,15 @@ let rowCounter = {{ row_list|length if row_list else 1 }};
 function addRow() {
     const c = document.getElementById('ingredient-rows'), d = document.createElement('div');
     d.className = 'card-entry mb-3';
-    d.innerHTML = `<div class="card-entry-header"><strong>Ingredient #${rowCounter+1} (New)</strong><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button></div>
-    <div class="row g-2"><div class="col-md-4"><label class="form-label">Name *</label><input class="form-control" name="name_${rowCounter}"></div><div class="col-md-3"><label class="form-label">Role</label><select class="form-select" name="role_${rowCounter}" onchange="this.closest('.card-entry').querySelector('strong').textContent='Ingredient '+this.value"><option value="">-- Select --</option><option>Active</option><option>Excipient</option><option>Adjuvant</option><option>Solvent / Diluent</option></select></div><div class="col-md-2"><label class="form-label">Role ID</label><input class="form-control" name="roleID_${rowCounter}" placeholder="e.g. 100000072070"></div><div class="col-md-3"><label class="form-label">Identifier (GSRS)</label><input class="form-control" name="identifier_${rowCounter}"></div></div>
+    d.innerHTML = `<div class="card-entry-header"><strong>New</strong><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button></div>
+    <div class="row g-2"><div class="col-md-4"><label class="form-label">Name *</label><input class="form-control" name="name_${rowCounter}"></div><div class="col-md-3"><label class="form-label">Role</label><select class="form-select" name="role_${rowCounter}" onchange="this.closest('.card-entry').querySelector('strong').textContent=this.value||'New'"><option value="">-- Select --</option><option>Active</option><option>Excipient</option><option>Adjuvant</option><option>Solvent / Diluent</option></select></div><div class="col-md-5"><label class="form-label">Identifier (GSRS)</label><input class="form-control" name="identifier_${rowCounter}"></div></div>
     <div class="row g-2 mt-1"><div class="col-md-3"><label class="form-label">Strength Basis</label><input class="form-control" name="StrengthBasis_${rowCounter}"></div><div class="col-md-3"><label class="form-label">Strength Basis Text</label><input class="form-control" name="StrengthBasisText_${rowCounter}"></div><div class="col-md-2"><label class="form-label">Quantity</label><input class="form-control" name="quantity_${rowCounter}"></div><div class="col-md-2"><label class="form-label">Quantity Unit</label><input class="form-control" name="quantity unit_${rowCounter}"></div><input type="hidden" name="id_${rowCounter}"></div>`;
     c.appendChild(d); rowCounter++; updateRowCount();
 }
 function updateRowCount() {
     const rows = document.querySelectorAll('#ingredient-rows .card-entry');
     document.querySelector('input[name="row_count"]').value = rows.length;
-    rows.forEach((r,i) => { const s = r.querySelector('select'); r.querySelector('strong').textContent = s ? 'Ingredient '+(i+1)+' ('+(s.value||'New')+')' : 'Ingredient '+(i+1); r.querySelectorAll('input,select').forEach(el => el.name = el.name.replace(/_\d+$/,'_'+i)); });
+    rows.forEach((r,i) => { const s = r.querySelector('select'); r.querySelector('strong').textContent = s ? (s.value||'New') : 'New'; r.querySelectorAll('input,select').forEach(el => el.name = el.name.replace(/_\d+$/,'_'+i)); });
     rowCounter = rows.length;
 }
 </script>

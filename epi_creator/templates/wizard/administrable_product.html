@@ -10,12 +10,60 @@
     {% set row = rows[0] if rows and rows|length > 0 else {} %}
     <div class="row g-2 mb-3">
         <div class="col-md-4"><label class="form-label">Identifier</label><input class="form-control" name="identifier_0" value="{{ row.get('identifier','') }}"></div>
-        <div class="col-md-4"><label class="form-label">Dose Form</label><input class="form-control" name="doseForm_0" value="{{ row.get('doseForm','') }}"></div>
-        <div class="col-md-4"><label class="form-label">Dose Form ID</label><input class="form-control" name="doseFormID_0" value="{{ row.get('doseFormID','') }}"></div>
-        <div class="col-md-4"><label class="form-label">Unit Presentation</label><input class="form-control" name="unit_presentation_0" value="{{ row.get('unit_presentation','') }}"></div>
-        <div class="col-md-4"><label class="form-label">Unit Presentation ID</label><input class="form-control" name="unit_presentationID_0" value="{{ row.get('unit_presentationID','') }}"></div>
-        <div class="col-md-4"><label class="form-label">Route</label><input class="form-control" name="route_0" value="{{ row.get('route','') }}"></div>
-        <div class="col-md-4"><label class="form-label">Route ID</label><input class="form-control" name="routeID_0" value="{{ row.get('routeID','') }}"></div>
+        <div class="col-md-4" x-data="autocomplete('doseForms', 'doseFormID_0', 'doseForm_0')">
+            <label class="form-label">Dose Form</label>
+            <div class="autocomplete-wrapper">
+                <input class="form-control" name="doseForm_0" value="{{ row.get('doseForm','') }}"
+                       x-model="query" @input="search()" @focus="search()" placeholder="Search...">
+                <input type="hidden" name="doseFormID_0" value="{{ row.get('doseFormID','') }}">
+                <div class="autocomplete-dropdown" x-show="open" @click.away="open = false">
+                    <template x-for="item in items">
+                        <div class="item" @click="select(item)"
+                             x-text="typeof item === 'object' ? (item.label || item.name || item.text) : item"></div>
+                    </template>
+                </div>
+                <div x-show="selectedLabel && !open && !query" class="text-muted small mt-1">
+                    <span x-text="selectedLabel"></span>
+                    <button type="button" @click="clear()" class="btn btn-sm p-0 ms-1" style="font-size:11px;color:#6c757d">&times; clear</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" x-data="autocomplete('unitPresentations', 'unit_presentationID_0', 'unit_presentation_0')">
+            <label class="form-label">Unit Presentation</label>
+            <div class="autocomplete-wrapper">
+                <input class="form-control" name="unit_presentation_0" value="{{ row.get('unit_presentation','') }}"
+                       x-model="query" @input="search()" @focus="search()" placeholder="Search...">
+                <input type="hidden" name="unit_presentationID_0" value="{{ row.get('unit_presentationID','') }}">
+                <div class="autocomplete-dropdown" x-show="open" @click.away="open = false">
+                    <template x-for="item in items">
+                        <div class="item" @click="select(item)"
+                             x-text="typeof item === 'object' ? (item.label || item.name || item.text) : item"></div>
+                    </template>
+                </div>
+                <div x-show="selectedLabel && !open && !query" class="text-muted small mt-1">
+                    <span x-text="selectedLabel"></span>
+                    <button type="button" @click="clear()" class="btn btn-sm p-0 ms-1" style="font-size:11px;color:#6c757d">&times; clear</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" x-data="autocomplete('routes', 'routeID_0', 'route_0')">
+            <label class="form-label">Route of Admin</label>
+            <div class="autocomplete-wrapper">
+                <input class="form-control" name="route_0" value="{{ row.get('route','') }}"
+                       x-model="query" @input="search()" @focus="search()" placeholder="Search...">
+                <input type="hidden" name="routeID_0" value="{{ row.get('routeID','') }}">
+                <div class="autocomplete-dropdown" x-show="open" @click.away="open = false">
+                    <template x-for="item in items">
+                        <div class="item" @click="select(item)"
+                             x-text="typeof item === 'object' ? (item.label || item.name || item.text) : item"></div>
+                    </template>
+                </div>
+                <div x-show="selectedLabel && !open && !query" class="text-muted small mt-1">
+                    <span x-text="selectedLabel"></span>
+                    <button type="button" @click="clear()" class="btn btn-sm p-0 ms-1" style="font-size:11px;color:#6c757d">&times; clear</button>
+                </div>
+            </div>
+        </div>
     </div>
     <input type="hidden" name="id_0" value="{{ row.get('id','') }}">
 

@@ -11,7 +11,11 @@
     <div class="row g-2 mb-3">
         <div class="col-md-4">
             <label class="form-label">Language *</label>
-            <input class="form-control" name="language_0" value="{{ row.get('language','en') }}">
+            <select class="form-select" name="language_0">
+                {% for lang in languages %}
+                <option value="{{ lang.code }}" {% if row.get('language','en')==lang.code %}selected{% endif %}>{{ lang.name }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="col-md-4">
             <label class="form-label">Identifier System</label>
@@ -23,6 +27,8 @@
         </div>
     </div>
     <input type="hidden" name="id_0" value="{{ row.get('id','') }}">
+
+    {% if errors %}{% for e_idx, e_msgs in errors %}{% for msg in e_msgs %}<div class="error-message">{{ msg }}</div>{% endfor %}{% endfor %}{% endif %}
 
     <div class="alert alert-info mt-3">
         <strong>Ready to generate!</strong> Click "Save &amp; Next" to save the Bundle data, then click "Generate FHIR Package" in the sidebar.

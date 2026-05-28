@@ -19,18 +19,73 @@
             <div class="row g-2">
                 <div class="col-md-3"><label class="form-label">Name</label><input class="form-control" name="name_{{ loop.index0 }}" value="{{ row.get('name','') }}"></div>
                 <div class="col-md-2"><label class="form-label">Identifier</label><input class="form-control" name="identifier_{{ loop.index0 }}" value="{{ row.get('identifier','') }}"></div>
-                <div class="col-md-2"><label class="form-label">Type</label><input class="form-control" name="type_{{ loop.index0 }}" value="{{ row.get('type','') }}"></div>
-                <div class="col-md-2"><label class="form-label">Type ID</label><input class="form-control" name="typeID_{{ loop.index0 }}" value="{{ row.get('typeID','') }}"></div>
+                <div class="col-md-3">
+                    <label class="form-label">Type</label>
+                    <select class="form-select" name="type_{{ loop.index0 }}">
+                        <option value="">-- Select --</option>
+                        <option value="Chemical Medicinal Product" {% if row.get('type','')=='Chemical Medicinal Product' %}selected{% endif %}>Chemical Medicinal Product</option>
+                        <option value="Immunological Medicinal Product" {% if row.get('type','')=='Immunological Medicinal Product' %}selected{% endif %}>Immunological Medicinal Product</option>
+                        <option value="Traditional Herbal Medicinal Product" {% if row.get('type','')=='Traditional Herbal Medicinal Product' %}selected{% endif %}>Traditional Herbal Medicinal Product</option>
+                        <option value="Biological Medicinal Product" {% if row.get('type','')=='Biological Medicinal Product' %}selected{% endif %}>Biological Medicinal Product</option>
+                        <option value="Herbal Medicinal Product" {% if row.get('type','')=='Herbal Medicinal Product' %}selected{% endif %}>Herbal Medicinal Product</option>
+                        <option value="Homeopathic Medicinal Product" {% if row.get('type','')=='Homeopathic Medicinal Product' %}selected{% endif %}>Homeopathic Medicinal Product</option>
+                        <option value="Radiopharmaceutical Medicinal Product" {% if row.get('type','')=='Radiopharmaceutical Medicinal Product' %}selected{% endif %}>Radiopharmaceutical Medicinal Product</option>
+                        <option value="Plasma Derived Medicinal Product" {% if row.get('type','')=='Plasma Derived Medicinal Product' %}selected{% endif %}>Plasma Derived Medicinal Product</option>
+                        <option value="Advanced Therapy Medicinal Product" {% if row.get('type','')=='Advanced Therapy Medicinal Product' %}selected{% endif %}>Advanced Therapy Medicinal Product</option>
+                        <option value="Gene Therapy Medicinal Product" {% if row.get('type','')=='Gene Therapy Medicinal Product' %}selected{% endif %}>Gene Therapy Medicinal Product</option>
+                        <option value="Cell Therapy Medicinal Product" {% if row.get('type','')=='Cell Therapy Medicinal Product' %}selected{% endif %}>Cell Therapy Medicinal Product</option>
+                        <option value="Tissue Engineered Product" {% if row.get('type','')=='Tissue Engineered Product' %}selected{% endif %}>Tissue Engineered Product</option>
+                    </select>
+                </div>
                 <div class="col-md-2"><label class="form-label">Status Date</label><input type="date" class="form-control" name="statusDate_{{ loop.index0 }}" value="{{ row.get('statusDate','') }}"></div>
-                <div class="col-md-1"><label class="form-label">Quantity</label><input class="form-control" name="quantity_{{ loop.index0 }}" value="{{ row.get('quantity','') }}" placeholder="28 tablet"></div>
+                <div class="col-md-2"><label class="form-label">Quantity</label><input class="form-control" name="quantity_{{ loop.index0 }}" value="{{ row.get('quantity','') }}" placeholder="e.g. 28 tablet"></div>
             </div>
             <div class="row g-2 mt-1">
                 <div class="col-md-2"><label class="form-label">Pkg Qty</label><input class="form-control" name="packaging_quantity_{{ loop.index0 }}" value="{{ row.get('packaging_quantity','') }}"></div>
                 <div class="col-md-2"><label class="form-label">Pkg ID</label><input class="form-control" name="packaging_identifier_{{ loop.index0 }}" value="{{ row.get('packaging_identifier','') }}"></div>
-                <div class="col-md-3"><label class="form-label">Packaging Type</label><input class="form-control" name="Packaging_type_{{ loop.index0 }}" value="{{ row.get('Packaging_type','') }}" placeholder="e.g. Blister"></div>
-                <div class="col-md-2"><label class="form-label">Type ID</label><input class="form-control" name="Packaging_typeID_{{ loop.index0 }}" value="{{ row.get('Packaging_typeID','') }}"></div>
-                <div class="col-md-2"><label class="form-label">Material</label><input class="form-control" name="packaging_material_{{ loop.index0 }}" value="{{ row.get('packaging_material','') }}" placeholder="Aluminium"></div>
-                <div class="col-md-1"><label class="form-label">Mat ID</label><input class="form-control" name="packaging_materialID_{{ loop.index0 }}" value="{{ row.get('packaging_materialID','') }}"></div>
+                <div class="col-md-5">
+                    <label class="form-label">Packaging Type</label>
+                    <select class="form-select" name="Packaging_type_{{ loop.index0 }}">
+                        <option value="">-- Select --</option>
+                        <option value="Blister" {% if row.get('Packaging_type','')=='Blister' %}selected{% endif %}>Blister</option>
+                        <option value="Bottle" {% if row.get('Packaging_type','')=='Bottle' %}selected{% endif %}>Bottle</option>
+                        <option value="Carton" {% if row.get('Packaging_type','')=='Carton' %}selected{% endif %}>Carton</option>
+                        <option value="Vial" {% if row.get('Packaging_type','')=='Vial' %}selected{% endif %}>Vial</option>
+                        <option value="Ampoule" {% if row.get('Packaging_type','')=='Ampoule' %}selected{% endif %}>Ampoule</option>
+                        <option value="Tube" {% if row.get('Packaging_type','')=='Tube' %}selected{% endif %}>Tube</option>
+                        <option value="Sachet" {% if row.get('Packaging_type','')=='Sachet' %}selected{% endif %}>Sachet</option>
+                        <option value="Syringe" {% if row.get('Packaging_type','')=='Syringe' %}selected{% endif %}>Syringe</option>
+                        <option value="Bag" {% if row.get('Packaging_type','')=='Bag' %}selected{% endif %}>Bag</option>
+                        <option value="Jar" {% if row.get('Packaging_type','')=='Jar' %}selected{% endif %}>Jar</option>
+                        <option value="Pre-filled pen" {% if row.get('Packaging_type','')=='Pre-filled pen' %}selected{% endif %}>Pre-filled pen</option>
+                        <option value="Pre-filled syringe" {% if row.get('Packaging_type','')=='Pre-filled syringe' %}selected{% endif %}>Pre-filled syringe</option>
+                        <option value="Container" {% if row.get('Packaging_type','')=='Container' %}selected{% endif %}>Container</option>
+                        <option value="Box" {% if row.get('Packaging_type','')=='Box' %}selected{% endif %}>Box</option>
+                        <option value="Pouch" {% if row.get('Packaging_type','')=='Pouch' %}selected{% endif %}>Pouch</option>
+                        <option value="Strip" {% if row.get('Packaging_type','')=='Strip' %}selected{% endif %}>Strip</option>
+                        <option value="Cap" {% if row.get('Packaging_type','')=='Cap' %}selected{% endif %}>Cap</option>
+                        <option value="Dropper applicator" {% if row.get('Packaging_type','')=='Dropper applicator' %}selected{% endif %}>Dropper applicator</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Material</label>
+                    <select class="form-select" name="packaging_material_{{ loop.index0 }}">
+                        <option value="">-- Select --</option>
+                        <option value="Aluminium" {% if row.get('packaging_material','')=='Aluminium' %}selected{% endif %}>Aluminium</option>
+                        <option value="Glass" {% if row.get('packaging_material','')=='Glass' %}selected{% endif %}>Glass</option>
+                        <option value="PVC" {% if row.get('packaging_material','')=='PVC' %}selected{% endif %}>PVC</option>
+                        <option value="HDPE" {% if row.get('packaging_material','')=='HDPE' %}selected{% endif %}>HDPE</option>
+                        <option value="LDPE" {% if row.get('packaging_material','')=='LDPE' %}selected{% endif %}>LDPE</option>
+                        <option value="PET" {% if row.get('packaging_material','')=='PET' %}selected{% endif %}>PET</option>
+                        <option value="Paper" {% if row.get('packaging_material','')=='Paper' %}selected{% endif %}>Paper</option>
+                        <option value="Cardboard" {% if row.get('packaging_material','')=='Cardboard' %}selected{% endif %}>Cardboard</option>
+                        <option value="Polypropylene" {% if row.get('packaging_material','')=='Polypropylene' %}selected{% endif %}>Polypropylene</option>
+                        <option value="Polystyrene" {% if row.get('packaging_material','')=='Polystyrene' %}selected{% endif %}>Polystyrene</option>
+                        <option value="Glass type II" {% if row.get('packaging_material','')=='Glass type II' %}selected{% endif %}>Glass type II</option>
+                        <option value="Glass type III" {% if row.get('packaging_material','')=='Glass type III' %}selected{% endif %}>Glass type III</option>
+                        <option value="Titanium Dioxide" {% if row.get('packaging_material','')=='Titanium Dioxide' %}selected{% endif %}>Titanium Dioxide</option>
+                    </select>
+                </div>
             </div>
             <div class="row g-2 mt-1">
                 <div class="col-md-8"><label class="form-label">Description</label><input class="form-control" name="description_{{ loop.index0 }}" value="{{ row.get('description','') }}"></div>
@@ -44,6 +99,7 @@
                 </div>
                 <input type="hidden" name="id_{{ loop.index0 }}" value="{{ row.get('id','') }}">
             </div>
+            {% if errors %}{% for e_idx, e_msgs in errors %}{% if e_idx == loop.index0 %}{% for msg in e_msgs %}<div class="error-message">{{ msg }}</div>{% endfor %}{% endif %}{% endfor %}{% endif %}
         </div>
         {% endfor %}
     </div>
@@ -58,7 +114,7 @@
 
 <script>
 let rc = {{ row_list|length if row_list else 1 }};
-function addRow() { const c=document.getElementById('rows'), d=document.createElement('div'); d.className='card-entry mb-3'; d.innerHTML=`<div class="card-entry-header"><strong>Package #${rc+1}</strong><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove();updateRowCount()">Remove</button></div><div class="row g-2"><div class="col-md-3"><label class="form-label">Name</label><input class="form-control" name="name_${rc}"></div><div class="col-md-2"><label class="form-label">Identifier</label><input class="form-control" name="identifier_${rc}"></div><div class="col-md-2"><label class="form-label">Type</label><input class="form-control" name="type_${rc}"></div><div class="col-md-2"><label class="form-label">Type ID</label><input class="form-control" name="typeID_${rc}"></div><div class="col-md-2"><label class="form-label">Status Date</label><input type="date" class="form-control" name="statusDate_${rc}"></div><div class="col-md-1"><label class="form-label">Quantity</label><input class="form-control" name="quantity_${rc}" placeholder="28 tablet"></div></div><div class="row g-2 mt-1"><div class="col-md-2"><label class="form-label">Pkg Qty</label><input class="form-control" name="packaging_quantity_${rc}"></div><div class="col-md-2"><label class="form-label">Pkg ID</label><input class="form-control" name="packaging_identifier_${rc}"></div><div class="col-md-3"><label class="form-label">Packaging Type</label><input class="form-control" name="Packaging_type_${rc}" placeholder="e.g. Blister"></div><div class="col-md-2"><label class="form-label">Type ID</label><input class="form-control" name="Packaging_typeID_${rc}"></div><div class="col-md-2"><label class="form-label">Material</label><input class="form-control" name="packaging_material_${rc}" placeholder="Aluminium"></div><div class="col-md-1"><label class="form-label">Mat ID</label><input class="form-control" name="packaging_materialID_${rc}"></div></div><div class="row g-2 mt-1"><div class="col-md-8"><label class="form-label">Description</label><input class="form-control" name="description_${rc}"></div><div class="col-md-4"><label class="form-label">Copackaged Indicator</label><select class="form-select" name="copackagedIndicator_${rc}"><option value="">-- Select --</option><option value="true">True</option><option value="false">False</option></select></div><input type="hidden" name="id_${rc}"></div>`; c.appendChild(d); rc++; updateRowCount(); }
+function addRow() { const c=document.getElementById('rows'), d=document.createElement('div'); d.className='card-entry mb-3'; d.innerHTML=`<div class="card-entry-header"><strong>Package #${rc+1}</strong><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove();updateRowCount()">Remove</button></div><div class="row g-2"><div class="col-md-3"><label class="form-label">Name</label><input class="form-control" name="name_${rc}"></div><div class="col-md-2"><label class="form-label">Identifier</label><input class="form-control" name="identifier_${rc}"></div><div class="col-md-3"><label class="form-label">Type</label><select class="form-select" name="type_${rc}"><option value="">-- Select --</option><option>Chemical Medicinal Product</option><option>Immunological Medicinal Product</option><option>Traditional Herbal Medicinal Product</option><option>Biological Medicinal Product</option><option>Herbal Medicinal Product</option><option>Homeopathic Medicinal Product</option><option>Radiopharmaceutical Medicinal Product</option><option>Plasma Derived Medicinal Product</option><option>Advanced Therapy Medicinal Product</option><option>Gene Therapy Medicinal Product</option><option>Cell Therapy Medicinal Product</option><option>Tissue Engineered Product</option></select></div><div class="col-md-2"><label class="form-label">Status Date</label><input type="date" class="form-control" name="statusDate_${rc}"></div><div class="col-md-2"><label class="form-label">Quantity</label><input class="form-control" name="quantity_${rc}" placeholder="e.g. 28 tablet"></div></div><div class="row g-2 mt-1"><div class="col-md-2"><label class="form-label">Pkg Qty</label><input class="form-control" name="packaging_quantity_${rc}"></div><div class="col-md-2"><label class="form-label">Pkg ID</label><input class="form-control" name="packaging_identifier_${rc}"></div><div class="col-md-5"><label class="form-label">Packaging Type</label><select class="form-select" name="Packaging_type_${rc}"><option value="">-- Select --</option><option>Blister</option><option>Bottle</option><option>Carton</option><option>Vial</option><option>Ampoule</option><option>Tube</option><option>Sachet</option><option>Syringe</option><option>Bag</option><option>Jar</option><option>Pre-filled pen</option><option>Pre-filled syringe</option><option>Container</option><option>Box</option><option>Pouch</option><option>Strip</option><option>Cap</option><option>Dropper applicator</option></select></div><div class="col-md-3"><label class="form-label">Material</label><select class="form-select" name="packaging_material_${rc}"><option value="">-- Select --</option><option>Aluminium</option><option>Glass</option><option>PVC</option><option>HDPE</option><option>LDPE</option><option>PET</option><option>Paper</option><option>Cardboard</option><option>Polypropylene</option><option>Polystyrene</option><option>Glass type II</option><option>Glass type III</option><option>Titanium Dioxide</option></select></div></div><div class="row g-2 mt-1"><div class="col-md-8"><label class="form-label">Description</label><input class="form-control" name="description_${rc}"></div><div class="col-md-4"><label class="form-label">Copackaged Indicator</label><select class="form-select" name="copackagedIndicator_${rc}"><option value="">-- Select --</option><option value="true">True</option><option value="false">False</option></select></div><input type="hidden" name="id_${rc}"></div>`; c.appendChild(d); rc++; updateRowCount(); }
 function updateRowCount() { const rows = document.querySelectorAll('#rows .card-entry'); document.querySelector('input[name="row_count"]').value = rows.length; rows.forEach((r,i) => { r.querySelector('strong').textContent='Package #'+(i+1); r.querySelectorAll('input,select').forEach(el => el.name = el.name.replace(/_\d+$/,'_'+i)); }); rc=rows.length; }
 </script>
 {% endblock %}

@@ -19,8 +19,19 @@
             <div class="row g-2">
                 <div class="col-md-3"><label class="form-label">Identifier</label><input class="form-control" name="identifier_{{ loop.index0 }}" value="{{ row.get('identifier','') }}"></div>
                 <div class="col-md-2"><label class="form-label">Status Date</label><input type="date" class="form-control" name="statusDate_{{ loop.index0 }}" value="{{ row.get('statusDate','') }}"></div>
-                <div class="col-md-3"><label class="form-label">Type</label><input class="form-control" name="type_{{ loop.index0 }}" value="{{ row.get('type','') }}" placeholder="e.g. Marketing Authorisation"></div>
-                <div class="col-md-2"><label class="form-label">Type ID</label><input class="form-control" name="typeID_{{ loop.index0 }}" value="{{ row.get('typeID','') }}"></div>
+                <div class="col-md-5">
+                    <label class="form-label">Type</label>
+                    <select class="form-select" name="type_{{ loop.index0 }}">
+                        <option value="">-- Select --</option>
+                        <option value="Marketing Authorisation" {% if row.get('type','')=='Marketing Authorisation' %}selected{% endif %}>Marketing Authorisation</option>
+                        <option value="Orphan Designation" {% if row.get('type','')=='Orphan Designation' %}selected{% endif %}>Orphan Designation</option>
+                        <option value="Parallel Trade Approval" {% if row.get('type','')=='Parallel Trade Approval' %}selected{% endif %}>Parallel Trade Approval</option>
+                        <option value="Minor Use Minor Species" {% if row.get('type','')=='Minor Use Minor Species' %}selected{% endif %}>Minor Use Minor Species</option>
+                        <option value="Paediatric Investigational Plan" {% if row.get('type','')=='Paediatric Investigational Plan' %}selected{% endif %}>Paediatric Investigational Plan</option>
+                        <option value="Homeopathic Registration" {% if row.get('type','')=='Homeopathic Registration' %}selected{% endif %}>Homeopathic Registration</option>
+                        <option value="Exemption for veterinary medicinal products" {% if row.get('type','')=='Exemption for veterinary medicinal products' %}selected{% endif %}>Exemption for veterinary medicinal products</option>
+                    </select>
+                </div>
                 <div class="col-md-2">
                     <label class="form-label">Reference</label>
                     <select class="form-select" name="reference_{{ loop.index0 }}">
@@ -35,6 +46,7 @@
                 <div class="col-md-2"><label class="form-label">Region ID</label><input class="form-control" name="regionID_{{ loop.index0 }}" value="{{ row.get('regionID','') }}"></div>
                 <input type="hidden" name="id_{{ loop.index0 }}" value="{{ row.get('id','') }}">
             </div>
+            {% if errors %}{% for e_idx, e_msgs in errors %}{% if e_idx == loop.index0 %}{% for msg in e_msgs %}<div class="error-message">{{ msg }}</div>{% endfor %}{% endif %}{% endfor %}{% endif %}
         </div>
         {% endfor %}
     </div>
@@ -49,7 +61,7 @@
 
 <script>
 let rc = {{ row_list|length if row_list else 1 }};
-function addRow() { const c=document.getElementById('rows'), d=document.createElement('div'); d.className='card-entry mb-3'; d.innerHTML=`<div class="card-entry-header"><strong>Authorization #${rc+1}</strong><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove();updateRowCount()">Remove</button></div><div class="row g-2"><div class="col-md-3"><label class="form-label">Identifier</label><input class="form-control" name="identifier_${rc}"></div><div class="col-md-2"><label class="form-label">Status Date</label><input type="date" class="form-control" name="statusDate_${rc}"></div><div class="col-md-3"><label class="form-label">Type</label><input class="form-control" name="type_${rc}" placeholder="e.g. Marketing Authorisation"></div><div class="col-md-2"><label class="form-label">Type ID</label><input class="form-control" name="typeID_${rc}"></div><div class="col-md-2"><label class="form-label">Reference</label><select class="form-select" name="reference_${rc}"><option value="">-- Select --</option><option>MedicinalProduct</option><option>PackagedProduct</option></select></div></div><div class="row g-2 mt-1"><div class="col-md-3"><label class="form-label">Region</label><input class="form-control" name="region_${rc}"></div><div class="col-md-2"><label class="form-label">Region ID</label><input class="form-control" name="regionID_${rc}"></div><input type="hidden" name="id_${rc}"></div>`; c.appendChild(d); rc++; updateRowCount(); }
+function addRow() { const c=document.getElementById('rows'), d=document.createElement('div'); d.className='card-entry mb-3'; d.innerHTML=`<div class="card-entry-header"><strong>Authorization #${rc+1}</strong><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove();updateRowCount()">Remove</button></div><div class="row g-2"><div class="col-md-3"><label class="form-label">Identifier</label><input class="form-control" name="identifier_${rc}"></div><div class="col-md-2"><label class="form-label">Status Date</label><input type="date" class="form-control" name="statusDate_${rc}"></div><div class="col-md-5"><label class="form-label">Type</label><select class="form-select" name="type_${rc}"><option value="">-- Select --</option><option>Marketing Authorisation</option><option>Orphan Designation</option><option>Parallel Trade Approval</option><option>Minor Use Minor Species</option><option>Paediatric Investigational Plan</option><option>Homeopathic Registration</option><option>Exemption for veterinary medicinal products</option></select></div><div class="col-md-2"><label class="form-label">Reference</label><select class="form-select" name="reference_${rc}"><option value="">-- Select --</option><option>MedicinalProduct</option><option>PackagedProduct</option></select></div></div><div class="row g-2 mt-1"><div class="col-md-3"><label class="form-label">Region</label><input class="form-control" name="region_${rc}"></div><div class="col-md-2"><label class="form-label">Region ID</label><input class="form-control" name="regionID_${rc}"></div><input type="hidden" name="id_${rc}"></div>`; c.appendChild(d); rc++; updateRowCount(); }
 function updateRowCount() { const rows = document.querySelectorAll('#rows .card-entry'); document.querySelector('input[name="row_count"]').value = rows.length; rows.forEach((r,i) => { r.querySelector('strong').textContent='Authorization #'+(i+1); r.querySelectorAll('input,select').forEach(el => el.name = el.name.replace(/_\d+$/,'_'+i)); }); rc=rows.length; }
 </script>
 {% endblock %}

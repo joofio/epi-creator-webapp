@@ -29,6 +29,62 @@ elements = [
     "Bundle",
 ]
 
+SHEET_COLUMNS = {
+    "AdministrableProductDefinition": [
+        "identifier", "doseForm", "doseFormID", "unit_presentation",
+        "unit_presentationID", "route", "routeID", "id",
+    ],
+    "Substance": [
+        "name", "identifier", "version", "description",
+        "moleclularWeigth", "moleclularWeigthType", "molecularFormula",
+        "name_name", "name_type", "name_typeID", "id",
+    ],
+    "RegulatedAuthorization": [
+        "identifier", "statusDate", "type", "typeID",
+        "reference", "region", "regionID", "id",
+    ],
+    "Organization": [
+        "name", "identifier", "type", "typeID", "id",
+        "address_line", "address_city", "address_country", "address_postalCode",
+    ],
+    "ClinicalUseDefinition": [
+        "type", "name", "identifier", "identifier_system",
+        "conceptID", "concept", "id",
+    ],
+    "Composition": [
+        "name", "language", "date", "identifier_system", "identifier",
+        "package_leaflet", "information_user", "what_in_leaflet",
+        "what_product_is", "before_take", "how_to_take",
+        "side_effects", "how_to_store", "other_info", "id",
+    ],
+    "Ingredient": [
+        "name", "role", "roleID", "identifier",
+        "StrengthBasis", "StrengthBasisText", "quantity", "quantity unit", "id",
+    ],
+    "MedicinalProductDefinition": [
+        "productname", "inventedNamePart", "ScientificNamePart",
+        "StrengthPart", "PharmaceuticalDosePart",
+        "country", "countryCode", "language", "languageID",
+        "statusSuply", "statusSuplyID",
+        "identifier_system", "identifier_value",
+        "classification_ids", "classification_texts", "indication", "id",
+    ],
+    "ManufacturedItemDefinition": [
+        "identifier", "doseForm", "doseFormID",
+        "unit_presentation", "unit_presentationID", "id",
+    ],
+    "PackagedProductDefinition": [
+        "name", "identifier", "type", "typeID", "statusDate",
+        "quantity", "packaging_quantity", "packaging_identifier",
+        "Packaging_type", "Packaging_typeID",
+        "packaging_material", "packaging_materialID",
+        "description", "copackagedIndicator", "id",
+    ],
+    "Bundle": [
+        "language", "identifier_system", "identifier_value", "id",
+    ],
+}
+
 
 def add_folder_to_zip(zipfile, folder_path, arcname):
     for root, dirs, files in walk(folder_path):
@@ -75,15 +131,54 @@ def create_env(TEMPLATE_FOLDER):
 
 
 def build_dataframes(session_data):
+    from epi_creator.lookup import get_lookups
+
+    ingredient_role_map = {}
+    for item in get_lookups().get("ingredientRoles", []):
+        ingredient_role_map[item["name"]] = item["id"]
+
+    auth_type_map = {}
+    for item in get_lookups().get("authorizationTypes", []):
+        auth_type_map[item["name"]] = item["id"]
+
+    ppd_type_map = {}
+    for item in get_lookups().get("packagedProductTypes", []):
+        ppd_type_map[item] = get_lookups().get("packagedProductTypeIDLookup", {}).get(item, "")
+
+    pkg_type_map = get_lookups().get("packagingTypeIDLookup", {})
+
+    pkg_material_map = get_lookups().get("packagingMaterialIDLookup", {})
+
     dataframes = {}
     for sheet in elements:
         rows = session_data.get(sheet, [])
         if not rows:
             rows = [{}]
         df = pd.DataFrame(rows)
+
+        for col in SHEET_COLUMNS.get(sheet, []):
+            if col not in df.columns:
+                df[col] = ""
+
+        if sheet == "Ingredient":
+            if "role" in df.columns:
+                df["roleID"] = df["role"].map(ingredient_role_map).fillna("")
+
+        if sheet == "RegulatedAuthorization":
+            if "type" in df.columns:
+                df["typeID"] = df["type"].map(auth_type_map).fillna("")
+
+        if sheet == "PackagedProductDefinition":
+            if "type" in df.columns:
+                df["typeID"] = df["type"].map(ppd_type_map).fillna("")
+            if "Packaging_type" in df.columns:
+                df["Packaging_typeID"] = df["Packaging_type"].map(pkg_type_map).fillna("")
+            if "packaging_material" in df.columns:
+                df["packaging_materialID"] = df["packaging_material"].map(pkg_material_map).fillna("")
+
         if "id" in df.columns:
             df["id_hash"] = df["id"].apply(lambda x: uuid.uuid4())
-            df["id"].fillna(df["id_hash"], inplace=True)
+            df["id"] = df["id"].fillna(df["id_hash"])
         else:
             df["id_hash"] = [uuid.uuid4() for _ in range(len(df))]
             df["id"] = df["id_hash"]

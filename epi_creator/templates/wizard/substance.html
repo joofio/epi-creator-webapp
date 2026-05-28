@@ -11,26 +11,49 @@
     <div id="substance-rows">
         {% set row_list = rows if rows and rows|length > 0 else [{}] %}
         {% for row in row_list %}
+        {% set s_idx = loop.index0 %}
         <div class="card-entry mb-3">
             <div class="card-entry-header">
                 <strong>Substance #{{ loop.index }}</strong>
                 <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button>
             </div>
             <div class="row g-2">
-                <div class="col-md-6"><label class="form-label">Name *</label><input class="form-control" name="name_{{ loop.index0 }}" value="{{ row.get('name','') }}"></div>
-                <div class="col-md-3"><label class="form-label">Identifier (GSRS)</label><input class="form-control" name="identifier_{{ loop.index0 }}" value="{{ row.get('identifier','') }}"></div>
-                <div class="col-md-3"><label class="form-label">Version</label><input class="form-control" name="version_{{ loop.index0 }}" value="{{ row.get('version','') }}"></div>
-                <div class="col-md-12"><label class="form-label">Description</label><textarea class="form-control" name="description_{{ loop.index0 }}" rows="2">{{ row.get('description','') }}</textarea></div>
-                <div class="col-md-4"><label class="form-label">Molecular Formula</label><input class="form-control" name="molecularFormula_{{ loop.index0 }}" value="{{ row.get('molecularFormula','') }}"></div>
-                <div class="col-md-4"><label class="form-label">Molecular Weight (pipe-delimited)</label><input class="form-control" name="moleclularWeigth_{{ loop.index0 }}" value="{{ row.get('moleclularWeigth','') }}" placeholder="e.g. 250|500"></div>
-                <div class="col-md-4"><label class="form-label">Weight Type (pipe-delimited)</label><input class="form-control" name="moleclularWeigthType_{{ loop.index0 }}" value="{{ row.get('moleclularWeigthType','') }}" placeholder="e.g. base|salt"></div>
+                <div class="col-md-6"><label class="form-label">Name *</label><input class="form-control" name="name_{{ s_idx }}" value="{{ row.get('name','') }}"></div>
+                <div class="col-md-3"><label class="form-label">Identifier (GSRS) *</label><input class="form-control" name="identifier_{{ s_idx }}" value="{{ row.get('identifier','') }}"></div>
+                <div class="col-md-3"><label class="form-label">Version</label><input class="form-control" name="version_{{ s_idx }}" value="{{ row.get('version','') }}"></div>
+                <div class="col-md-12"><label class="form-label">Description</label><textarea class="form-control" name="description_{{ s_idx }}" rows="2">{{ row.get('description','') }}</textarea></div>
+                <div class="col-md-6"><label class="form-label">Molecular Formula</label><input class="form-control" name="molecularFormula_{{ s_idx }}" value="{{ row.get('molecularFormula','') }}"></div>
             </div>
+
             <div class="row g-2 mt-1">
-                <div class="col-md-6"><label class="form-label">Alt. Name</label><input class="form-control" name="name_name_{{ loop.index0 }}" value="{{ row.get('name_name','') }}"></div>
-                <div class="col-md-3"><label class="form-label">Name Type</label><input class="form-control" name="name_type_{{ loop.index0 }}" value="{{ row.get('name_type','') }}"></div>
-                <div class="col-md-3"><label class="form-label">Name Type ID</label><input class="form-control" name="name_typeID_{{ loop.index0 }}" value="{{ row.get('name_typeID','') }}"></div>
-                <input type="hidden" name="id_{{ loop.index0 }}" value="{{ row.get('id','') }}">
+                <div class="col-md-6"><label class="form-label">Alt. Name</label><input class="form-control" name="name_name_{{ s_idx }}" value="{{ row.get('name_name','') }}"></div>
+                <div class="col-md-3"><label class="form-label">Name Type</label><input class="form-control" name="name_type_{{ s_idx }}" value="{{ row.get('name_type','') }}"></div>
+                <div class="col-md-3"><label class="form-label">Name Type ID</label><input class="form-control" name="name_typeID_{{ s_idx }}" value="{{ row.get('name_typeID','') }}"></div>
+                <input type="hidden" name="id_{{ s_idx }}" value="{{ row.get('id','') }}">
             </div>
+
+            <div class="row g-2 mt-2">
+                <div class="col-12">
+                    <label class="form-label fw-bold">Molecular Weights</label>
+                    <div class="mw-rows" data-substance="{{ s_idx }}">
+                        {% set mw_vals = (row.get('moleclularWeigth','') or '').split('|') %}
+                        {% set mw_typs = (row.get('moleclularWeigthType','') or '').split('|') %}
+                        {% set has_mw = mw_vals is defined and mw_vals|length > 0 and mw_vals[0] != '' %}
+                        {% if not has_mw %}{% set mw_vals = [''] %}{% set mw_typs = [''] %}{% endif %}
+                        {% for mw_idx in range(mw_vals|length) %}
+                        <div class="input-group input-group-sm mb-1">
+                            <input class="form-control" name="mw_value_{{ s_idx }}_{{ mw_idx }}" value="{{ mw_vals[mw_idx] }}" placeholder="Amount">
+                            <input class="form-control" name="mw_type_{{ s_idx }}_{{ mw_idx }}" value="{{ mw_typs[mw_idx] if mw_idx < mw_typs|length else '' }}" placeholder="Type (e.g. base, salt)">
+                            <button type="button" class="btn btn-outline-danger" onclick="this.closest('.input-group').remove(); updateMWCount({{ s_idx }});">x</button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <input type="hidden" name="mw_count_{{ s_idx }}" value="{{ mw_vals|length }}">
+                    <button type="button" class="btn btn-sm btn-outline-secondary mt-1" onclick="addMWRow({{ s_idx }})">+ Add Weight</button>
+                </div>
+            </div>
+
+            {% if errors %}{% for e_idx, e_msgs in errors %}{% if e_idx == s_idx %}{% for msg in e_msgs %}<div class="error-message">{{ msg }}</div>{% endfor %}{% endif %}{% endfor %}{% endif %}
         </div>
         {% endfor %}
     </div>
@@ -45,18 +68,84 @@
 
 <script>
 let rowCounter = {{ row_list|length if row_list else 1 }};
+
+function addMWRow(substanceIndex) {
+    const container = document.querySelector(`.mw-rows[data-substance="${substanceIndex}"]`);
+    if (!container) return;
+    const countHidden = document.querySelector(`input[name="mw_count_${substanceIndex}"]`);
+    const count = parseInt(countHidden.value) || 0;
+    const div = document.createElement('div');
+    div.className = 'input-group input-group-sm mb-1';
+    div.innerHTML = `<input class="form-control" name="mw_value_${substanceIndex}_${count}" placeholder="Amount">`
+        + `<input class="form-control" name="mw_type_${substanceIndex}_${count}" placeholder="Type (e.g. base, salt)">`
+        + `<button type="button" class="btn btn-outline-danger" onclick="this.closest('.input-group').remove(); updateMWCount(${substanceIndex});">x</button>`;
+    container.appendChild(div);
+    countHidden.value = count + 1;
+}
+
+function updateMWCount(substanceIndex) {
+    const container = document.querySelector(`.mw-rows[data-substance="${substanceIndex}"]`);
+    if (!container) return;
+    const entries = container.querySelectorAll('.input-group');
+    const countHidden = document.querySelector(`input[name="mw_count_${substanceIndex}"]`);
+    if (countHidden) countHidden.value = entries.length;
+    entries.forEach((entry, i) => {
+        entry.querySelectorAll('input').forEach(input => {
+            input.name = input.name.replace(/_\d+_\d+$/, `_${substanceIndex}_${i}`);
+        });
+    });
+}
+
 function addRow() {
     const c = document.getElementById('substance-rows');
     const d = document.createElement('div');
     d.className = 'card-entry mb-3';
-    d.innerHTML = `<div class="card-entry-header"><strong>Substance #${rowCounter+1}</strong><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button></div>
-    <div class="row g-2"><div class="col-md-6"><label class="form-label">Name *</label><input class="form-control" name="name_${rowCounter}"></div><div class="col-md-3"><label class="form-label">Identifier (GSRS)</label><input class="form-control" name="identifier_${rowCounter}"></div><div class="col-md-3"><label class="form-label">Version</label><input class="form-control" name="version_${rowCounter}"></div><div class="col-md-12"><label class="form-label">Description</label><textarea class="form-control" name="description_${rowCounter}" rows="2"></textarea></div><div class="col-md-4"><label class="form-label">Molecular Formula</label><input class="form-control" name="molecularFormula_${rowCounter}"></div><div class="col-md-4"><label class="form-label">Molecular Weight</label><input class="form-control" name="moleclularWeigth_${rowCounter}" placeholder="e.g. 250|500"></div><div class="col-md-4"><label class="form-label">Weight Type</label><input class="form-control" name="moleclularWeigthType_${rowCounter}" placeholder="e.g. base|salt"></div></div><div class="row g-2 mt-1"><div class="col-md-6"><label class="form-label">Alt. Name</label><input class="form-control" name="name_name_${rowCounter}"></div><div class="col-md-3"><label class="form-label">Name Type</label><input class="form-control" name="name_type_${rowCounter}"></div><div class="col-md-3"><label class="form-label">Name Type ID</label><input class="form-control" name="name_typeID_${rowCounter}"></div><input type="hidden" name="id_${rowCounter}"></div>`;
+    const idx = rowCounter;
+    d.innerHTML = `<div class="card-entry-header"><strong>Substance #${idx+1}</strong><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button></div>`
+        + `<div class="row g-2">`
+        + `<div class="col-md-6"><label class="form-label">Name *</label><input class="form-control" name="name_${idx}"></div>`
+        + `<div class="col-md-3"><label class="form-label">Identifier (GSRS) *</label><input class="form-control" name="identifier_${idx}"></div>`
+        + `<div class="col-md-3"><label class="form-label">Version</label><input class="form-control" name="version_${idx}"></div>`
+        + `<div class="col-md-12"><label class="form-label">Description</label><textarea class="form-control" name="description_${idx}" rows="2"></textarea></div>`
+        + `<div class="col-md-6"><label class="form-label">Molecular Formula</label><input class="form-control" name="molecularFormula_${idx}"></div>`
+        + `</div>`
+        + `<div class="row g-2 mt-1">`
+        + `<div class="col-md-6"><label class="form-label">Alt. Name</label><input class="form-control" name="name_name_${idx}"></div>`
+        + `<div class="col-md-3"><label class="form-label">Name Type</label><input class="form-control" name="name_type_${idx}"></div>`
+        + `<div class="col-md-3"><label class="form-label">Name Type ID</label><input class="form-control" name="name_typeID_${idx}"></div>`
+        + `<input type="hidden" name="id_${idx}">`
+        + `</div>`
+        + `<div class="row g-2 mt-2"><div class="col-12">`
+        + `<label class="form-label fw-bold">Molecular Weights</label>`
+        + `<div class="mw-rows" data-substance="${idx}">`
+        + `<div class="input-group input-group-sm mb-1">`
+        + `<input class="form-control" name="mw_value_${idx}_0" placeholder="Amount">`
+        + `<input class="form-control" name="mw_type_${idx}_0" placeholder="Type (e.g. base, salt)">`
+        + `<button type="button" class="btn btn-outline-danger" onclick="this.closest('.input-group').remove(); updateMWCount(${idx});">x</button>`
+        + `</div></div>`
+        + `<input type="hidden" name="mw_count_${idx}" value="1">`
+        + `<button type="button" class="btn btn-sm btn-outline-secondary mt-1" onclick="addMWRow(${idx})">+ Add Weight</button>`
+        + `</div></div>`;
     c.appendChild(d); rowCounter++; updateRowCount();
 }
+
 function updateRowCount() {
     const rows = document.querySelectorAll('#substance-rows .card-entry');
     document.querySelector('input[name="row_count"]').value = rows.length;
-    rows.forEach((r,i) => { r.querySelector('strong').textContent = 'Substance #'+(i+1); r.querySelectorAll('input,textarea').forEach(el => el.name = el.name.replace(/_\d+$/,'_'+i)); });
+    rows.forEach((r,i) => {
+        r.querySelector('strong').textContent = 'Substance #'+(i+1);
+        r.querySelectorAll('input,textarea').forEach(el => {
+            if (el.name.startsWith('mw_value_') || el.name.startsWith('mw_type_') || el.name.startsWith('mw_count_')) {
+                el.name = el.name.replace(/^(\w+)_\d+(_\d+)?$/, (_, prefix, suffix) => prefix + '_' + i + (suffix || ''));
+            } else {
+                el.name = el.name.replace(/_\d+$/, '_'+i);
+            }
+        });
+        const mwContainer = r.querySelector('.mw-rows');
+        if (mwContainer) mwContainer.setAttribute('data-substance', i);
+        const addBtn = r.querySelector('button[onclick*="addMWRow"]');
+        if (addBtn) addBtn.setAttribute('onclick', 'addMWRow('+i+')');
+    });
     rowCounter = rows.length;
 }
 </script>

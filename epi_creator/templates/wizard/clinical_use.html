@@ -35,6 +35,7 @@
                 <div class="col-md-5"><label class="form-label">Concept Name</label><input class="form-control" name="concept_{{ loop.index0 }}" value="{{ row.get('concept','') }}"></div>
                 <input type="hidden" name="id_{{ loop.index0 }}" value="{{ row.get('id','') }}">
             </div>
+            {% if errors %}{% for e_idx, e_msgs in errors %}{% if e_idx == loop.index0 %}{% for msg in e_msgs %}<div class="error-message">{{ msg }}</div>{% endfor %}{% endif %}{% endfor %}{% endif %}
         </div>
         {% endfor %}
     </div>
