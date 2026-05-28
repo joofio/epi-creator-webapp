@@ -43,7 +43,7 @@ document.addEventListener('alpine:init', () => {
                 this.selectedLabel = item;
                 this.selectedId = item;
             }
-            this.query = '';
+            this.query = this.selectedLabel;
             this.open = false;
             if (this.idFieldName) {
                 const hidden = this.$el.querySelector(`input[name="${this.idFieldName}"]`);

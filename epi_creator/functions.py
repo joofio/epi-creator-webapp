@@ -145,6 +145,9 @@ def build_dataframes(session_data):
     for item in get_lookups().get("packagedProductTypes", []):
         ppd_type_map[item] = get_lookups().get("packagedProductTypeIDLookup", {}).get(item, "")
 
+    dose_form_map = get_lookups().get("doseFormIDLookup", {})
+    route_map = get_lookups().get("routeIDLookup", {})
+    unit_pres_map = get_lookups().get("unitPresentationIDLookup", {})
     pkg_type_map = get_lookups().get("packagingTypeIDLookup", {})
 
     pkg_material_map = get_lookups().get("packagingMaterialIDLookup", {})
@@ -167,6 +170,15 @@ def build_dataframes(session_data):
         if sheet == "RegulatedAuthorization":
             if "type" in df.columns:
                 df["typeID"] = df["type"].map(auth_type_map).fillna("")
+
+        if sheet in ("AdministrableProductDefinition", "ManufacturedItemDefinition"):
+            if "doseForm" in df.columns:
+                df["doseFormID"] = df["doseForm"].map(dose_form_map).fillna(df.get("doseFormID", ""))
+            if "unit_presentation" in df.columns:
+                df["unit_presentationID"] = df["unit_presentation"].map(unit_pres_map).fillna(df.get("unit_presentationID", ""))
+        if sheet == "AdministrableProductDefinition":
+            if "route" in df.columns:
+                df["routeID"] = df["route"].map(route_map).fillna(df.get("routeID", ""))
 
         if sheet == "PackagedProductDefinition":
             if "type" in df.columns:

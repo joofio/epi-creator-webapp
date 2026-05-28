@@ -22,7 +22,7 @@
                              x-text="typeof item === 'object' ? (item.label || item.name || item.text) : item"></div>
                     </template>
                 </div>
-                <div x-show="selectedLabel && !open && !query" class="text-muted small mt-1">
+                <div x-show="selectedLabel && !open" class="text-muted small mt-1">
                     <span x-text="selectedLabel"></span>
                     <button type="button" @click="clear()" class="btn btn-sm p-0 ms-1" style="font-size:11px;color:#6c757d">&times; clear</button>
                 </div>
@@ -40,7 +40,7 @@
                              x-text="typeof item === 'object' ? (item.label || item.name || item.text) : item"></div>
                     </template>
                 </div>
-                <div x-show="selectedLabel && !open && !query" class="text-muted small mt-1">
+                <div x-show="selectedLabel && !open" class="text-muted small mt-1">
                     <span x-text="selectedLabel"></span>
                     <button type="button" @click="clear()" class="btn btn-sm p-0 ms-1" style="font-size:11px;color:#6c757d">&times; clear</button>
                 </div>
