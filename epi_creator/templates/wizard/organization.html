@@ -6,10 +6,10 @@
 <form method="post"
       hx-target="#wizard-container" hx-swap="innerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
-    <input type="hidden" name="row_count" value="{{ rows|length if rows else 1 }}">
+    <input type="hidden" name="row_count" value="{{ rows|length if rows else 0 }}">
 
     <div id="org-rows">
-        {% set row_list = rows if rows and rows|length > 0 else [{}] %}
+        {% set row_list = rows if rows and rows|length > 0 else [] %}
         {% for row in row_list %}
         <div class="card-entry mb-3">
             <div class="card-entry-header">
@@ -99,7 +99,7 @@ function autoFillTypeID(select) {
     const typeID = card.querySelector('input[name*="typeID"]');
     if (typeID) typeID.value = ORG_TYPE_IDS[select.value] || '';
 }
-let orgRowCount = {{ row_list|length if row_list else 1 }};
+let orgRowCount = {{ row_list|length if row_list else 0 }};
 function addOrgRow() {
     const container = document.getElementById('org-rows');
     const div = document.createElement('div');

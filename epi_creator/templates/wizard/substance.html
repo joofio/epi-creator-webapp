@@ -6,10 +6,10 @@
 <form method="post"
       hx-target="#wizard-container" hx-swap="innerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
-    <input type="hidden" name="row_count" value="{{ rows|length if rows else 1 }}">
+    <input type="hidden" name="row_count" value="{{ rows|length if rows else 0 }}">
 
     <div id="substance-rows">
-        {% set row_list = rows if rows and rows|length > 0 else [{}] %}
+        {% set row_list = rows if rows and rows|length > 0 else [] %}
         {% for row in row_list %}
         {% set s_idx = loop.index0 %}
         <div class="card-entry mb-3">
@@ -67,7 +67,7 @@
 </form>
 
 <script>
-let rowCounter = {{ row_list|length if row_list else 1 }};
+let rowCounter = {{ row_list|length if row_list else 0 }};
 
 function addMWRow(substanceIndex) {
     const container = document.querySelector(`.mw-rows[data-substance="${substanceIndex}"]`);

@@ -9,7 +9,7 @@
     <input type="hidden" name="row_count" value="1">
     {% set row = rows[0] if rows and rows|length > 0 else {} %}
     <div class="row g-2 mb-3">
-        <div class="col-md-4"><label class="form-label">Identifier</label><input class="form-control" name="identifier_0" value="{{ row.get('identifier','') }}"></div>
+        <div class="col-md-4"><label class="form-label">Identifier *</label><input class="form-control" name="identifier_0" value="{{ row.get('identifier','') }}"></div>
         <div class="col-md-4" x-data="autocomplete('doseForms', 'doseFormID_0', 'doseForm_0')">
             <label class="form-label">Dose Form</label>
             <div class="autocomplete-wrapper">

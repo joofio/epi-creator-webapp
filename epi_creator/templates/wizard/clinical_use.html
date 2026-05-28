@@ -6,10 +6,10 @@
 <form method="post"
       hx-target="#wizard-container" hx-swap="innerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
-    <input type="hidden" name="row_count" value="{{ rows|length if rows else 1 }}">
+    <input type="hidden" name="row_count" value="{{ rows|length if rows else 0 }}">
 
     <div id="rows">
-        {% set row_list = rows if rows and rows|length > 0 else [{}] %}
+        {% set row_list = rows if rows and rows|length > 0 else [] %}
         {% for row in row_list %}
         <div class="card-entry mb-3">
             <div class="card-entry-header">
@@ -26,13 +26,13 @@
                         <option value="interaction" {% if row.get('type','')=='interaction' %}selected{% endif %}>Interaction</option>
                     </select>
                 </div>
-                <div class="col-md-4"><label class="form-label">Name</label><input class="form-control" name="name_{{ loop.index0 }}" value="{{ row.get('name','') }}"></div>
+                <div class="col-md-4"><label class="form-label">Name *</label><input class="form-control" name="name_{{ loop.index0 }}" value="{{ row.get('name','') }}"></div>
                 <div class="col-md-3"><label class="form-label">Identifier</label><input class="form-control" name="identifier_{{ loop.index0 }}" value="{{ row.get('identifier','') }}"></div>
                 <div class="col-md-2"><label class="form-label">Identifier System</label><input class="form-control" name="identifier_system_{{ loop.index0 }}" value="{{ row.get('identifier_system','') }}"></div>
             </div>
             <div class="row g-2 mt-1">
-                <div class="col-md-3"><label class="form-label">Concept (MedDRA/GSRS)</label><input class="form-control" name="conceptID_{{ loop.index0 }}" value="{{ row.get('conceptID','') }}"></div>
-                <div class="col-md-5"><label class="form-label">Concept Name</label><input class="form-control" name="concept_{{ loop.index0 }}" value="{{ row.get('concept','') }}"></div>
+                <div class="col-md-3"><label class="form-label">Concept (MedDRA/GSRS) *</label><input class="form-control" name="conceptID_{{ loop.index0 }}" value="{{ row.get('conceptID','') }}"></div>
+                <div class="col-md-5"><label class="form-label">Concept Name *</label><input class="form-control" name="concept_{{ loop.index0 }}" value="{{ row.get('concept','') }}"></div>
                 <input type="hidden" name="id_{{ loop.index0 }}" value="{{ row.get('id','') }}">
             </div>
             {% if errors %}{% for e_idx, e_msgs in errors %}{% if e_idx == loop.index0 %}{% for msg in e_msgs %}<div class="error-message">{{ msg }}</div>{% endfor %}{% endif %}{% endfor %}{% endif %}
@@ -49,8 +49,8 @@
 </form>
 
 <script>
-let rc = {{ row_list|length if row_list else 1 }};
-function addRow() { const c=document.getElementById('rows'), d=document.createElement('div'); d.className='card-entry mb-3'; d.innerHTML=`<div class="card-entry-header"><strong>New</strong><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove();updateRowCount()">Remove</button></div><div class="row g-2"><div class="col-md-3"><label class="form-label">Type</label><select class="form-select" name="type_${rc}" onchange="this.closest('.card-entry').querySelector('strong').textContent=this.value.charAt(0).toUpperCase()+this.value.slice(1)"><option value="">-- Select --</option><option>indication</option><option>contraindication</option><option>interaction</option></select></div><div class="col-md-4"><label class="form-label">Name</label><input class="form-control" name="name_${rc}"></div><div class="col-md-3"><label class="form-label">Identifier</label><input class="form-control" name="identifier_${rc}"></div><div class="col-md-2"><label class="form-label">Identifier System</label><input class="form-control" name="identifier_system_${rc}"></div></div><div class="row g-2 mt-1"><div class="col-md-3"><label class="form-label">Concept (MedDRA/GSRS)</label><input class="form-control" name="conceptID_${rc}"></div><div class="col-md-5"><label class="form-label">Concept Name</label><input class="form-control" name="concept_${rc}"></div><input type="hidden" name="id_${rc}"></div>`; c.appendChild(d); rc++; updateRowCount(); }
+let rc = {{ row_list|length if row_list else 0 }};
+function addRow() { const c=document.getElementById('rows'), d=document.createElement('div'); d.className='card-entry mb-3'; d.innerHTML=`<div class="card-entry-header"><strong>New</strong><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove();updateRowCount()">Remove</button></div><div class="row g-2"><div class="col-md-3"><label class="form-label">Type</label><select class="form-select" name="type_${rc}" onchange="this.closest('.card-entry').querySelector('strong').textContent=this.value.charAt(0).toUpperCase()+this.value.slice(1)"><option value="">-- Select --</option><option>indication</option><option>contraindication</option><option>interaction</option></select></div><div class="col-md-4"><label class="form-label">Name *</label><input class="form-control" name="name_${rc}"></div><div class="col-md-3"><label class="form-label">Identifier</label><input class="form-control" name="identifier_${rc}"></div><div class="col-md-2"><label class="form-label">Identifier System</label><input class="form-control" name="identifier_system_${rc}"></div></div><div class="row g-2 mt-1"><div class="col-md-3"><label class="form-label">Concept (MedDRA/GSRS) *</label><input class="form-control" name="conceptID_${rc}"></div><div class="col-md-5"><label class="form-label">Concept Name *</label><input class="form-control" name="concept_${rc}"></div><input type="hidden" name="id_${rc}"></div>`; c.appendChild(d); rc++; updateRowCount(); }
 function updateRowCount() { const rows = document.querySelectorAll('#rows .card-entry'); document.querySelector('input[name="row_count"]').value = rows.length; rows.forEach((r,i) => { const s = r.querySelector('select'); r.querySelector('strong').textContent = s ? (s.value ? s.value.charAt(0).toUpperCase()+s.value.slice(1) : 'New') : 'New'; r.querySelectorAll('input,select').forEach(el => el.name = el.name.replace(/_\d+$/,'_'+i)); }); rc=rows.length; }
 </script>
 {% endblock %}

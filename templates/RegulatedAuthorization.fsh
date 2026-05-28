@@ -7,7 +7,7 @@ Title: "Regulated Authorization for {{data["dictionary"]["productname"]}} {{inde
 Description: "Regulated Authorization for {{data["dictionary"]["productname"]}} {{index}}"
 Usage: #example
 
-{% if row["identifier"]|string !="nan" -%}
+{% if row["identifier"]|string not in ("nan","") -%}
 * identifier.system = $spor-prod
 * identifier.value = "{{ row["identifier"]|trim }}"
 * identifier.use = #official
@@ -29,7 +29,7 @@ Usage: #example
 //* type = $spor-rms#100000072062
 //* type.text = "Marketing Authorisation"
 
-{%- if row["regionID"]|string !="nan" -%}
+{%- if row["regionID"]|string not in ("nan","") -%}
 * region = urn:iso:std:iso:3166#{{ row["regionID"] }} "{{ row["region"] }}"
 {% endif %}
 

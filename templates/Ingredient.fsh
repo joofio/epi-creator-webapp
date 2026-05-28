@@ -27,8 +27,8 @@ Usage: #example
 
 * substance.code.concept.coding = $ginas#{{ row["identifier"]  }} "{{ row["name"] | trim  }}"
 
-{% if row["StrengthBasis"]|string !="nan" %}
-{% if row["quantity"]|string !="nan" %}
+{% if row["StrengthBasis"]|string not in ("nan","") %}
+{% if row["quantity"]|string not in ("nan","") %}
 
 * substance.strength.presentationQuantity = {{ row["quantity"] | replace (",",".")|int  }} '{{ row["quantity unit"]  }}'
 {% endif %}

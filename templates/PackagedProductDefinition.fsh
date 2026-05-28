@@ -13,7 +13,7 @@ Title: "Packaged Product Definition: {{data["dictionary"]["productname"]}} {{row
 Description: "Packaged Product Definition: {{data["dictionary"]["productname"]}} {{row["packaging_quantity"]}}"
 Usage: #example
 
-{% if row["identifier"]|string !="nan" -%}
+{% if row["identifier"]|string not in ("nan","") -%}
 * identifier.system = $spor-prod
 * identifier.value = "{{ row["identifier"]|trim }}"
 * identifier.use = #official
@@ -28,17 +28,17 @@ Usage: #example
 * status = http://hl7.org/fhir/publication-status#active "Active"
 * statusDate = "{{ row["statusDate"]}}"
 
-{% if row["quantity"].split(' ')[1]|string in ["tablet","tablets","vial","capsules"]  %}
+{%- if row["quantity"]|string not in ("nan","") and " " in row["quantity"]|string and row["quantity"].split(' ')[1]|string in ["tablet","tablets","vial","capsules"]  %}
 * containedItemQuantity = {{ row["quantity"].split(' ')[0] }} '{{ '{' }}{{ row["quantity"].split(' ')[1] }}{{ '}' }}'
 
-{% elif row["quantity"]|string !="nan" %}
-
-* containedItemQuantity = {{ row["quantity"].split(' ')[0] }} '{{ row["quantity"].split(' ')[1] }}'
+{% elif row["quantity"]|string not in ("nan","") %}
+{% set qty_unit = row["quantity"].split(' ')[1] if " " in row["quantity"]|string else "" %}
+* containedItemQuantity = {{ row["quantity"].split(' ')[0] }}{% if qty_unit %} '{{ qty_unit }}'{% endif %}
 
 {% endif -%}
 
-{{ "* description = \"{}\"".format(row.description) if row.description|string !="nan"}}
-{{ "* copackagedIndicator = {}".format(row.copackagedIndicator|lower) if row.copackagedIndicator|string !="nan"}}
+{{ "* description = \"{}\"".format(row.description) if row.description|string not in ("nan","")}}
+{{ "* copackagedIndicator = {}".format(row.copackagedIndicator|lower) if row.copackagedIndicator|string not in ("nan","")}}
 
 
 * packaging
@@ -48,9 +48,9 @@ Usage: #example
   * type = $spor-rms#100000073498 "Box"
   * material = $spor-rms#200000003529 "Cardboard"
 
-{% if row["Packaging_type"]!="nan"  %}
+{% if row["Packaging_type"]|string not in ("nan","")  %}
   * packaging
-{% if row["packaging_identifier"]!="nan"  %}
+{% if row["packaging_identifier"]|string not in ("nan","")  %}
 
     * identifier.system = $spor-prod
     * identifier.value = "{{ row["packaging_identifier"] }}"
@@ -60,8 +60,8 @@ Usage: #example
 {% endif %}
     * type = $spor-rms#{{ row["Packaging_typeID"] }} "{{ row["Packaging_type"] }}"
     
-    {{ "* quantity = {}".format(row.packaging_quantity) if row.packaging_quantity|string !="nan"}}
-    {{ "* material = $spor-rms#{} \"{}\"".format(row.packaging_materialID,row.packaging_material) if row.packaging_material|string !="nan"}}
+    {{ "* quantity = {}".format(row.packaging_quantity) if row.packaging_quantity|string not in ("nan","")}}
+    {{ "* material = $spor-rms#{} \"{}\"".format(row.packaging_materialID,row.packaging_material) if row.packaging_material|string not in ("nan","")}}
 
 {% endif %}
 

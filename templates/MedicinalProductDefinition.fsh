@@ -19,12 +19,12 @@ Usage: #example
 * status = http://hl7.org/fhir/publication-status#active "active"
 
 
-{{ "* indication = \"{}\"".format(row.indication) if row.indication|string !="nan"}}
+{{ "* indication = \"{}\"".format(row.indication) if row.indication|string not in ("nan","")}}
 
 
 * legalStatusOfSupply = $spor-rms#{{row['statusSuplyID']}} "{{row['statusSuply']}}"
 
-{% if row["classification_ids"]|string != 'nan' %}
+{% if row["classification_ids"]|string not in ("nan","") %}
 {% for idx in range(0,row["classification_ids"].count("|")+1) %} 
 
 * classification[+] = $atc#{{ row["classification_ids"].split("|")[idx]}} "{{ row["classification_texts"].split("|")[idx]}}"

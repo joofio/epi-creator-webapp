@@ -11,11 +11,11 @@ Usage: #example
 * identifier.use = #official
 
 
-{{ "* version = \"{}\"".format(row.version|trim) if row.version|string !="nan"}}
+{{ "* version = \"{}\"".format(row.version|trim) if row.version|string not in ("nan","")}}
 
 * status = http://hl7.org/fhir/publication-status#active
 
-{{ "* description = \"{}\"".format(row.description) if row.description|string !="nan"}}
+{{ "* description = \"{}\"".format(row.description) if row.description|string not in ("nan","")}}
 
  // Reference to Organization: MAH
  {% if data["turn"] != "1" %}
@@ -24,7 +24,7 @@ Usage: #example
 
 {%- endif %}
 
-{% if row["moleclularWeigth"]|string != "nan" %}
+{% if row["moleclularWeigth"]|string not in ("nan","") %}
 
 {% for idx in range(0,row["moleclularWeigth"].count("|")+1) %} 
 
@@ -34,11 +34,11 @@ Usage: #example
 {%- endfor %}
 {%- endif %}
 
-{{ "* structure.molecularFormula = \"{}\"".format(row.molecularFormula|trim) if row.molecularFormula|string !="nan"}}
+{{ "* structure.molecularFormula = \"{}\"".format(row.molecularFormula|trim) if row.molecularFormula|string not in ("nan","")}}
 
-{{ "* name.name = \"{}\"".format(row.name_name) if row.name_name|string !="nan"}}
+{{ "* name.name = \"{}\"".format(row.name_name) if row.name_name|string not in ("nan","")}}
 
-{{ "* name.type = https://gsrs.ncats.nih.gov/ginas/app/beta/#{} \"{}\"".format(row.name_typeID,row.name_type) if row.name_type|string !="nan"}}
+{{ "* name.type = https://gsrs.ncats.nih.gov/ginas/app/beta/#{} \"{}\"".format(row.name_typeID,row.name_type) if row.name_type|string not in ("nan","")}}
 
 
 {%- endif %}

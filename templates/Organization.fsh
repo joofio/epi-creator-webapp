@@ -37,7 +37,7 @@ Title: "{{ row["name"]  }} as {{ row["type"]  }}"
 Description: "{{ row["name"]  }} as {{ row["type"]  }}"
 Usage: #example
 
-{% if row["identifier"]|string !="nan" -%}
+{% if row["identifier"]|string not in ("nan","") -%}
 * identifier.system = $spor-org
 * identifier.value = "{{ row["identifier"]|trim }}"
 * identifier.use = #official
@@ -59,10 +59,10 @@ Usage: #example
     {{ "* text = \"{} {} {}\"".format(row.address_line|trim,row.address_city|trim|replace('nan',''),row.address_country|trim|replace('nan','')) }}
     * use = #work
     * type = #physical
-    {{ "* line = \"{}\"".format(row.address_line|trim) if row.address_line|string !="nan"}}
-    {{ "* city = \"{}\"".format(row.address_city|trim) if row.address_city|string !="nan"}}
-    {{ "* country = \"{}\"".format(row.address_country|trim) if row.address_country|string !="nan"}}
-    {{ "* postalCode = \"{}\"".format(row.address_postalCode|trim) if row.address_postalCode|string !="nan"}}
+    {{ "* line = \"{}\"".format(row.address_line|trim) if row.address_line|string not in ("nan","")}}
+    {{ "* city = \"{}\"".format(row.address_city|trim) if row.address_city|string not in ("nan","")}}
+    {{ "* country = \"{}\"".format(row.address_country|trim) if row.address_country|string not in ("nan","")}}
+    {{ "* postalCode = \"{}\"".format(row.address_postalCode|trim) if row.address_postalCode|string not in ("nan","")}}
 
 
 {%- endif %}

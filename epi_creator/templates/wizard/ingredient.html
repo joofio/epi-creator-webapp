@@ -6,10 +6,10 @@
 <form method="post"
       hx-target="#wizard-container" hx-swap="innerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
-    <input type="hidden" name="row_count" value="{{ rows|length if rows else 1 }}">
+    <input type="hidden" name="row_count" value="{{ rows|length if rows else 0 }}">
 
     <div id="ingredient-rows">
-        {% set row_list = rows if rows and rows|length > 0 else [{}] %}
+        {% set row_list = rows if rows and rows|length > 0 else [] %}
         {% for row in row_list %}
         <div class="card-entry mb-3">
             <div class="card-entry-header">
@@ -31,7 +31,18 @@
                 <div class="col-md-5"><label class="form-label">Identifier (GSRS)</label><input class="form-control" name="identifier_{{ loop.index0 }}" value="{{ row.get('identifier','') }}"></div>
             </div>
             <div class="row g-2 mt-1">
-                <div class="col-md-3"><label class="form-label">Strength Basis</label><input class="form-control" name="StrengthBasis_{{ loop.index0 }}" value="{{ row.get('StrengthBasis','') }}"></div>
+                <div class="col-md-3">
+                    <label class="form-label">Strength Basis</label>
+                    <select class="form-select" name="StrengthBasis_{{ loop.index0 }}" onchange="autoFillSBText(this)">
+                        <option value="">-- Select --</option>
+                        <option value="active-moiety" {% if row.get('StrengthBasis','')=='active-moiety' %}selected{% endif %}>Active moiety</option>
+                        <option value="free-acid" {% if row.get('StrengthBasis','')=='free-acid' %}selected{% endif %}>Free acid</option>
+                        <option value="free-base" {% if row.get('StrengthBasis','')=='free-base' %}selected{% endif %}>Free base</option>
+                        <option value="base" {% if row.get('StrengthBasis','')=='base' %}selected{% endif %}>Base</option>
+                        <option value="anhydrous" {% if row.get('StrengthBasis','')=='anhydrous' %}selected{% endif %}>Anhydrous</option>
+                        <option value="hydrate" {% if row.get('StrengthBasis','')=='hydrate' %}selected{% endif %}>Hydrate</option>
+                    </select>
+                </div>
                 <div class="col-md-3"><label class="form-label">Strength Basis Text</label><input class="form-control" name="StrengthBasisText_{{ loop.index0 }}" value="{{ row.get('StrengthBasisText','') }}"></div>
                 <div class="col-md-2"><label class="form-label">Quantity</label><input class="form-control" name="quantity_{{ loop.index0 }}" value="{{ row.get('quantity','') }}"></div>
                 <div class="col-md-2"><label class="form-label">Quantity Unit</label><input class="form-control" name="quantity unit_{{ loop.index0 }}" value="{{ row.get('quantity unit','') }}"></div>
@@ -51,13 +62,26 @@
 </form>
 
 <script>
-let rowCounter = {{ row_list|length if row_list else 1 }};
+let rowCounter = {{ row_list|length if row_list else 0 }};
+const SB_MAP = {
+    'active-moiety': 'Active moiety',
+    'free-acid': 'Free acid',
+    'free-base': 'Free base',
+    'base': 'Base',
+    'anhydrous': 'Anhydrous',
+    'hydrate': 'Hydrate',
+};
+function autoFillSBText(select) {
+    const card = select.closest('.card-entry');
+    const textInput = card.querySelector('input[name*="StrengthBasisText"]');
+    if (textInput) textInput.value = SB_MAP[select.value] || '';
+}
 function addRow() {
     const c = document.getElementById('ingredient-rows'), d = document.createElement('div');
     d.className = 'card-entry mb-3';
     d.innerHTML = `<div class="card-entry-header"><strong>New</strong><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button></div>
     <div class="row g-2"><div class="col-md-4"><label class="form-label">Name *</label><input class="form-control" name="name_${rowCounter}"></div><div class="col-md-3"><label class="form-label">Role</label><select class="form-select" name="role_${rowCounter}" onchange="this.closest('.card-entry').querySelector('strong').textContent=this.value||'New'"><option value="">-- Select --</option><option>Active</option><option>Excipient</option><option>Adjuvant</option><option>Solvent / Diluent</option></select></div><div class="col-md-5"><label class="form-label">Identifier (GSRS)</label><input class="form-control" name="identifier_${rowCounter}"></div></div>
-    <div class="row g-2 mt-1"><div class="col-md-3"><label class="form-label">Strength Basis</label><input class="form-control" name="StrengthBasis_${rowCounter}"></div><div class="col-md-3"><label class="form-label">Strength Basis Text</label><input class="form-control" name="StrengthBasisText_${rowCounter}"></div><div class="col-md-2"><label class="form-label">Quantity</label><input class="form-control" name="quantity_${rowCounter}"></div><div class="col-md-2"><label class="form-label">Quantity Unit</label><input class="form-control" name="quantity unit_${rowCounter}"></div><input type="hidden" name="id_${rowCounter}"></div>`;
+         <div class="row g-2 mt-1"><div class="col-md-3"><label class="form-label">Strength Basis</label><select class="form-select" name="StrengthBasis_${rowCounter}" onchange="autoFillSBText(this)"><option value="">-- Select --</option><option value="active-moiety">Active moiety</option><option value="free-acid">Free acid</option><option value="free-base">Free base</option><option value="base">Base</option><option value="anhydrous">Anhydrous</option><option value="hydrate">Hydrate</option></select></div><div class="col-md-3"><label class="form-label">Strength Basis Text</label><input class="form-control" name="StrengthBasisText_${rowCounter}"></div><div class="col-md-2"><label class="form-label">Quantity</label><input class="form-control" name="quantity_${rowCounter}"></div><div class="col-md-2"><label class="form-label">Quantity Unit</label><input class="form-control" name="quantity unit_${rowCounter}"></div><input type="hidden" name="id_${rowCounter}"></div>`;
     c.appendChild(d); rowCounter++; updateRowCount();
 }
 function updateRowCount() {

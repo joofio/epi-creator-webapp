@@ -17,7 +17,7 @@ Usage: #example
 {%- endif %}
 
 * administrableDoseForm = $spor-rms#{{ row["doseFormID"] }} "{{ row["doseForm"] }}"
-{{ "* unitOfPresentation = $spor-rms#{} \"{}\"".format(row.unit_presentationID,row.unit_presentation) if row.unit_presentationID|string !="nan"}}
+{{ "* unitOfPresentation = $spor-rms#{} \"{}\"".format(row.unit_presentationID,row.unit_presentation) if row.unit_presentationID|string not in ("nan","") }}
 
 
 {% if data["turn"] != "1" %}

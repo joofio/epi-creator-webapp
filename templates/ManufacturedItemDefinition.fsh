@@ -14,7 +14,7 @@ Usage: #example
 * status = #active
 * manufacturedDoseForm = https://spor.ema.europa.eu/rmswi/#{{row["doseFormID"]}} "{{ row["doseForm"] }}"
 
-{{ "* unitOfPresentation = $spor-rms#{} \"{}\"".format(row.unit_presentationID,row.unit_presentation) if row.unit_presentationID|string !="nan"}}
+{{ "* unitOfPresentation = $spor-rms#{} \"{}\"".format(row.unit_presentationID,row.unit_presentation) if row.unit_presentationID|string not in ("nan","") }}
 
 
 {% set ns  = namespace(referenced=False) -%}

@@ -43,7 +43,7 @@ Title: "ePI document Bundle for {{data["dictionary"]["productname"]}} Package Le
 Description: "ePI document Bundle for {{data["dictionary"]["productname"]}} Package Leaflet for language {{row["language"]}}"
 Usage: #example
 
-{% if row["identifier_value"]!="nan"  %}
+{% if row["identifier_value"]|string not in ("nan","")  %}
 
 * identifier.system = "{{row['identifier_system']}}" 
 * identifier.value = "{{row["identifier_value"]|trim}}"

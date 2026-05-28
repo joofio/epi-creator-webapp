@@ -16,7 +16,7 @@ Usage: #example
 
 * identifier.system = "{{row['identifier_system']}}"
 
-{% if row["identifier"]|string == "nan" %}
+{% if row["identifier"]|string in ("nan","") %}
 {% set ns = namespace() %}
 {% set ns.one = "Composition" %}
 {% set ns.two = data["dictionary"]["productname"]| regex_replace('[^A-Za-z0-9]+', '') %}
@@ -66,7 +66,7 @@ Usage: #example
   * code = https://spor.ema.europa.eu/rmswi/#100000155538
   * code.text = "B. PACKAGE LEAFLET"
   * text.status = #additional
-{% if row["package_leaflet"]|string == "nan" %}
+{% if row["package_leaflet"]|string in ("nan","") %}
 
   * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>unavailable</div>"""
   * emptyReason = http://terminology.hl7.org/CodeSystem/list-empty-reason#unavailable
@@ -84,7 +84,7 @@ Usage: #example
   * code = https://spor.ema.europa.eu/rmswi/#100000155538
   * code.text = "Package leaflet: Information for the user"
   * text.status = #additional
-{% if row["information_user"]|string == "nan" %}
+{% if row["information_user"]|string in ("nan","") %}
 
   * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>unavailable</div>"""
   * emptyReason = http://terminology.hl7.org/CodeSystem/list-empty-reason#unavailable
@@ -102,7 +102,7 @@ Usage: #example
   * code = https://spor.ema.europa.eu/rmswi/#100000155538
   * code.text = "What is in this leaflet"
   * text.status = #additional
-{% if row["what_in_leaflet"]|string == "nan" %}
+{% if row["what_in_leaflet"]|string in ("nan","") %}
 
   * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>unavailable</div>"""
   * emptyReason = http://terminology.hl7.org/CodeSystem/list-empty-reason#unavailable
@@ -119,7 +119,7 @@ Usage: #example
   * code = https://spor.ema.europa.eu/rmswi/#100000155538
   * code.text = "1. What {{row['name']}} is and what it is used for"
   * text.status = #additional
-{% if row["what_product_is"]|string == "nan" %}
+{% if row["what_product_is"]|string in ("nan","") %}
 
   * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>unavailable</div>"""
   * emptyReason = http://terminology.hl7.org/CodeSystem/list-empty-reason#unavailable
@@ -138,7 +138,7 @@ Usage: #example
   * code = https://spor.ema.europa.eu/rmswi/#100000155538
   * code.text = "2. What you need to know before you take {{row['name']}}"
   * text.status = #additional
-{% if row["before_take"]|string == "nan" %}
+{% if row["before_take"]|string in ("nan","") %}
 
   * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>unavailable</div>"""
   * emptyReason = http://terminology.hl7.org/CodeSystem/list-empty-reason#unavailable
@@ -154,7 +154,7 @@ Usage: #example
   * code = https://spor.ema.europa.eu/rmswi/#100000155538
   * code.text = "3. How to take {{row['name']}}"
   * text.status = #additional
-{% if row["how_to_take"]|string == "nan" %}
+{% if row["how_to_take"]|string in ("nan","") %}
 
   * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>unavailable</div>"""
   * emptyReason = http://terminology.hl7.org/CodeSystem/list-empty-reason#unavailable 
@@ -171,7 +171,7 @@ Usage: #example
   * code = https://spor.ema.europa.eu/rmswi/#100000155538
   * code.text = "4. Possible side effects"
   * text.status = #additional
-{% if row["side_effects"]|string == "nan" %}
+{% if row["side_effects"]|string in ("nan","") %}
 
   * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>unavailable</div>"""
   * emptyReason = http://terminology.hl7.org/CodeSystem/list-empty-reason#unavailable  
@@ -187,7 +187,7 @@ Usage: #example
   * code = https://spor.ema.europa.eu/rmswi/#100000155538
   * code.text = "5. How to store {{row['name']}}"
   * text.status = #additional
-{% if row["how_to_store"]|string == "nan" %}
+{% if row["how_to_store"]|string in ("nan","") %}
 
   * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>unavailable</div>"""
   * emptyReason = http://terminology.hl7.org/CodeSystem/list-empty-reason#unavailable
@@ -204,7 +204,7 @@ Usage: #example
   * code = https://spor.ema.europa.eu/rmswi/#100000155538
   * code.text = "6. Contents of the pack and other information"
   * text.status = #additional
-{% if row["other_info"]|string == "nan" %}
+{% if row["other_info"]|string in ("nan","") %}
 
   * text.div = """<div xmlns='http://www.w3.org/1999/xhtml'>unavailable</div>"""
   * emptyReason = http://terminology.hl7.org/CodeSystem/list-empty-reason#unavailable
