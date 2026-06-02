@@ -96,12 +96,14 @@ def wizard_step(step):
     )
 
     step_template = step.replace("-", "_") + ".html"
+    flash = session.pop("flash", None)
     ctx = dict(step=step, sheet_name=sheet_name, rows=rows, steps=STEPS,
                current_step=step, step_title=sheet_name.replace("Definition", ""),
                is_single=is_single, base_template="wizard/base.html",
                languages=get_lookup("languages"),
                step_states=_step_states(data),
-               generate_unmet=_generate_unmet(data))
+               generate_unmet=_generate_unmet(data),
+               flash=flash)
     if request.headers.get("HX-Request"):
         return _render_htmx(step_template, **ctx)
     return render_template("wizard/" + step_template, **ctx)
@@ -147,6 +149,10 @@ def wizard_submit(step):
     session.modified = True
 
     current_idx = STEPS.index(step)
+    if current_idx == len(STEPS) - 1:
+        session["flash"] = (
+            "Bundle saved. Click 'Generate FHIR Package' in the sidebar."
+        )
     if current_idx < len(STEPS) - 1:
         next_step = STEPS[current_idx + 1]
     else:

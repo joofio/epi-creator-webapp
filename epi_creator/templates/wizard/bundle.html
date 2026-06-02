@@ -32,6 +32,10 @@
 
     {% if errors %}{% for e_idx, e_msgs in errors %}{% for msg in e_msgs %}<div class="error-message">{{ msg }}</div>{% endfor %}{% endfor %}{% endif %}
 
+    {% if flash %}
+        <div class="alert alert-success mt-3" role="status">{{ flash }}</div>
+    {% endif %}
+
     <div class="alert alert-info mt-3">
         <strong>Ready to generate!</strong> Click "Save &amp; Next" to save the Bundle data, then click "Generate FHIR Package" in the sidebar.
     </div>
