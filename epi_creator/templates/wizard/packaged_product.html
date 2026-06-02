@@ -3,9 +3,10 @@
 <h2>Packaged Product Definition</h2>
 <p class="section-description">Package details. Add one row per package variant (e.g., 28-count blister, 96-count blister).</p>
 
-<form method="post"
+<form method="post" novalidate
       hx-target="#wizard-container" hx-swap="innerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
+    {% include "wizard/_form_errors.html" %}
     {% set row_list = rows if rows and rows|length > 0 else [{}] %}
     <input type="hidden" name="row_count" value="{{ row_list|length }}">
 
@@ -41,8 +42,8 @@
                 <div class="col-md-2"><label class="form-label">Quantity</label><input class="form-control" name="quantity_{{ loop.index0 }}" value="{{ row.get('quantity','') }}" placeholder="e.g. 28 tablet"></div>
             </div>
             <div class="row g-2 mt-1">
-                <div class="col-md-2"><label class="form-label">Pkg Qty *</label><input class="form-control" name="packaging_quantity_{{ loop.index0 }}" value="{{ row.get('packaging_quantity','') }}" placeholder="e.g. 28"></div>
-                <div class="col-md-2"><label class="form-label">Pkg ID *</label><input class="form-control" name="packaging_identifier_{{ loop.index0 }}" required value="{{ row.get('packaging_identifier','') }}" placeholder="e.g. 123456"></div>
+                <div class="col-md-2"><label class="form-label">Pkg Qty *</label><input class="form-control {{ 'field-error' if field_has_error(errors, loop.index0, 'packaging_quantity') }}" name="packaging_quantity_{{ loop.index0 }}" aria-required="true" value="{{ row.get('packaging_quantity','') }}" placeholder="e.g. 28"></div>
+                <div class="col-md-2"><label class="form-label">Pkg ID *</label><input class="form-control {{ 'field-error' if field_has_error(errors, loop.index0, 'packaging_identifier') }}" name="packaging_identifier_{{ loop.index0 }}" aria-required="true" value="{{ row.get('packaging_identifier','') }}" placeholder="e.g. 123456"></div>
                 <div class="col-md-5">
                     <label class="form-label">Packaging Type</label>
                     <select class="form-select" name="Packaging_type_{{ loop.index0 }}">
@@ -99,7 +100,6 @@
                 </div>
                 <input type="hidden" name="id_{{ loop.index0 }}" value="{{ row.get('id','') }}">
             </div>
-            {% if errors %}{% for e_idx, e_msgs in errors %}{% if e_idx == loop.index0 %}{% for msg in e_msgs %}<div class="error-message">{{ msg }}</div>{% endfor %}{% endif %}{% endfor %}{% endif %}
         </div>
         {% endfor %}
     </div>

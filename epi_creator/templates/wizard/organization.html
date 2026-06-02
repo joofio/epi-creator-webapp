@@ -3,9 +3,10 @@
 <h2>Organization</h2>
 <p class="section-description">Define the organizations involved (MAH, manufacturer, regulator, etc.). Add one row per organization.</p>
 
-<form method="post"
+<form method="post" novalidate
       hx-target="#wizard-container" hx-swap="innerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
+    {% include "wizard/_form_errors.html" %}
     {% set row_list = rows if rows and rows|length > 0 else [{}] %}
     <input type="hidden" name="row_count" value="{{ row_list|length }}">
 
@@ -23,19 +24,21 @@
             <div class="row g-2">
                 <div class="col-md-4">
                     <label class="form-label">Name *</label>
-                    <input class="form-control {{ 'field-error' if errors else '' }}"
-                           name="name_{{ loop.index0 }}" required value="{{ row.get('name','') }}"
+                    <input class="form-control {{ 'field-error' if field_has_error(errors, loop.index0, 'name') }}"
+                           name="name_{{ loop.index0 }}" aria-required="true" value="{{ row.get('name','') }}"
                            placeholder="e.g. ACME industry">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Identifier *</label>
-                    <input class="form-control" name="identifier_{{ loop.index0 }}" required
+                    <input class="form-control {{ 'field-error' if field_has_error(errors, loop.index0, 'identifier') }}"
+                           name="identifier_{{ loop.index0 }}" aria-required="true"
                            value="{{ row.get('identifier','') }}"
                            placeholder="e.g. ORG-100000789">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Organization Type *</label>
-                    <select class="form-select" name="type_{{ loop.index0 }}" required onchange="autoFillTypeID(this)">
+                    <select class="form-select {{ 'field-error' if field_has_error(errors, loop.index0, 'type') }}"
+                            name="type_{{ loop.index0 }}" aria-required="true" onchange="autoFillTypeID(this)">
                         <option value="">-- Select --</option>
                         {% set types = ['Marketing Authorisation Holder','Medicines Regulatory Authority','Manufacturer','Master File Holder','Contact Location','Manufacturer Batch Release','Manufacturer API'] %}
                         {% for t in types %}
@@ -46,39 +49,34 @@
                 <input type="hidden" name="typeID_{{ loop.index0 }}" value="{{ row.get('typeID','') }}">
                 <div class="col-md-6">
                     <label class="form-label">Address Line *</label>
-                    <input class="form-control" name="address_line_{{ loop.index0 }}" required
+                    <input class="form-control {{ 'field-error' if field_has_error(errors, loop.index0, 'address_line') }}"
+                           name="address_line_{{ loop.index0 }}" aria-required="true"
                            value="{{ row.get('address_line','') }}"
                            placeholder="e.g. Rue de la Pharmacie 12">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">City *</label>
-                    <input class="form-control" name="address_city_{{ loop.index0 }}" required
+                    <input class="form-control {{ 'field-error' if field_has_error(errors, loop.index0, 'address_city') }}"
+                           name="address_city_{{ loop.index0 }}" aria-required="true"
                            value="{{ row.get('address_city','') }}"
                            placeholder="e.g. Paris">
                 </div>
                 <div class="col-md-1">
                     <label class="form-label">Country *</label>
-                    <input class="form-control" name="address_country_{{ loop.index0 }}" required
+                    <input class="form-control {{ 'field-error' if field_has_error(errors, loop.index0, 'address_country') }}"
+                           name="address_country_{{ loop.index0 }}" aria-required="true"
                            value="{{ row.get('address_country','') }}"
                            placeholder="e.g. FR">
                 </div>
                 <div class="col-md-2">
                     <label class="form-label">Postal Code</label>
-                    <input class="form-control" name="address_postalCode_{{ loop.index0 }}"
+                    <input class="form-control {{ 'field-error' if field_has_error(errors, loop.index0, 'address_postalCode') }}"
+                           name="address_postalCode_{{ loop.index0 }}"
                            value="{{ row.get('address_postalCode','') }}"
                            placeholder="e.g. 75001">
                 </div>
                 <input type="hidden" name="id_{{ loop.index0 }}" value="{{ row.get('id','') }}">
             </div>
-            {% if errors %}
-                {% for e_idx, e_msgs in errors %}
-                    {% if e_idx == loop.index0 %}
-                        {% for msg in e_msgs %}
-                            <div class="error-message">{{ msg }}</div>
-                        {% endfor %}
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
         </div>
         {% endfor %}
     </div>

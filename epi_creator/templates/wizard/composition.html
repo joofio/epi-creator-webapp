@@ -3,9 +3,10 @@
 <h2>Composition (ePI Document)</h2>
 <p class="section-description">ePI document composition with leaflet sections. Add one per language.</p>
 
-<form method="post"
+<form method="post" novalidate
       hx-target="#wizard-container" hx-swap="innerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
+    {% include "wizard/_form_errors.html" %}
     {% set row_list = rows if rows and rows|length > 0 else [{}] %}
     <input type="hidden" name="row_count" value="{{ row_list|length }}">
 
@@ -17,7 +18,7 @@
                 <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button>
             </div>
             <div class="row g-2">
-                <div class="col-md-4"><label class="form-label">Name *</label><input class="form-control" name="name_{{ loop.index0 }}" value="{{ row.get('name','') }}" placeholder="e.g. acme"></div>
+                <div class="col-md-4"><label class="form-label">Name *</label><input class="form-control {{ 'field-error' if field_has_error(errors, loop.index0, 'name') }}" name="name_{{ loop.index0 }}" aria-required="true" value="{{ row.get('name','') }}" placeholder="e.g. acme"></div>
                 <div class="col-md-2">
                     <label class="form-label">Language *</label>
                     <select class="form-select" name="language_{{ loop.index0 }}">
@@ -26,8 +27,8 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-md-3"><label class="form-label">Date *</label><input type="date" class="form-control" name="date_{{ loop.index0 }}" value="{{ row.get('date','') }}"></div>
-                <div class="col-md-3"><label class="form-label">Identifier System *</label><input class="form-control" name="identifier_system_{{ loop.index0 }}" value="{{ row.get('identifier_system','') }}" placeholder="e.g. https://spor.ema.europa.eu/rmswi/"></div>
+                <div class="col-md-3"><label class="form-label">Date *</label><input type="date" class="form-control {{ 'field-error' if field_has_error(errors, loop.index0, 'date') }}" name="date_{{ loop.index0 }}" aria-required="true" value="{{ row.get('date','') }}"></div>
+                <div class="col-md-3"><label class="form-label">Identifier System *</label><input class="form-control {{ 'field-error' if field_has_error(errors, loop.index0, 'identifier_system') }}" name="identifier_system_{{ loop.index0 }}" aria-required="true" value="{{ row.get('identifier_system','') }}" placeholder="e.g. https://spor.ema.europa.eu/rmswi/"></div>
                 <input type="hidden" name="identifier_{{ loop.index0 }}" value="{{ row.get('identifier','') }}">
             </div>
             <hr>
@@ -43,7 +44,6 @@
                 <div class="col-md-6"><label class="form-label">Other Information</label><textarea class="form-control" name="other_info_{{ loop.index0 }}" rows="3">{{ row.get('other_info','') }}</textarea></div>
                 <input type="hidden" name="id_{{ loop.index0 }}" value="{{ row.get('id','') }}">
             </div>
-            {% if errors %}{% for e_idx, e_msgs in errors %}{% if e_idx == loop.index0 %}{% for msg in e_msgs %}<div class="error-message">{{ msg }}</div>{% endfor %}{% endif %}{% endfor %}{% endif %}
         </div>
         {% endfor %}
     </div>

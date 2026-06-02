@@ -79,6 +79,18 @@ def create_app():
 
     lookup_module.load_lookups()
 
+    def field_has_error(errors, row_idx, field_key):
+        if not errors:
+            return False
+        for ri, errs in errors:
+            if ri == row_idx:
+                for fk, _ in errs:
+                    if fk == field_key:
+                        return True
+        return False
+
+    app.jinja_env.globals["field_has_error"] = field_has_error
+
     if os.environ.get("LOG_TO_FILES"):
         sys.stdout = StreamToLogger(stdout_logger, logging.INFO)
         sys.stderr = StreamToLogger(stderr_logger, logging.ERROR)

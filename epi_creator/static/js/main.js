@@ -1,29 +1,22 @@
-document.getElementById('upload-btn').addEventListener('click', function() {
-    // Show the loading indicator
-    document.getElementById('loading-indicator').style.display = 'block';
-
-    // Prepare FormData
-    var formData = new FormData();
-    var fileInput = document.getElementById('file-input');
-    formData.append('file', fileInput.files[0]);
-
-    // Perform the upload
-    fetch('/upload', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json()) // Assuming the server sends back JSON
-    .then(data => {
-        // Hide the loading indicator
-        document.getElementById('loading-indicator').style.display = 'none';
-
-        // Show the download link
-        var downloadLink = document.getElementById('download-link');
-        downloadLink.style.display = 'block';
-        downloadLink.href = data.downloadUrl; // The URL should be provided by your server
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        // Optionally handle the error
-    });
+// Focus the first errored field after an htmx swap so users see where
+// to act, replacing the browser's native autofocus behaviour
+// (suppressed because the wizard uses novalidate).
+document.body.addEventListener('htmx:afterSwap', function (evt) {
+  if (!evt.target || evt.target.id !== 'wizard-container') return;
+  var banner = evt.target.querySelector('[data-form-errors]');
+  if (!banner) return;
+  var firstLi = banner.querySelector('li[data-field]');
+  if (!firstLi) return;
+  var rowIdx = firstLi.getAttribute('data-row');
+  var fieldKey = firstLi.getAttribute('data-field');
+  if (!rowIdx || !fieldKey || fieldKey === '__sheet__') return;
+  // Form input names are suffixed with the row index: "name_0", "role_1", etc.
+  var selector = '[name="' + fieldKey + '_' + rowIdx + '"]';
+  var el = evt.target.querySelector(selector);
+  if (el) {
+    el.focus();
+    if (typeof el.scrollIntoView === 'function') {
+      el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+  }
 });

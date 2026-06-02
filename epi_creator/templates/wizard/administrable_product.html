@@ -3,13 +3,14 @@
 <h2>Administrable Product Definition</h2>
 <p class="section-description">Administrable product details (route of administration, dose form). Exactly one entry.</p>
 
-<form method="post"
+<form method="post" novalidate
       hx-target="#wizard-container" hx-swap="innerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
+    {% include "wizard/_form_errors.html" %}
     <input type="hidden" name="row_count" value="1">
     {% set row = rows[0] if rows and rows|length > 0 else {} %}
     <div class="row g-2 mb-3">
-        <div class="col-md-4"><label class="form-label">Identifier *</label><input class="form-control" name="identifier_0" value="{{ row.get('identifier','') }}" placeholder="e.g. ADM-001"></div>
+        <div class="col-md-4"><label class="form-label">Identifier *</label><input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'identifier') }}" name="identifier_0" aria-required="true" value="{{ row.get('identifier','') }}" placeholder="e.g. ADM-001"></div>
         <div class="col-md-4" x-data="autocomplete('doseForms', 'doseFormID_0', 'doseForm_0')">
             <label class="form-label">Dose Form</label>
             <div class="autocomplete-wrapper">
@@ -66,8 +67,6 @@
         </div>
     </div>
     <input type="hidden" name="id_0" value="{{ row.get('id','') }}">
-
-    {% if errors %}{% for e_idx, e_msgs in errors %}{% for msg in e_msgs %}<div class="error-message">{{ msg }}</div>{% endfor %}{% endfor %}{% endif %}
 
     <div class="d-flex justify-content-between mt-4">
         <a href="{{ url_for('gh_epi_creator.wizard_step', step=steps[steps.index(step)-1]) }}" class="btn btn-outline-secondary btn-nav">Back</a>

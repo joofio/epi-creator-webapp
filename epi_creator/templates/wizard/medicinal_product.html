@@ -3,66 +3,71 @@
 <h2>Medicinal Product Definition</h2>
 <p class="section-description">Core details of the medicinal product. Exactly one entry.</p>
 
-<form method="post"
+<form method="post" novalidate
       hx-target="#wizard-container" hx-swap="innerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
+    {% include "wizard/_form_errors.html" %}
     <input type="hidden" name="row_count" value="1">
     {% set row = rows[0] if rows and rows|length > 0 else {} %}
     <div class="row g-2 mb-3">
         <div class="col-md-6">
             <label class="form-label">Product Name *</label>
-            <input class="form-control {{ 'field-error' if errors else '' }}" name="productname_0"
-                   value="{{ row.get('productname','') }}"
+            <input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'productname') }}" name="productname_0"
+                   aria-required="true" value="{{ row.get('productname','') }}"
                    placeholder="e.g. acmedrug-man">
         </div>
         <div class="col-md-6">
             <label class="form-label">Invented Name Part *</label>
-            <input class="form-control" name="inventedNamePart_0"
-                   value="{{ row.get('inventedNamePart','') }}"
+            <input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'inventedNamePart') }}" name="inventedNamePart_0"
+                   aria-required="true" value="{{ row.get('inventedNamePart','') }}"
                    placeholder="e.g. acme">
         </div>
         <div class="col-md-6">
             <label class="form-label">Scientific Name Part *</label>
-            <input class="form-control" name="ScientificNamePart_0"
-                   value="{{ row.get('ScientificNamePart','') }}"
+            <input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'ScientificNamePart') }}" name="ScientificNamePart_0"
+                   aria-required="true" value="{{ row.get('ScientificNamePart','') }}"
                    placeholder="e.g. acmedrug">
         </div>
         <div class="col-md-3">
             <label class="form-label">Strength Part *</label>
-            <input class="form-control" name="StrengthPart_0"
-                   value="{{ row.get('StrengthPart','') }}"
+            <input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'StrengthPart') }}" name="StrengthPart_0"
+                   aria-required="true" value="{{ row.get('StrengthPart','') }}"
                    placeholder="e.g. 75 mg">
         </div>
         <div class="col-md-3">
             <label class="form-label">Pharmaceutical Dose Part *</label>
-            <input class="form-control" name="PharmaceuticalDosePart_0"
-                   value="{{ row.get('PharmaceuticalDosePart','') }}"
+            <input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'PharmaceuticalDosePart') }}" name="PharmaceuticalDosePart_0"
+                   aria-required="true" value="{{ row.get('PharmaceuticalDosePart','') }}"
                    placeholder="e.g. tablet">
         </div>
     </div>
     <div class="row g-2 mb-3">
         <div class="col-md-4">
             <label class="form-label">Country *</label>
-            <input class="form-control" name="country_0" value="{{ row.get('country','') }}"
+            <input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'country') }}" name="country_0"
+                   aria-required="true" value="{{ row.get('country','') }}"
                    placeholder="e.g. Denmark">
         </div>
         <div class="col-md-2">
             <label class="form-label">Country Code *</label>
-            <input class="form-control" name="countryCode_0" value="{{ row.get('countryCode','') }}" placeholder="e.g. DK">
+            <input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'countryCode') }}" name="countryCode_0"
+                   aria-required="true" value="{{ row.get('countryCode','') }}" placeholder="e.g. DK">
         </div>
         <div class="col-md-3">
             <label class="form-label">Language *</label>
-            <input class="form-control" name="language_0" value="{{ row.get('language','') }}" placeholder="e.g. English">
+            <input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'language') }}" name="language_0"
+                   aria-required="true" value="{{ row.get('language','') }}" placeholder="e.g. English">
         </div>
         <div class="col-md-3">
             <label class="form-label">Language ID *</label>
-            <input class="form-control" name="languageID_0" value="{{ row.get('languageID','') }}" placeholder="e.g. en">
+            <input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'languageID') }}" name="languageID_0"
+                   aria-required="true" value="{{ row.get('languageID','') }}" placeholder="e.g. en">
         </div>
     </div>
     <div class="row g-2 mb-3">
         <div class="col-md-4">
             <label class="form-label">Status Supply *</label>
-            <select class="form-select" name="statusSuply_0" onchange="autoFillStatusID(this)">
+            <select class="form-select {{ 'field-error' if field_has_error(errors, 0, 'statusSuply') }}" name="statusSuply_0" onchange="autoFillStatusID(this)" aria-required="true">
                 <option value="">-- Select --</option>
                 {% set statuses = [
                     'Valid', 'No information available', 'Never valid', 'No supplied',
@@ -117,14 +122,6 @@
     </div>
 
     <input type="hidden" name="id_0" value="{{ row.get('id','') }}">
-
-    {% if errors %}
-        {% for e_idx, e_msgs in errors %}
-            {% for msg in e_msgs %}
-                <div class="error-message">{{ msg }}</div>
-            {% endfor %}
-        {% endfor %}
-    {% endif %}
 
     <div class="d-flex justify-content-between mt-4">
         {% if steps.index(step) > 0 %}

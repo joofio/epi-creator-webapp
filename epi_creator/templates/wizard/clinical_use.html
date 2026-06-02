@@ -3,9 +3,10 @@
 <h2>Clinical Use Definition</h2>
 <p class="section-description">Indications, contraindications, and interactions. Add one entry per clinical use.</p>
 
-<form method="post"
+<form method="post" novalidate
       hx-target="#wizard-container" hx-swap="innerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
+    {% include "wizard/_form_errors.html" %}
     <input type="hidden" name="row_count" value="{{ rows|length if rows else 0 }}">
 
     <div id="rows">
@@ -19,23 +20,22 @@
             <div class="row g-2">
                 <div class="col-md-3">
                     <label class="form-label">Type *</label>
-                    <select class="form-select" name="type_{{ loop.index0 }}" required onchange="this.closest('.card-entry').querySelector('strong').textContent = this.value">
+                    <select class="form-select {{ 'field-error' if field_has_error(errors, loop.index0, 'type') }}" name="type_{{ loop.index0 }}" aria-required="true" onchange="this.closest('.card-entry').querySelector('strong').textContent = this.value || 'New'">
                         <option value="">-- Select --</option>
                         <option value="Indication" {% if row.get('type','')=='Indication' %}selected{% endif %}>Indication</option>
                         <option value="Contraindication" {% if row.get('type','')=='Contraindication' %}selected{% endif %}>Contraindication</option>
                         <option value="Interaction" {% if row.get('type','')=='Interaction' %}selected{% endif %}>Interaction</option>
                     </select>
                 </div>
-                <div class="col-md-4"><label class="form-label">Name *</label><input class="form-control" name="name_{{ loop.index0 }}" value="{{ row.get('name','') }}" placeholder="e.g. Hypertension"></div>
+                <div class="col-md-4"><label class="form-label">Name *</label><input class="form-control {{ 'field-error' if field_has_error(errors, loop.index0, 'name') }}" name="name_{{ loop.index0 }}" aria-required="true" value="{{ row.get('name','') }}" placeholder="e.g. Hypertension"></div>
                 <div class="col-md-3"><label class="form-label">Identifier</label><input class="form-control" name="identifier_{{ loop.index0 }}" value="{{ row.get('identifier','') }}" placeholder="e.g. CU-001"></div>
                 <div class="col-md-2"><label class="form-label">Identifier System</label><input class="form-control" name="identifier_system_{{ loop.index0 }}" value="{{ row.get('identifier_system','') }}" placeholder="e.g. http://snomed.info/sct"></div>
             </div>
             <div class="row g-2 mt-1">
-                <div class="col-md-3"><label class="form-label">Concept (MedDRA/GSRS) *</label><input class="form-control" name="conceptID_{{ loop.index0 }}" value="{{ row.get('conceptID','') }}" placeholder="e.g. 38341003"></div>
-                <div class="col-md-5"><label class="form-label">Concept Name *</label><input class="form-control" name="concept_{{ loop.index0 }}" value="{{ row.get('concept','') }}" placeholder="e.g. Hypertensive disorder"></div>
+                <div class="col-md-3"><label class="form-label">Concept (MedDRA/GSRS) *</label><input class="form-control {{ 'field-error' if field_has_error(errors, loop.index0, 'conceptID') }}" name="conceptID_{{ loop.index0 }}" aria-required="true" value="{{ row.get('conceptID','') }}" placeholder="e.g. 38341003"></div>
+                <div class="col-md-5"><label class="form-label">Concept Name *</label><input class="form-control {{ 'field-error' if field_has_error(errors, loop.index0, 'concept') }}" name="concept_{{ loop.index0 }}" aria-required="true" value="{{ row.get('concept','') }}" placeholder="e.g. Hypertensive disorder"></div>
                 <input type="hidden" name="id_{{ loop.index0 }}" value="{{ row.get('id','') }}">
             </div>
-            {% if errors %}{% for e_idx, e_msgs in errors %}{% if e_idx == loop.index0 %}{% for msg in e_msgs %}<div class="error-message">{{ msg }}</div>{% endfor %}{% endif %}{% endfor %}{% endif %}
         </div>
         {% endfor %}
     </div>

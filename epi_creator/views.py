@@ -236,6 +236,13 @@ def api_lookup(category):
 
 
 def _parse_form_rows(form_data, sheet_name):
+    """Parse request.form into a list of row dicts.
+
+    Always preserves the row count declared by row_count (even if all
+    fields are blank) so that validation can report per-field errors.
+    Previously blank rows were dropped, which caused the form to
+    silently advance on empty submission.
+    """
     rows = []
 
     row_counts = []
@@ -257,10 +264,7 @@ def _parse_form_rows(form_data, sheet_name):
             if key.endswith(suffix):
                 col_name = key[: -len(suffix)]
                 row[col_name] = values[0] if values else ""
-        if row and any(
-            str(v).strip() for k, v in row.items() if k != "id"
-        ):
-            rows.append(row)
+        rows.append(row)
 
     if not rows and max_rows == 1:
         row = {}
@@ -268,10 +272,7 @@ def _parse_form_rows(form_data, sheet_name):
             if key.startswith("row_count"):
                 continue
             row[key] = values[0] if values else ""
-        if row and any(
-            str(v).strip() for k, v in row.items() if k != "id"
-        ):
-            rows.append(row)
+        rows.append(row)
 
     return rows
 

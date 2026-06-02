@@ -1,53 +1,62 @@
 def validate_row(row, sheet, session_data=None):
+    """Return list of (field_key, message) for a single row.
+
+    field_key is the form column name (e.g. "name", "identifier") so
+    templates can attach .field-error to the right input. Use
+    "__sheet__" for sheet-level errors that don't map to one input.
+    """
     errors = []
 
-    def check_spaces(value, field_label):
-        if value and isinstance(value, str) and " " in value:
-            errors.append(f"{field_label} cannot contain spaces")
+    def err(field_key, msg):
+        errors.append((field_key, msg))
 
-    def check_numeric(value, field_label):
+    def check_spaces(value, field_key, field_label):
+        if value and isinstance(value, str) and " " in value:
+            err(field_key, f"{field_label} cannot contain spaces")
+
+    def check_numeric(value, field_key, field_label):
         if value and isinstance(value, str) and value.strip():
             try:
                 float(value)
             except ValueError:
-                errors.append(f"{field_label} must be a number")
+                err(field_key, f"{field_label} must be a number")
         elif value is None or (isinstance(value, str) and value.strip() == ""):
             pass
         else:
             try:
                 float(value)
             except (ValueError, TypeError):
-                errors.append(f"{field_label} must be a number")
+                err(field_key, f"{field_label} must be a number")
 
-    def check_no_newline(value, field_label):
+    def check_no_newline(value, field_key, field_label):
         if value and isinstance(value, str) and "\n" in value:
-            errors.append(f"{field_label} cannot contain newlines")
+            err(field_key, f"{field_label} cannot contain newlines")
 
-    def check_required(value, field_label):
+    def check_required(value, field_key, field_label):
         if not value or (isinstance(value, str) and value.strip() == ""):
-            errors.append(f"{field_label} is required")
+            err(field_key, f"{field_label} is required")
 
     if sheet == "AdministrableProductDefinition":
-        check_required(row.get("identifier"), "Identifier")
-        check_numeric(row.get("unit_presentationID"), "Unit Presentation ID")
-        check_numeric(row.get("routeID"), "Route ID")
-        check_numeric(row.get("doseFormID"), "Dose Form ID")
+        check_required(row.get("identifier"), "identifier", "Identifier")
+        check_numeric(row.get("unit_presentationID"), "unit_presentationID", "Unit Presentation ID")
+        check_numeric(row.get("routeID"), "routeID", "Route ID")
+        check_numeric(row.get("doseFormID"), "doseFormID", "Dose Form ID")
 
     elif sheet == "Ingredient":
-        check_required(row.get("name"), "Name")
-        check_required(row.get("role"), "Role")
-        check_spaces(row.get("identifier"), "Identifier")
-        check_spaces(row.get("StrengthBasis"), "Strength Basis")
-        check_numeric(row.get("quantity"), "Quantity")
-        check_no_newline(row.get("name"), "Name")
+        check_required(row.get("name"), "name", "Name")
+        check_required(row.get("role"), "role", "Role")
+        check_spaces(row.get("identifier"), "identifier", "Identifier")
+        check_spaces(row.get("StrengthBasis"), "StrengthBasis", "Strength Basis")
+        check_numeric(row.get("quantity"), "quantity", "Quantity")
+        check_no_newline(row.get("name"), "name", "Name")
         role = (row.get("role") or "").lower()
         if role in ("active", "ativo"):
             if not row.get("StrengthBasis") or str(row.get("StrengthBasis")).strip() == "":
-                errors.append("Strength Basis is required for active ingredients")
+                err("StrengthBasis", "Strength Basis is required for active ingredients")
             if not row.get("quantity") or str(row.get("quantity")).strip() == "":
-                errors.append("Quantity is required for active ingredients")
+                err("quantity", "Quantity is required for active ingredients")
             if not row.get("identifier") or str(row.get("identifier")).strip() == "":
-                errors.append("Identifier is required for active ingredients (substance code)")
+                err("identifier", "Identifier is required for active ingredients (substance code)")
 
         ingredient_identifier = (row.get("identifier") or "").strip()
         if ingredient_identifier:
@@ -58,97 +67,99 @@ def validate_row(row, sheet, session_data=None):
                     if sid:
                         substance_ids.add(sid)
             if not substance_ids:
-                errors.append(
-                    "No Substance defined yet. Please add the substance (with its GSRS identifier) in the Substance step before linking it here."
+                err(
+                    "identifier",
+                    "No Substance defined yet. Please add the substance (with its GSRS identifier) in the Substance step before linking it here.",
                 )
             elif ingredient_identifier not in substance_ids:
-                errors.append(
+                err(
+                    "identifier",
                     f"Identifier '{ingredient_identifier}' does not match any Substance. "
-                    f"Add a Substance with this GSRS identifier first, or correct the identifier."
+                    "Add a Substance with this GSRS identifier first, or correct the identifier.",
                 )
 
     elif sheet == "ManufacturedItemDefinition":
-        check_required(row.get("identifier"), "Identifier")
-        check_numeric(row.get("unit_presentationID"), "Unit Presentation ID")
-        check_numeric(row.get("doseFormID"), "Dose Form ID")
-        check_spaces(row.get("identifier"), "Identifier")
+        check_required(row.get("identifier"), "identifier", "Identifier")
+        check_numeric(row.get("unit_presentationID"), "unit_presentationID", "Unit Presentation ID")
+        check_numeric(row.get("doseFormID"), "doseFormID", "Dose Form ID")
+        check_spaces(row.get("identifier"), "identifier", "Identifier")
 
     elif sheet == "MedicinalProductDefinition":
-        check_required(row.get("productname"), "Product Name")
-        check_required(row.get("ScientificNamePart"), "Scientific Name Part")
-        check_required(row.get("StrengthPart"), "Strength Part")
-        check_required(row.get("PharmaceuticalDosePart"), "Pharmaceutical Dose Part")
-        check_required(row.get("country"), "Country")
-        check_required(row.get("countryCode"), "Country Code")
-        check_required(row.get("language"), "Language")
-        check_required(row.get("languageID"), "Language ID")
-        check_required(row.get("inventedNamePart"), "Invented Name Part")
-        check_required(row.get("statusSuply"), "Status Supply")
-        check_spaces(row.get("countryCode"), "Country Code")
-        check_numeric(row.get("statusSuplyID"), "Status Supply ID")
-        check_no_newline(row.get("productname"), "Product Name")
-        check_no_newline(row.get("inventedNamePart"), "Invented Name Part")
-        check_no_newline(row.get("ScientificNamePart"), "Scientific Name Part")
-        check_no_newline(row.get("StrengthPart"), "Strength Part")
-        check_no_newline(row.get("PharmaceuticalDosePart"), "Pharmaceutical Dose Part")
+        check_required(row.get("productname"), "productname", "Product Name")
+        check_required(row.get("ScientificNamePart"), "ScientificNamePart", "Scientific Name Part")
+        check_required(row.get("StrengthPart"), "StrengthPart", "Strength Part")
+        check_required(row.get("PharmaceuticalDosePart"), "PharmaceuticalDosePart", "Pharmaceutical Dose Part")
+        check_required(row.get("country"), "country", "Country")
+        check_required(row.get("countryCode"), "countryCode", "Country Code")
+        check_required(row.get("language"), "language", "Language")
+        check_required(row.get("languageID"), "languageID", "Language ID")
+        check_required(row.get("inventedNamePart"), "inventedNamePart", "Invented Name Part")
+        check_required(row.get("statusSuply"), "statusSuply", "Status Supply")
+        check_spaces(row.get("countryCode"), "countryCode", "Country Code")
+        check_numeric(row.get("statusSuplyID"), "statusSuplyID", "Status Supply ID")
+        check_no_newline(row.get("productname"), "productname", "Product Name")
+        check_no_newline(row.get("inventedNamePart"), "inventedNamePart", "Invented Name Part")
+        check_no_newline(row.get("ScientificNamePart"), "ScientificNamePart", "Scientific Name Part")
+        check_no_newline(row.get("StrengthPart"), "StrengthPart", "Strength Part")
+        check_no_newline(row.get("PharmaceuticalDosePart"), "PharmaceuticalDosePart", "Pharmaceutical Dose Part")
 
     elif sheet == "Organization":
-        check_required(row.get("name"), "Name")
-        check_required(row.get("type"), "Organization Type")
-        check_required(row.get("identifier"), "Identifier")
-        check_required(row.get("address_line"), "Address Line")
-        check_required(row.get("address_city"), "City")
-        check_required(row.get("address_country"), "Country")
-        check_spaces(row.get("identifier"), "Identifier")
-        check_numeric(row.get("address_postalCode"), "Postal Code")
-        check_numeric(row.get("typeID"), "Type ID")
-        check_no_newline(row.get("name"), "Name")
+        check_required(row.get("name"), "name", "Name")
+        check_required(row.get("type"), "type", "Organization Type")
+        check_required(row.get("identifier"), "identifier", "Identifier")
+        check_required(row.get("address_line"), "address_line", "Address Line")
+        check_required(row.get("address_city"), "address_city", "City")
+        check_required(row.get("address_country"), "address_country", "Country")
+        check_spaces(row.get("identifier"), "identifier", "Identifier")
+        check_numeric(row.get("address_postalCode"), "address_postalCode", "Postal Code")
+        check_numeric(row.get("typeID"), "typeID", "Type ID")
+        check_no_newline(row.get("name"), "name", "Name")
 
     elif sheet == "PackagedProductDefinition":
-        check_required(row.get("name"), "Name")
-        check_required(row.get("statusDate"), "Status Date")
-        check_required(row.get("packaging_quantity"), "Packaging Quantity")
-        check_required(row.get("packaging_identifier"), "Packaging Identifier")
-        check_spaces(row.get("identifier"), "Identifier")
-        check_numeric(row.get("packaging_quantity"), "Packaging Quantity")
-        check_no_newline(row.get("name"), "Name")
+        check_required(row.get("name"), "name", "Name")
+        check_required(row.get("statusDate"), "statusDate", "Status Date")
+        check_required(row.get("packaging_quantity"), "packaging_quantity", "Packaging Quantity")
+        check_required(row.get("packaging_identifier"), "packaging_identifier", "Packaging Identifier")
+        check_spaces(row.get("identifier"), "identifier", "Identifier")
+        check_numeric(row.get("packaging_quantity"), "packaging_quantity", "Packaging Quantity")
+        check_no_newline(row.get("name"), "name", "Name")
 
     elif sheet == "Substance":
-        check_required(row.get("name"), "Name")
-        check_required(row.get("identifier"), "Identifier")
-        check_no_newline(row.get("name"), "Name")
-        check_spaces(row.get("identifier"), "Identifier")
+        check_required(row.get("name"), "name", "Name")
+        check_required(row.get("identifier"), "identifier", "Identifier")
+        check_no_newline(row.get("name"), "name", "Name")
+        check_spaces(row.get("identifier"), "identifier", "Identifier")
 
     elif sheet == "ClinicalUseDefinition":
-        check_required(row.get("type"), "Type")
-        check_required(row.get("name"), "Name")
-        check_required(row.get("conceptID"), "Concept ID")
-        check_required(row.get("concept"), "Concept")
-        check_no_newline(row.get("name"), "Name")
-        check_spaces(row.get("identifier"), "Identifier")
-        check_numeric(row.get("conceptID"), "Concept ID")
+        check_required(row.get("type"), "type", "Type")
+        check_required(row.get("name"), "name", "Name")
+        check_required(row.get("conceptID"), "conceptID", "Concept ID")
+        check_required(row.get("concept"), "concept", "Concept")
+        check_no_newline(row.get("name"), "name", "Name")
+        check_spaces(row.get("identifier"), "identifier", "Identifier")
+        check_numeric(row.get("conceptID"), "conceptID", "Concept ID")
         if row.get("type") and row.get("type") not in ("Indication", "Contraindication", "Interaction"):
-            errors.append("Type must be one of: Indication, Contraindication, Interaction")
+            err("type", "Type must be one of: Indication, Contraindication, Interaction")
 
     elif sheet == "Composition":
-        check_required(row.get("language"), "Language")
-        check_required(row.get("date"), "Date")
-        check_required(row.get("name"), "Name")
-        check_required(row.get("identifier_system"), "Identifier System")
-        check_no_newline(row.get("name"), "Name")
+        check_required(row.get("language"), "language", "Language")
+        check_required(row.get("date"), "date", "Date")
+        check_required(row.get("name"), "name", "Name")
+        check_required(row.get("identifier_system"), "identifier_system", "Identifier System")
+        check_no_newline(row.get("name"), "name", "Name")
 
     elif sheet == "RegulatedAuthorization":
-        check_required(row.get("identifier"), "Identifier")
-        check_required(row.get("statusDate"), "Status Date")
-        check_required(row.get("reference"), "Reference")
-        check_spaces(row.get("identifier"), "Identifier")
+        check_required(row.get("identifier"), "identifier", "Identifier")
+        check_required(row.get("statusDate"), "statusDate", "Status Date")
+        check_required(row.get("reference"), "reference", "Reference")
+        check_spaces(row.get("identifier"), "identifier", "Identifier")
         if row.get("reference") and row.get("reference") not in ("MedicinalProduct", "PackagedProduct"):
-            errors.append("Reference must be MedicinalProduct or PackagedProduct")
+            err("reference", "Reference must be MedicinalProduct or PackagedProduct")
         if row.get("regionID") and str(row.get("regionID")).strip() != "":
-            check_numeric(row.get("regionID"), "Region ID")
+            check_numeric(row.get("regionID"), "regionID", "Region ID")
 
     elif sheet == "Bundle":
-        check_required(row.get("language"), "Language")
+        check_required(row.get("language"), "language", "Language")
 
     return errors
 
@@ -183,13 +194,33 @@ def is_step_complete(step_key, session_data):
         return False, [f"{sheet} has no entries yet."]
     blockers = []
     for i, row in enumerate(rows):
-        for err in validate_row(row, sheet, session_data=session_data):
-            blockers.append(f"Row {i + 1}: {err}")
+        for _fk, msg in validate_row(row, sheet, session_data=session_data):
+            blockers.append(f"Row {i + 1}: {msg}")
     return (len(blockers) == 0), blockers
 
 
+MULTI_ROW_SHEETS = {
+    "Organization",
+    "Substance",
+    "Ingredient",
+    "RegulatedAuthorization",
+    "ClinicalUseDefinition",
+    "Composition",
+    "PackagedProductDefinition",
+}
+
+
 def validate_sheet_data(rows, sheet_name, session_data=None):
+    """Return [(row_idx, [(field_key, msg), ...]), ...] for each row with errors.
+
+    Sheets that allow multiple rows (e.g. Substance, Ingredient) require
+    at least one entry. A sheet-level error with field_key='__sheet__'
+    is returned in that case so it shows up in the form-errors banner.
+    """
     all_errors = []
+    if sheet_name in MULTI_ROW_SHEETS and not rows:
+        all_errors.append((0, [("__sheet__", f"At least one {sheet_name} entry is required.")]))
+        return all_errors
     for idx, row in enumerate(rows):
         errs = validate_row(row, sheet_name, session_data=session_data)
         if errs:

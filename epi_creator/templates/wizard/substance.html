@@ -3,9 +3,10 @@
 <h2>Substance</h2>
 <p class="section-description">Define the active substance(s). Add one row per substance.</p>
 
-<form method="post"
+<form method="post" novalidate
       hx-target="#wizard-container" hx-swap="innerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
+    {% include "wizard/_form_errors.html" %}
     {% set row_list = rows if rows and rows|length > 0 else [{}] %}
     <input type="hidden" name="row_count" value="{{ row_list|length }}">
 
@@ -18,8 +19,8 @@
                 <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button>
             </div>
             <div class="row g-2">
-                <div class="col-md-6"><label class="form-label">Name *</label><input class="form-control" name="name_{{ s_idx }}" value="{{ row.get('name','') }}" placeholder="e.g. acmesub"></div>
-                <div class="col-md-3"><label class="form-label">Identifier (GSRS) *</label><input class="form-control" name="identifier_{{ s_idx }}" value="{{ row.get('identifier','') }}" placeholder="e.g. J0E2756Z7N (UNII)"></div>
+                <div class="col-md-6"><label class="form-label">Name *</label><input class="form-control {{ 'field-error' if field_has_error(errors, s_idx, 'name') }}" name="name_{{ s_idx }}" aria-required="true" value="{{ row.get('name','') }}" placeholder="e.g. acmesub"></div>
+                <div class="col-md-3"><label class="form-label">Identifier (GSRS) *</label><input class="form-control {{ 'field-error' if field_has_error(errors, s_idx, 'identifier') }}" name="identifier_{{ s_idx }}" aria-required="true" value="{{ row.get('identifier','') }}" placeholder="e.g. J0E2756Z7N (UNII)"></div>
                 <div class="col-md-3"><label class="form-label">Version</label><input class="form-control" name="version_{{ s_idx }}" value="{{ row.get('version','') }}" placeholder="e.g. 1"></div>
                 <div class="col-md-12"><label class="form-label">Description</label><textarea class="form-control" name="description_{{ s_idx }}" rows="2" placeholder="e.g. White to off-white, biconvex, oval-shaped tablet with the number 2771 engraved on one side.">{{ row.get('description','') }}</textarea></div>
                 <div class="col-md-6"><label class="form-label">Molecular Formula</label><input class="form-control" name="molecularFormula_{{ s_idx }}" value="{{ row.get('molecularFormula','') }}" placeholder="e.g. C25H28N6O"></div>
@@ -52,8 +53,6 @@
                     <button type="button" class="btn btn-sm btn-outline-secondary mt-1" onclick="addMWRow({{ s_idx }})">+ Add Weight</button>
                 </div>
             </div>
-
-            {% if errors %}{% for e_idx, e_msgs in errors %}{% if e_idx == s_idx %}{% for msg in e_msgs %}<div class="error-message">{{ msg }}</div>{% endfor %}{% endif %}{% endfor %}{% endif %}
         </div>
         {% endfor %}
     </div>

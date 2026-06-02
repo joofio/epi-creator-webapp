@@ -1,0 +1,21 @@
+{# Renders a Bootstrap alert listing all validation errors and emits a
+   per-row dictionary that JS can use to focus the first errored field. #}
+{% if errors %}
+  <div class="alert alert-danger" role="alert" data-form-errors>
+    <strong>Please fix the following before continuing:</strong>
+    <ul class="mb-0">
+      {% for row_idx, field_errs in errors %}
+        {% for field_key, msg in field_errs %}
+          {% if field_key == '__sheet__' %}
+            <li>{{ msg }}</li>
+          {% else %}
+            <li data-row="{{ row_idx }}" data-field="{{ field_key }}">
+              <strong>{{ msg }}</strong>
+              <span class="text-muted">(row {{ row_idx + 1 }})</span>
+            </li>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
