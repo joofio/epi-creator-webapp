@@ -6,10 +6,10 @@
 <form method="post"
       hx-target="#wizard-container" hx-swap="innerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
-    <input type="hidden" name="row_count" value="{{ rows|length if rows else 0 }}">
+    {% set row_list = rows if rows and rows|length > 0 else [{}] %}
+    <input type="hidden" name="row_count" value="{{ row_list|length }}">
 
     <div id="substance-rows">
-        {% set row_list = rows if rows and rows|length > 0 else [] %}
         {% for row in row_list %}
         {% set s_idx = loop.index0 %}
         <div class="card-entry mb-3">
@@ -18,16 +18,16 @@
                 <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button>
             </div>
             <div class="row g-2">
-                <div class="col-md-6"><label class="form-label">Name *</label><input class="form-control" name="name_{{ s_idx }}" value="{{ row.get('name','') }}"></div>
-                <div class="col-md-3"><label class="form-label">Identifier (GSRS) *</label><input class="form-control" name="identifier_{{ s_idx }}" value="{{ row.get('identifier','') }}"></div>
-                <div class="col-md-3"><label class="form-label">Version</label><input class="form-control" name="version_{{ s_idx }}" value="{{ row.get('version','') }}"></div>
-                <div class="col-md-12"><label class="form-label">Description</label><textarea class="form-control" name="description_{{ s_idx }}" rows="2">{{ row.get('description','') }}</textarea></div>
-                <div class="col-md-6"><label class="form-label">Molecular Formula</label><input class="form-control" name="molecularFormula_{{ s_idx }}" value="{{ row.get('molecularFormula','') }}"></div>
+                <div class="col-md-6"><label class="form-label">Name *</label><input class="form-control" name="name_{{ s_idx }}" value="{{ row.get('name','') }}" placeholder="e.g. acmesub"></div>
+                <div class="col-md-3"><label class="form-label">Identifier (GSRS) *</label><input class="form-control" name="identifier_{{ s_idx }}" value="{{ row.get('identifier','') }}" placeholder="e.g. J0E2756Z7N (UNII)"></div>
+                <div class="col-md-3"><label class="form-label">Version</label><input class="form-control" name="version_{{ s_idx }}" value="{{ row.get('version','') }}" placeholder="e.g. 1"></div>
+                <div class="col-md-12"><label class="form-label">Description</label><textarea class="form-control" name="description_{{ s_idx }}" rows="2" placeholder="e.g. White to off-white, biconvex, oval-shaped tablet with the number 2771 engraved on one side.">{{ row.get('description','') }}</textarea></div>
+                <div class="col-md-6"><label class="form-label">Molecular Formula</label><input class="form-control" name="molecularFormula_{{ s_idx }}" value="{{ row.get('molecularFormula','') }}" placeholder="e.g. C25H28N6O"></div>
             </div>
 
             <div class="row g-2 mt-1">
-                <div class="col-md-6"><label class="form-label">Alt. Name</label><input class="form-control" name="name_name_{{ s_idx }}" value="{{ row.get('name_name','') }}"></div>
-                <div class="col-md-3"><label class="form-label">Name Type</label><input class="form-control" name="name_type_{{ s_idx }}" value="{{ row.get('name_type','') }}"></div>
+                <div class="col-md-6"><label class="form-label">Alt. Name</label><input class="form-control" name="name_name_{{ s_idx }}" value="{{ row.get('name_name','') }}" placeholder="e.g. (+)-6-methyleneandrosta-1,4-diene-3,17-dione"></div>
+                <div class="col-md-3"><label class="form-label">Name Type</label><input class="form-control" name="name_type_{{ s_idx }}" value="{{ row.get('name_type','') }}" placeholder="e.g. Chemical Name"></div>
                 <div class="col-md-3"><label class="form-label">Name Type ID</label><input class="form-control" name="name_typeID_{{ s_idx }}" value="{{ row.get('name_typeID','') }}"></div>
                 <input type="hidden" name="id_{{ s_idx }}" value="{{ row.get('id','') }}">
             </div>
@@ -42,8 +42,8 @@
                         {% if not has_mw %}{% set mw_vals = [''] %}{% set mw_typs = [''] %}{% endif %}
                         {% for mw_idx in range(mw_vals|length) %}
                         <div class="input-group input-group-sm mb-1">
-                            <input class="form-control" name="mw_value_{{ s_idx }}_{{ mw_idx }}" value="{{ mw_vals[mw_idx] }}" placeholder="Amount">
-                            <input class="form-control" name="mw_type_{{ s_idx }}_{{ mw_idx }}" value="{{ mw_typs[mw_idx] if mw_idx < mw_typs|length else '' }}" placeholder="Type (e.g. base, salt)">
+                            <input class="form-control" name="mw_value_{{ s_idx }}_{{ mw_idx }}" value="{{ mw_vals[mw_idx] }}" placeholder="e.g. 428.53">
+                            <input class="form-control" name="mw_type_{{ s_idx }}_{{ mw_idx }}" value="{{ mw_typs[mw_idx] if mw_idx < mw_typs|length else '' }}" placeholder="e.g. exact / base / salt">
                             <button type="button" class="btn btn-outline-danger" onclick="this.closest('.input-group').remove(); updateMWCount({{ s_idx }});">x</button>
                         </div>
                         {% endfor %}
@@ -67,7 +67,7 @@
 </form>
 
 <script>
-let rowCounter = {{ row_list|length if row_list else 0 }};
+let rowCounter = {{ row_list|length }};
 
 function addMWRow(substanceIndex) {
     const container = document.querySelector(`.mw-rows[data-substance="${substanceIndex}"]`);
@@ -76,8 +76,8 @@ function addMWRow(substanceIndex) {
     const count = parseInt(countHidden.value) || 0;
     const div = document.createElement('div');
     div.className = 'input-group input-group-sm mb-1';
-    div.innerHTML = `<input class="form-control" name="mw_value_${substanceIndex}_${count}" placeholder="Amount">`
-        + `<input class="form-control" name="mw_type_${substanceIndex}_${count}" placeholder="Type (e.g. base, salt)">`
+    div.innerHTML = `<input class="form-control" name="mw_value_${substanceIndex}_${count}" placeholder="e.g. 428.53">`
+        + `<input class="form-control" name="mw_type_${substanceIndex}_${count}" placeholder="e.g. exact / base / salt">`
         + `<button type="button" class="btn btn-outline-danger" onclick="this.closest('.input-group').remove(); updateMWCount(${substanceIndex});">x</button>`;
     container.appendChild(div);
     countHidden.value = count + 1;
@@ -103,15 +103,15 @@ function addRow() {
     const idx = rowCounter;
     d.innerHTML = `<div class="card-entry-header"><strong>Substance #${idx+1}</strong><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button></div>`
         + `<div class="row g-2">`
-        + `<div class="col-md-6"><label class="form-label">Name *</label><input class="form-control" name="name_${idx}"></div>`
-        + `<div class="col-md-3"><label class="form-label">Identifier (GSRS) *</label><input class="form-control" name="identifier_${idx}"></div>`
-        + `<div class="col-md-3"><label class="form-label">Version</label><input class="form-control" name="version_${idx}"></div>`
-        + `<div class="col-md-12"><label class="form-label">Description</label><textarea class="form-control" name="description_${idx}" rows="2"></textarea></div>`
-        + `<div class="col-md-6"><label class="form-label">Molecular Formula</label><input class="form-control" name="molecularFormula_${idx}"></div>`
+        + `<div class="col-md-6"><label class="form-label">Name *</label><input class="form-control" name="name_${idx}" placeholder="e.g. acmesub"></div>`
+        + `<div class="col-md-3"><label class="form-label">Identifier (GSRS) *</label><input class="form-control" name="identifier_${idx}" placeholder="e.g. J0E2756Z7N (UNII)"></div>`
+        + `<div class="col-md-3"><label class="form-label">Version</label><input class="form-control" name="version_${idx}" placeholder="e.g. 1"></div>`
+        + `<div class="col-md-12"><label class="form-label">Description</label><textarea class="form-control" name="description_${idx}" rows="2" placeholder="e.g. White to off-white, biconvex, oval-shaped tablet..."></textarea></div>`
+        + `<div class="col-md-6"><label class="form-label">Molecular Formula</label><input class="form-control" name="molecularFormula_${idx}" placeholder="e.g. C25H28N6O"></div>`
         + `</div>`
         + `<div class="row g-2 mt-1">`
-        + `<div class="col-md-6"><label class="form-label">Alt. Name</label><input class="form-control" name="name_name_${idx}"></div>`
-        + `<div class="col-md-3"><label class="form-label">Name Type</label><input class="form-control" name="name_type_${idx}"></div>`
+        + `<div class="col-md-6"><label class="form-label">Alt. Name</label><input class="form-control" name="name_name_${idx}" placeholder="e.g. (+)-6-methyleneandrosta-1,4-diene-3,17-dione"></div>`
+        + `<div class="col-md-3"><label class="form-label">Name Type</label><input class="form-control" name="name_type_${idx}" placeholder="e.g. Chemical Name"></div>`
         + `<div class="col-md-3"><label class="form-label">Name Type ID</label><input class="form-control" name="name_typeID_${idx}"></div>`
         + `<input type="hidden" name="id_${idx}">`
         + `</div>`
@@ -119,8 +119,8 @@ function addRow() {
         + `<label class="form-label fw-bold">Molecular Weights</label>`
         + `<div class="mw-rows" data-substance="${idx}">`
         + `<div class="input-group input-group-sm mb-1">`
-        + `<input class="form-control" name="mw_value_${idx}_0" placeholder="Amount">`
-        + `<input class="form-control" name="mw_type_${idx}_0" placeholder="Type (e.g. base, salt)">`
+        + `<input class="form-control" name="mw_value_${idx}_0" placeholder="e.g. 428.53">`
+        + `<input class="form-control" name="mw_type_${idx}_0" placeholder="e.g. exact / base / salt">`
         + `<button type="button" class="btn btn-outline-danger" onclick="this.closest('.input-group').remove(); updateMWCount(${idx});">x</button>`
         + `</div></div>`
         + `<input type="hidden" name="mw_count_${idx}" value="1">`

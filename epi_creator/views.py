@@ -106,7 +106,7 @@ def wizard_submit(step):
 
     rows = _parse_form_rows(form_data, sheet_name)
 
-    validation_errors = validate_sheet_data(rows, sheet_name)
+    validation_errors = validate_sheet_data(rows, sheet_name, session_data=session.get("data"))
 
     is_single = sheet_name in (
         "MedicinalProductDefinition",
@@ -235,7 +235,9 @@ def _parse_form_rows(form_data, sheet_name):
             if key.endswith(suffix):
                 col_name = key[: -len(suffix)]
                 row[col_name] = values[0] if values else ""
-        if row:
+        if row and any(
+            str(v).strip() for k, v in row.items() if k != "id"
+        ):
             rows.append(row)
 
     if not rows and max_rows == 1:
@@ -244,7 +246,9 @@ def _parse_form_rows(form_data, sheet_name):
             if key.startswith("row_count"):
                 continue
             row[key] = values[0] if values else ""
-        if row:
+        if row and any(
+            str(v).strip() for k, v in row.items() if k != "id"
+        ):
             rows.append(row)
 
     return rows

@@ -82,7 +82,7 @@ def main():
                 "statusDate": "2024-01-01",
                 "type": "Marketing Authorisation",
                 "typeID": "220000000061",
-                "reference": "EU/1/97/049/001",
+                "reference": "MedicinalProduct",
                 "region": "EU",
                 "regionID": "EU",
             }

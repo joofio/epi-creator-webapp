@@ -225,9 +225,18 @@ def create_from_session(env, session_data, TEMPLATE_FOLDER, OUTPUT_FOLDER, major
         "productname": productname,
     }
 
+    substance_lookup = {}
+    if "Substance" in dataframes:
+        for _, srow in dataframes["Substance"].iterrows():
+            sid = str(srow.get("identifier", "")).strip()
+            sname = str(srow.get("name", "")).strip()
+            if sid and sid.lower() != "nan" and sname and sname.lower() != "nan":
+                substance_lookup[sid] = re.sub(r"[^A-Za-z0-9]+", "", sname.lower())
+
     data = {
         "dictionary": data_dict,
         "turn": "1",
+        "substance_lookup": substance_lookup,
     }
 
     for sheet in elements:

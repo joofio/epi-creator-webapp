@@ -39,8 +39,8 @@ Usage: #example
 
 
 * packaging
-//  * identifier.system = $spor-prod
-//  * identifier.value = "mock-id"
+  * identifier.system = $spor-prod
+  * identifier.value = "{{ row['packaging_identifier'] if row['packaging_identifier']|string not in ('nan','') else row['identifier']|default('mock-id') }}"
   * quantity = 1
   * type = $spor-rms#100000073498 "Box"
   * material = $spor-rms#200000003529 "Cardboard"

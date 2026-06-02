@@ -1,4 +1,4 @@
-def validate_row(row, sheet):
+def validate_row(row, sheet, session_data=None):
     errors = []
 
     def check_spaces(value, field_label):
@@ -49,6 +49,24 @@ def validate_row(row, sheet):
             if not row.get("identifier") or str(row.get("identifier")).strip() == "":
                 errors.append("Identifier is required for active ingredients (substance code)")
 
+        ingredient_identifier = (row.get("identifier") or "").strip()
+        if ingredient_identifier:
+            substance_ids = set()
+            if session_data and session_data.get("Substance"):
+                for srow in session_data["Substance"]:
+                    sid = (srow.get("identifier") or "").strip()
+                    if sid:
+                        substance_ids.add(sid)
+            if not substance_ids:
+                errors.append(
+                    "No Substance defined yet. Please add the substance (with its GSRS identifier) in the Substance step before linking it here."
+                )
+            elif ingredient_identifier not in substance_ids:
+                errors.append(
+                    f"Identifier '{ingredient_identifier}' does not match any Substance. "
+                    f"Add a Substance with this GSRS identifier first, or correct the identifier."
+                )
+
     elif sheet == "ManufacturedItemDefinition":
         check_required(row.get("identifier"), "Identifier")
         check_numeric(row.get("unit_presentationID"), "Unit Presentation ID")
@@ -90,6 +108,7 @@ def validate_row(row, sheet):
         check_required(row.get("name"), "Name")
         check_required(row.get("statusDate"), "Status Date")
         check_required(row.get("packaging_quantity"), "Packaging Quantity")
+        check_required(row.get("packaging_identifier"), "Packaging Identifier")
         check_spaces(row.get("identifier"), "Identifier")
         check_numeric(row.get("packaging_quantity"), "Packaging Quantity")
         check_no_newline(row.get("name"), "Name")
@@ -121,7 +140,10 @@ def validate_row(row, sheet):
     elif sheet == "RegulatedAuthorization":
         check_required(row.get("identifier"), "Identifier")
         check_required(row.get("statusDate"), "Status Date")
+        check_required(row.get("reference"), "Reference")
         check_spaces(row.get("identifier"), "Identifier")
+        if row.get("reference") and row.get("reference") not in ("MedicinalProduct", "PackagedProduct"):
+            errors.append("Reference must be MedicinalProduct or PackagedProduct")
         if row.get("regionID") and str(row.get("regionID")).strip() != "":
             check_numeric(row.get("regionID"), "Region ID")
 
@@ -131,10 +153,10 @@ def validate_row(row, sheet):
     return errors
 
 
-def validate_sheet_data(rows, sheet_name):
+def validate_sheet_data(rows, sheet_name, session_data=None):
     all_errors = []
     for idx, row in enumerate(rows):
-        errs = validate_row(row, sheet_name)
+        errs = validate_row(row, sheet_name, session_data=session_data)
         if errs:
             all_errors.append((idx, errs))
     return all_errors
@@ -173,6 +195,21 @@ def validate_pre_generation(session_data):
         )
         if not has_active:
             errors.append("At least one active ingredient is required.")
+
+        substance_ids = {
+            (s.get("identifier") or "").strip()
+            for s in session_data.get("Substance", [])
+            if (s.get("identifier") or "").strip()
+        }
+        for idx, ing in enumerate(session_data["Ingredient"]):
+            ing_id = (ing.get("identifier") or "").strip()
+            if not ing_id:
+                continue
+            if ing_id not in substance_ids:
+                errors.append(
+                    f"Ingredient #{idx + 1} ('{ing.get('name', '')}') references substance "
+                    f"identifier '{ing_id}' which is not defined in the Substance step."
+                )
 
     orgs = session_data.get("Organization", [])
     has_mah = any(

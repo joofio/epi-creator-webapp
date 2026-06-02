@@ -26,8 +26,13 @@ Usage: #example
 * status = #active
 
 {% if row["identifier"]|string not in ("nan","") %}
+{% set _sub_key = data["substance_lookup"].get(row["identifier"]|trim) if data.get("substance_lookup") else None %}
 * substance.code.concept.coding = $ginas#{{ row["identifier"]|trim }} "{{ row["name"] | trim  }}"
-* substance.code = Reference(substance-{{ row["name"]| lower | regex_replace('[^A-Za-z0-9]+', '') }})
+{% if _sub_key %}
+* substance.code = Reference(substance-{{ _sub_key }})
+{% else %}
+// ERROR[2] - No Substance found with identifier "{{ row["identifier"]|trim }}"; cannot emit substance.code Reference. INDEX:{{ index + 1 }}
+{% endif %}
 {% else %}
 // ERROR[1] - Ingredient identifier (substance code) is empty; cannot emit substance.code. INDEX:{{ index + 1 }}
 {% endif %}
