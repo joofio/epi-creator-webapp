@@ -28,14 +28,11 @@ Usage: #example
 * status = http://hl7.org/fhir/publication-status#active "Active"
 * statusDate = "{{ row["statusDate"]}}"
 
-{%- if row["quantity"]|string not in ("nan","") and " " in row["quantity"]|string and row["quantity"].split(' ')[1]|string in ["tablet","tablets","vial","capsules"]  %}
-* containedItemQuantity = {{ row["quantity"].split(' ')[0] }} '{{ '{' }}{{ row["quantity"].split(' ')[1] }}{{ '}' }}'
-
+{% if row["quantity"]|string not in ("nan","") and " " in row["quantity"]|string %}
+* containedItemQuantity = {{ row["quantity"].split(' ')[0]|int }} '{{ '{' }}{{ row["quantity"].split(' ')[1] }}{{ '}' }}'
 {% elif row["quantity"]|string not in ("nan","") %}
-{% set qty_unit = row["quantity"].split(' ')[1] if " " in row["quantity"]|string else "" %}
-* containedItemQuantity = {{ row["quantity"].split(' ')[0] }}{% if qty_unit %} '{{ qty_unit }}'{% endif %}
-
-{% endif -%}
+* containedItemQuantity = {{ row["quantity"]|int }}
+{% endif %}
 
 {{ "* description = \"{}\"".format(row.description) if row.description|string not in ("nan","")}}
 {{ "* copackagedIndicator = {}".format(row.copackagedIndicator|lower) if row.copackagedIndicator|string not in ("nan","")}}

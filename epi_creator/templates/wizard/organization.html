@@ -24,15 +24,15 @@
                 <div class="col-md-4">
                     <label class="form-label">Name *</label>
                     <input class="form-control {{ 'field-error' if errors else '' }}"
-                           name="name_{{ loop.index0 }}" value="{{ row.get('name','') }}">
+                           name="name_{{ loop.index0 }}" required value="{{ row.get('name','') }}">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">Identifier</label>
-                    <input class="form-control" name="identifier_{{ loop.index0 }}" value="{{ row.get('identifier','') }}">
+                    <label class="form-label">Identifier *</label>
+                    <input class="form-control" name="identifier_{{ loop.index0 }}" required value="{{ row.get('identifier','') }}">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Organization Type *</label>
-                    <select class="form-select" name="type_{{ loop.index0 }}" onchange="autoFillTypeID(this)">
+                    <select class="form-select" name="type_{{ loop.index0 }}" required onchange="autoFillTypeID(this)">
                         <option value="">-- Select --</option>
                         {% set types = ['Marketing Authorisation Holder','Medicines Regulatory Authority','Manufacturer','Master File Holder','Contact Location','Manufacturer Batch Release','Manufacturer API'] %}
                         {% for t in types %}
@@ -42,16 +42,16 @@
                 </div>
                 <input type="hidden" name="typeID_{{ loop.index0 }}" value="{{ row.get('typeID','') }}">
                 <div class="col-md-6">
-                    <label class="form-label">Address Line</label>
-                    <input class="form-control" name="address_line_{{ loop.index0 }}" value="{{ row.get('address_line','') }}">
+                    <label class="form-label">Address Line *</label>
+                    <input class="form-control" name="address_line_{{ loop.index0 }}" required value="{{ row.get('address_line','') }}">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">City</label>
-                    <input class="form-control" name="address_city_{{ loop.index0 }}" value="{{ row.get('address_city','') }}">
+                    <label class="form-label">City *</label>
+                    <input class="form-control" name="address_city_{{ loop.index0 }}" required value="{{ row.get('address_city','') }}">
                 </div>
                 <div class="col-md-2">
-                    <label class="form-label">Country</label>
-                    <input class="form-control" name="address_country_{{ loop.index0 }}" value="{{ row.get('address_country','') }}">
+                    <label class="form-label">Country *</label>
+                    <input class="form-control" name="address_country_{{ loop.index0 }}" required value="{{ row.get('address_country','') }}">
                 </div>
                 <div class="col-md-1">
                     <label class="form-label">Postal Code</label>
@@ -110,13 +110,13 @@ function addOrgRow() {
         <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateOrgCount();">Remove</button>
     </div>
     <div class="row g-2">
-        <div class="col-md-4"><label class="form-label">Name *</label><input class="form-control" name="name_${orgRowCount}"></div>
-        <div class="col-md-3"><label class="form-label">Identifier</label><input class="form-control" name="identifier_${orgRowCount}"></div>
-        <div class="col-md-3"><label class="form-label">Organization Type *</label><select class="form-select" name="type_${orgRowCount}" onchange="autoFillTypeID(this)"><option value="">-- Select --</option><option>Marketing Authorisation Holder</option><option>Medicines Regulatory Authority</option><option>Manufacturer</option><option>Master File Holder</option><option>Contact Location</option><option>Manufacturer Batch Release</option><option>Manufacturer API</option></select></div>
+        <div class="col-md-4"><label class="form-label">Name *</label><input class="form-control" name="name_${orgRowCount}" required></div>
+        <div class="col-md-3"><label class="form-label">Identifier *</label><input class="form-control" name="identifier_${orgRowCount}" required></div>
+        <div class="col-md-3"><label class="form-label">Organization Type *</label><select class="form-select" name="type_${orgRowCount}" required onchange="autoFillTypeID(this)"><option value="">-- Select --</option><option>Marketing Authorisation Holder</option><option>Medicines Regulatory Authority</option><option>Manufacturer</option><option>Master File Holder</option><option>Contact Location</option><option>Manufacturer Batch Release</option><option>Manufacturer API</option></select></div>
         <input type="hidden" name="typeID_${orgRowCount}">
-        <div class="col-md-6"><label class="form-label">Address Line</label><input class="form-control" name="address_line_${orgRowCount}"></div>
-        <div class="col-md-3"><label class="form-label">City</label><input class="form-control" name="address_city_${orgRowCount}"></div>
-        <div class="col-md-2"><label class="form-label">Country</label><input class="form-control" name="address_country_${orgRowCount}"></div>
+        <div class="col-md-6"><label class="form-label">Address Line *</label><input class="form-control" name="address_line_${orgRowCount}" required></div>
+        <div class="col-md-3"><label class="form-label">City *</label><input class="form-control" name="address_city_${orgRowCount}" required></div>
+        <div class="col-md-2"><label class="form-label">Country *</label><input class="form-control" name="address_country_${orgRowCount}" required></div>
         <div class="col-md-1"><label class="form-label">Postal Code</label><input class="form-control" name="address_postalCode_${orgRowCount}"></div>
         <input type="hidden" name="id_${orgRowCount}">
     </div>`;

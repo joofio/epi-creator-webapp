@@ -46,6 +46,8 @@ def validate_row(row, sheet):
                 errors.append("Strength Basis is required for active ingredients")
             if not row.get("quantity") or str(row.get("quantity")).strip() == "":
                 errors.append("Quantity is required for active ingredients")
+            if not row.get("identifier") or str(row.get("identifier")).strip() == "":
+                errors.append("Identifier is required for active ingredients (substance code)")
 
     elif sheet == "ManufacturedItemDefinition":
         check_required(row.get("identifier"), "Identifier")
@@ -75,6 +77,10 @@ def validate_row(row, sheet):
     elif sheet == "Organization":
         check_required(row.get("name"), "Name")
         check_required(row.get("type"), "Organization Type")
+        check_required(row.get("identifier"), "Identifier")
+        check_required(row.get("address_line"), "Address Line")
+        check_required(row.get("address_city"), "City")
+        check_required(row.get("address_country"), "Country")
         check_spaces(row.get("identifier"), "Identifier")
         check_numeric(row.get("address_postalCode"), "Postal Code")
         check_numeric(row.get("typeID"), "Type ID")
@@ -102,6 +108,8 @@ def validate_row(row, sheet):
         check_no_newline(row.get("name"), "Name")
         check_spaces(row.get("identifier"), "Identifier")
         check_numeric(row.get("conceptID"), "Concept ID")
+        if row.get("type") and row.get("type") not in ("Indication", "Contraindication", "Interaction"):
+            errors.append("Type must be one of: Indication, Contraindication, Interaction")
 
     elif sheet == "Composition":
         check_required(row.get("language"), "Language")

@@ -155,8 +155,6 @@ def build_dataframes(session_data):
     dataframes = {}
     for sheet in elements:
         rows = session_data.get(sheet, [])
-        if not rows:
-            rows = [{}]
         df = pd.DataFrame(rows)
 
         for col in SHEET_COLUMNS.get(sheet, []):

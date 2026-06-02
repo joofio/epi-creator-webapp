@@ -25,7 +25,12 @@ Usage: #example
 
 * status = #active
 
-* substance.code.concept.coding = $ginas#{{ row["identifier"]  }} "{{ row["name"] | trim  }}"
+{% if row["identifier"]|string not in ("nan","") %}
+* substance.code.concept.coding = $ginas#{{ row["identifier"]|trim }} "{{ row["name"] | trim  }}"
+* substance.code = Reference(substance-{{ row["name"]| lower | regex_replace('[^A-Za-z0-9]+', '') }})
+{% else %}
+// ERROR[1] - Ingredient identifier (substance code) is empty; cannot emit substance.code. INDEX:{{ index + 1 }}
+{% endif %}
 
 {% if row["StrengthBasis"]|string not in ("nan","") %}
 {% if row["quantity"]|string not in ("nan","") %}

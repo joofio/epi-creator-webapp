@@ -1,5 +1,5 @@
 {% for index,row in data["data"].iterrows() %}
-{% if row["skip"] not in ['y', 'Y', 'x', 'X'] %}
+{% if row["skip"] not in ['y', 'Y', 'x', 'X'] and row["type"]|string not in ("nan","") %}
 
 {% set ns = namespace() %}
 {% set ns.one = row['type']|trim %}
@@ -9,7 +9,7 @@
 
 
 Instance: cud-{{ns.name_to_has| create_hash_id}}
-InstanceOf: ClinicalUseDefinition-{{row['type']|trim}}-uv-epi
+InstanceOf: ClinicalUseDefinition{{row['type']|trim}}UvEpi
 Description: "{{row['type']}} - {{row['name']}}"
 Usage: #example
 
@@ -19,27 +19,27 @@ Usage: #example
 * identifier.use = #official
 {% endif %}
 
-* type = #{{row['type']}}
+* type = #{{row['type']|lower}}
 
 // Reference to MedicinalProductDefinition: EU/1/97/049/001 Karvea 75 mg tablet blister x28
- 
+
 {% if data["turn"] != "1" %}
 * subject = Reference({{data["references"]["MedicinalProductDefinition"][0][0]}})
 {% endif %}
-{% if row["type"]|string =="contraindication"  %}
+{% if row["type"]|string =="Contraindication"  %}
 
 * contraindication
   * diseaseSymptomProcedure.concept.coding = $meddra#{{row["conceptID"]}} "{{ row["concept"] }}"
 {% endif %}
 
-{% if row["type"]|string =="indication"  %}
+{% if row["type"]|string =="Indication"  %}
 
 * indication
   * diseaseSymptomProcedure.concept.coding = $meddra#{{row["conceptID"]}} "{{ row["concept"] }}"
 
 {% endif %}
 
-{% if row["type"]|string =="interaction"  %}
+{% if row["type"]|string =="Interaction"  %}
 
 * interaction.interactant.itemCodeableConcept = https://gsrs.ncats.nih.gov/ginas/app/beta/#{{row["conceptID"]}} "{{ row["concept"] }}"
 
