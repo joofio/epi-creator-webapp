@@ -99,7 +99,8 @@ def wizard_step(step):
     ctx = dict(step=step, sheet_name=sheet_name, rows=rows, steps=STEPS,
                current_step=step, step_title=sheet_name.replace("Definition", ""),
                is_single=is_single, base_template="wizard/base.html",
-               languages=get_lookup("languages"))
+               languages=get_lookup("languages"),
+               step_states=_step_states(data))
     if request.headers.get("HX-Request"):
         return _render_htmx(step_template, **ctx)
     return render_template("wizard/" + step_template, **ctx)
@@ -130,7 +131,8 @@ def wizard_submit(step):
     ctx = dict(step=step, sheet_name=sheet_name, rows=rows, steps=STEPS,
                current_step=step, step_title=sheet_name.replace("Definition", ""),
                is_single=is_single, base_template="wizard/base.html",
-               languages=get_lookup("languages"))
+               languages=get_lookup("languages"),
+               step_states=_step_states(session.get("data", {})))
 
     if validation_errors:
         if request.headers.get("HX-Request"):
@@ -327,6 +329,10 @@ def _consolidate_substance_mw(form_data):
 def _render_htmx(template_name, **context):
     context["base_template"] = "wizard/_htmx_base.html"
     return render_template("wizard/" + template_name, **context)
+
+
+def _step_states(session_data):
+    return {s: is_step_complete(s, session_data)[0] for s in STEPS}
 
 
 # ---- keep download endpoint for backward compat / template download ----

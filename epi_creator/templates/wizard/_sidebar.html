@@ -16,15 +16,16 @@
     ] %}
 
     {% set current_index = steps.index(current_step) if current_step in steps else 0 %}
+    {% set step_states = step_states or {} %}
 
     {% for step_key, step_label in all_steps %}
         {% set idx = loop.index0 %}
-        {% if idx < current_index %}
-            {% set state = 'completed' %}
-            {% set icon = '&#10003;' %}
-        {% elif idx == current_index %}
+        {% if idx == current_index %}
             {% set state = 'active' %}
             {% set icon = loop.index|string %}
+        {% elif step_states.get(step_key) %}
+            {% set state = 'completed' %}
+            {% set icon = '&#10003;' %}
         {% else %}
             {% set state = 'pending' %}
             {% set icon = loop.index|string %}
