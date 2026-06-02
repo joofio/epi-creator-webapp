@@ -222,6 +222,43 @@ MULTI_ROW_SHEETS = {
     "PackagedProductDefinition",
 }
 
+HTML_FIELDS = {
+    "package_leaflet",
+    "information_user",
+    "what_in_leaflet",
+    "what_product_is",
+    "before_take",
+    "how_to_take",
+    "side_effects",
+    "how_to_store",
+    "other_info",
+}
+
+ALLOWED_HTML_TAGS = {
+    "p", "br", "h1", "h2", "h3", "h4", "h5", "h6",
+    "ul", "ol", "li", "b", "i", "em", "strong",
+    "div", "span", "a", "table", "tr", "td", "th", "thead", "tbody",
+}
+ALLOWED_HTML_ATTRS = {"a": {"href", "title"}}
+
+
+def sanitize_html(value):
+    """Strip dangerous tags/attrs from a user-supplied HTML fragment.
+
+    Used for the Composition step's package_leaflet and similar
+    fields, which are intentionally HTML but must not allow
+    <script>, on* handlers, javascript: URLs, etc.
+    """
+    if not value:
+        return value
+    import nh3
+    return nh3.clean(
+        str(value),
+        tags=ALLOWED_HTML_TAGS,
+        attributes=ALLOWED_HTML_ATTRS,
+        url_schemes={"https", "mailto"},
+    )
+
 
 def validate_sheet_data(rows, sheet_name, session_data=None):
     """Return [(row_idx, [(field_key, msg), ...]), ...] for each row with errors.

@@ -15,7 +15,9 @@ from flask import current_app as app
 
 from epi_creator.functions import generate_from_session
 from epi_creator.validator import (
+    HTML_FIELDS,
     is_step_complete,
+    sanitize_html,
     validate_sheet_data,
     validate_pre_generation,
 )
@@ -145,6 +147,10 @@ def wizard_submit(step):
         return render_template("wizard/" + step_template, **ctx)
 
     rows = _consolidate_pipe_fields(rows, sheet_name)
+    for row in rows:
+        for k in list(row.keys()):
+            if k in HTML_FIELDS and row[k]:
+                row[k] = sanitize_html(row[k])
     session["data"][sheet_name] = rows
     session.modified = True
 
