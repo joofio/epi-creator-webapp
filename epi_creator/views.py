@@ -100,7 +100,8 @@ def wizard_step(step):
                current_step=step, step_title=sheet_name.replace("Definition", ""),
                is_single=is_single, base_template="wizard/base.html",
                languages=get_lookup("languages"),
-               step_states=_step_states(data))
+               step_states=_step_states(data),
+               generate_unmet=_generate_unmet(data))
     if request.headers.get("HX-Request"):
         return _render_htmx(step_template, **ctx)
     return render_template("wizard/" + step_template, **ctx)
@@ -132,7 +133,8 @@ def wizard_submit(step):
                current_step=step, step_title=sheet_name.replace("Definition", ""),
                is_single=is_single, base_template="wizard/base.html",
                languages=get_lookup("languages"),
-               step_states=_step_states(session.get("data", {})))
+               step_states=_step_states(session.get("data", {})),
+               generate_unmet=_generate_unmet(session.get("data", {})))
 
     if validation_errors:
         if request.headers.get("HX-Request"):
@@ -333,6 +335,14 @@ def _render_htmx(template_name, **context):
 
 def _step_states(session_data):
     return {s: is_step_complete(s, session_data)[0] for s in STEPS}
+
+
+def _generate_unmet(session_data):
+    blockers = []
+    for s in STEPS:
+        _, sb = is_step_complete(s, session_data)
+        blockers.extend(sb)
+    return blockers
 
 
 # ---- keep download endpoint for backward compat / template download ----

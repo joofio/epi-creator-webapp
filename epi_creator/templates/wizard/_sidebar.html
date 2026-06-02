@@ -38,14 +38,24 @@
     {% endfor %}
 
     {% set data_count = session.get('data', {})|length %}
+    <div id="generate-status" class="small text-muted mt-3" style="margin-top:20px">
+        {% if generate_unmet %}
+            <strong class="text-danger">To generate, complete:</strong>
+            <ul class="mb-1" style="padding-left:18px">
+                {% for e in generate_unmet %}<li>{{ e }}</li>{% endfor %}
+            </ul>
+        {% else %}
+            <strong class="text-success">All steps complete.</strong>
+            Click below to generate.
+        {% endif %}
+    </div>
     <button id="generate-btn"
             class="btn btn-success generate-btn w-100"
             hx-post="{{ url_for('gh_epi_creator.wizard_generate') }}"
             hx-target="#generate-result"
             hx-swap="innerHTML"
             hx-indicator="#generate-spinner"
-            style="margin-top:20px"
-            {% if data_count < 11 %}disabled{% endif %}>
+            {% if generate_unmet %}disabled title="Complete the listed steps to enable generation"{% endif %}>
         Generate FHIR Package
     </button>
     <div id="generate-spinner" class="htmx-indicator text-center mt-2" style="font-size:13px;color:#6c757d">
