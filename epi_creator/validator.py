@@ -153,6 +153,41 @@ def validate_row(row, sheet, session_data=None):
     return errors
 
 
+STEP_TO_SHEET = {
+    "organization": "Organization",
+    "medicinal-product": "MedicinalProductDefinition",
+    "substance": "Substance",
+    "ingredient": "Ingredient",
+    "regulated-auth": "RegulatedAuthorization",
+    "manufactured-item": "ManufacturedItemDefinition",
+    "administrable-product": "AdministrableProductDefinition",
+    "packaged-product": "PackagedProductDefinition",
+    "clinical-use": "ClinicalUseDefinition",
+    "composition": "Composition",
+    "bundle": "Bundle",
+}
+
+
+def is_step_complete(step_key, session_data):
+    """Return (is_complete, blockers) for a given wizard step.
+
+    A step is complete when it has at least one row that passes
+    per-row validation. Cross-sheet constraints (e.g. Substance for
+    Ingredient) are evaluated through validate_row.
+    """
+    sheet = STEP_TO_SHEET.get(step_key)
+    if sheet is None:
+        return False, [f"Unknown step: {step_key}"]
+    rows = (session_data or {}).get(sheet, [])
+    if not rows:
+        return False, [f"{sheet} has no entries yet."]
+    blockers = []
+    for i, row in enumerate(rows):
+        for err in validate_row(row, sheet, session_data=session_data):
+            blockers.append(f"Row {i + 1}: {err}")
+    return (len(blockers) == 0), blockers
+
+
 def validate_sheet_data(rows, sheet_name, session_data=None):
     all_errors = []
     for idx, row in enumerate(rows):

@@ -14,7 +14,11 @@ from flask import (
 from flask import current_app as app
 
 from epi_creator.functions import generate_from_session
-from epi_creator.validator import validate_sheet_data, validate_pre_generation
+from epi_creator.validator import (
+    is_step_complete,
+    validate_sheet_data,
+    validate_pre_generation,
+)
 from epi_creator.lookup import get_lookup, get_category_id
 
 gh_epi_creator = Blueprint("gh_epi_creator", __name__)
@@ -76,6 +80,14 @@ def wizard_step(step):
         session["data"] = {}
     data = session["data"]
     sheet_name = SHEET_NAMES.get(step)
+
+    if step in STEPS and step != STEPS[0]:
+        target_idx = STEPS.index(step)
+        for prior in STEPS[:target_idx]:
+            ok, _ = is_step_complete(prior, data)
+            if not ok:
+                return redirect(url_for("gh_epi_creator.wizard_step", step=prior))
+
     rows = data.get(sheet_name, [])
     is_single = sheet_name in (
         "MedicinalProductDefinition",
