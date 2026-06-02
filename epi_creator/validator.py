@@ -5,6 +5,8 @@ def validate_row(row, sheet, session_data=None):
     templates can attach .field-error to the right input. Use
     "__sheet__" for sheet-level errors that don't map to one input.
     """
+    from epi_creator.lookup import get_lookup
+
     errors = []
 
     def err(field_key, msg):
@@ -41,6 +43,12 @@ def validate_row(row, sheet, session_data=None):
         check_numeric(row.get("unit_presentationID"), "unit_presentationID", "Unit Presentation ID")
         check_numeric(row.get("routeID"), "routeID", "Route ID")
         check_numeric(row.get("doseFormID"), "doseFormID", "Dose Form ID")
+        for fk, lookup_key in (("doseForm", "doseForms"),
+                               ("unit_presentation", "unitPresentations"),
+                               ("route", "routes")):
+            val = (row.get(fk) or "").strip()
+            if val and val not in get_lookup(lookup_key):
+                err(fk, f"{fk} '{val}' is not in the controlled vocabulary. Pick from the list.")
 
     elif sheet == "Ingredient":
         check_required(row.get("name"), "name", "Name")
@@ -83,6 +91,11 @@ def validate_row(row, sheet, session_data=None):
         check_numeric(row.get("unit_presentationID"), "unit_presentationID", "Unit Presentation ID")
         check_numeric(row.get("doseFormID"), "doseFormID", "Dose Form ID")
         check_spaces(row.get("identifier"), "identifier", "Identifier")
+        for fk, lookup_key in (("doseForm", "doseForms"),
+                               ("unit_presentation", "unitPresentations")):
+            val = (row.get(fk) or "").strip()
+            if val and val not in get_lookup(lookup_key):
+                err(fk, f"{fk} '{val}' is not in the controlled vocabulary. Pick from the list.")
 
     elif sheet == "MedicinalProductDefinition":
         check_required(row.get("productname"), "productname", "Product Name")

@@ -23,6 +23,9 @@
                              x-text="typeof item === 'object' ? (item.label || item.name || item.text) : item"></div>
                     </template>
                 </div>
+                <div x-show="noMatch" class="text-warning small mt-1" x-cloak>
+                    No controlled term matches &quot;<span x-text="query"></span>&quot;. Pick from the list or clear the field.
+                </div>
                 <div x-show="selectedLabel && !open" class="text-muted small mt-1">
                     <span x-text="selectedLabel"></span>
                     <button type="button" @click="clear()" class="btn btn-sm p-0 ms-1" style="font-size:11px;color:#6c757d">&times; clear</button>
@@ -40,6 +43,9 @@
                         <div class="item" @click="select(item)"
                              x-text="typeof item === 'object' ? (item.label || item.name || item.text) : item"></div>
                     </template>
+                </div>
+                <div x-show="noMatch" class="text-warning small mt-1" x-cloak>
+                    No controlled term matches &quot;<span x-text="query"></span>&quot;. Pick from the list or clear the field.
                 </div>
                 <div x-show="selectedLabel && !open" class="text-muted small mt-1">
                     <span x-text="selectedLabel"></span>

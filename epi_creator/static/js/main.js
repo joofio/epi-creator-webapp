@@ -20,3 +20,24 @@ document.body.addEventListener('htmx:afterSwap', function (evt) {
     }
   }
 });
+
+// Block submit if any autocomplete has typed-but-unmatched text.
+document.body.addEventListener('htmx:beforeRequest', function (evt) {
+  var form = evt.target;
+  if (!form || form.tagName !== 'FORM') return;
+  var bad = [];
+  form.querySelectorAll('[x-data*="autocomplete"]').forEach(function (el) {
+    var data = Alpine.$data(el);
+    if (data && data.noMatch) {
+      bad.push(data.labelFieldName || data.idFieldName || '(unknown)');
+    }
+  });
+  if (bad.length) {
+    evt.preventDefault();
+    alert(
+      'These fields have no controlled term match and cannot be saved:\n\n  - ' +
+      bad.join('\n  - ') +
+      '\n\nPick from the list or clear the field.'
+    );
+  }
+});
