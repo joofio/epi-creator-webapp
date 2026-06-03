@@ -2,6 +2,7 @@
 {% block content %}
 <h2>Clinical Use Definition</h2>
 <p class="section-description">Indications, contraindications, and interactions. Add one entry per clinical use.</p>
+<p class="text-muted small mb-3"><em>At least one entry is required.</em></p>
 
 <form method="post" novalidate
       hx-target="#wizard-container" hx-swap="innerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
@@ -10,17 +11,17 @@
     <input type="hidden" name="row_count" value="{{ rows|length if rows else 0 }}">
 
     <div id="rows">
-        {% set row_list = rows if rows and rows|length > 0 else [] %}
+        {% set row_list = rows if rows and rows|length > 0 else [{}] %}
         {% for row in row_list %}
         <div class="card-entry mb-3">
             <div class="card-entry-header">
-                <strong>{% set ct = row.get('type','') %}{{ ct|capitalize if ct else 'New' }}</strong>
-                <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button>
+                <strong>{{ row.get('name') or (row.get('type','')|capitalize) or 'Clinical Use #' ~ loop.index }}</strong>
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();" {% if row_list|length <= 1 and loop.index0 == 0 %}style="display:none"{% endif %}>Remove</button>
             </div>
             <div class="row g-2">
                 <div class="col-md-3">
                     <label class="form-label">Type *</label>
-                    <select class="form-select {{ 'field-error' if field_has_error(errors, loop.index0, 'type') }}" name="type_{{ loop.index0 }}" aria-required="true" onchange="this.closest('.card-entry').querySelector('strong').textContent = this.value || 'New'">
+                    <select class="form-select {{ 'field-error' if field_has_error(errors, loop.index0, 'type') }}" name="type_{{ loop.index0 }}" aria-required="true" onchange="var c=this.closest('.card-entry'); var n=c.querySelector('input[name^=&quot;name_&quot;]'); c.querySelector('strong').textContent = n.value || this.value || 'New'">
                         <option value="">-- Select --</option>
                         <option value="Indication" {% if row.get('type','')=='Indication' %}selected{% endif %}>Indication</option>
                         <option value="Contraindication" {% if row.get('type','')=='Contraindication' %}selected{% endif %}>Contraindication</option>
@@ -50,7 +51,16 @@
 
 <script>
 let rc = {{ row_list|length if row_list else 0 }};
-function addRow() { const c=document.getElementById('rows'), d=document.createElement('div'); d.className='card-entry mb-3'; d.innerHTML=`<div class="card-entry-header"><strong>New</strong><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove();updateRowCount()">Remove</button></div><div class="row g-2"><div class="col-md-3"><label class="form-label">Type *</label><select class="form-select" name="type_${rc}" required onchange="this.closest('.card-entry').querySelector('strong').textContent=this.value"><option value="">-- Select --</option><option>Indication</option><option>Contraindication</option><option>Interaction</option></select></div><div class="col-md-4"><label class="form-label">Name *</label><input class="form-control" name="name_${rc}" required placeholder="e.g. Hypertension"></div><div class="col-md-3"><label class="form-label">Identifier</label><input class="form-control" name="identifier_${rc}" placeholder="e.g. CU-001"></div><div class="col-md-2"><label class="form-label">Identifier System</label><input class="form-control" name="identifier_system_${rc}" placeholder="e.g. http://snomed.info/sct"></div></div><div class="row g-2 mt-1"><div class="col-md-3"><label class="form-label">Concept (MedDRA/GSRS) *</label><input class="form-control" name="conceptID_${rc}" required placeholder="e.g. 38341003"></div><div class="col-md-5"><label class="form-label">Concept Name *</label><input class="form-control" name="concept_${rc}" required placeholder="e.g. Hypertensive disorder"></div><input type="hidden" name="id_${rc}"></div>`; c.appendChild(d); rc++; updateRowCount(); }
-function updateRowCount() { const rows = document.querySelectorAll('#rows .card-entry'); document.querySelector('input[name="row_count"]').value = rows.length; rows.forEach((r,i) => { const s = r.querySelector('select'); r.querySelector('strong').textContent = s ? (s.value || 'New') : 'New'; r.querySelectorAll('input,select').forEach(el => el.name = el.name.replace(/_\d+$/,'_'+i)); }); rc=rows.length; }
+function addRow() { const c=document.getElementById('rows'), d=document.createElement('div'); d.className='card-entry mb-3'; d.innerHTML=`<div class="card-entry-header"><strong>Clinical Use #${rc+1}</strong><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove();updateRowCount()">Remove</button></div><div class="row g-2"><div class="col-md-3"><label class="form-label">Type *</label><select class="form-select" name="type_${rc}" required onchange="var c=this.closest('.card-entry'); var n=c.querySelector('input[name^=&quot;name_&quot;]'); c.querySelector('strong').textContent=n.value||this.value||'New'"><option value="">-- Select --</option><option>Indication</option><option>Contraindication</option><option>Interaction</option></select></div><div class="col-md-4"><label class="form-label">Name *</label><input class="form-control" name="name_${rc}" required placeholder="e.g. Hypertension"></div><div class="col-md-3"><label class="form-label">Identifier</label><input class="form-control" name="identifier_${rc}" placeholder="e.g. CU-001"></div><div class="col-md-2"><label class="form-label">Identifier System</label><input class="form-control" name="identifier_system_${rc}" placeholder="e.g. http://snomed.info/sct"></div></div><div class="row g-2 mt-1"><div class="col-md-3"><label class="form-label">Concept (MedDRA/GSRS) *</label><input class="form-control" name="conceptID_${rc}" required placeholder="e.g. 38341003"></div><div class="col-md-5"><label class="form-label">Concept Name *</label><input class="form-control" name="concept_${rc}" required placeholder="e.g. Hypertensive disorder"></div><input type="hidden" name="id_${rc}"></div>`; c.appendChild(d); c.querySelectorAll('.btn-outline-danger').forEach(function(btn) { btn.style.display = ''; }); rc++; updateRowCount(); }
+function updateRowCount() { const rows = document.querySelectorAll('#rows .card-entry'); document.querySelector('input[name="row_count"]').value = rows.length; rows.forEach((r,i) => { const nameInput = r.querySelector('input[name^="name_"]'); const nameVal = nameInput ? nameInput.value.trim() : ''; const sel = r.querySelector('select'); const typeVal = sel ? sel.value : ''; r.querySelector('strong').textContent = nameVal || (typeVal ? typeVal.charAt(0).toUpperCase() + typeVal.slice(1) : '') || 'Clinical Use #' + (i + 1); r.querySelectorAll('input,select').forEach(el => el.name = el.name.replace(/_\d+$/,'_'+i)); }); rc=rows.length; }
+document.getElementById('rows').addEventListener('input', function(e) {
+    if (e.target.name && e.target.name.startsWith('name_')) {
+        var card = e.target.closest('.card-entry');
+        var idx = Array.from(card.parentElement.children).indexOf(card);
+        var sel = card.querySelector('select');
+        var typeVal = sel ? sel.value : '';
+        card.querySelector('strong').textContent = e.target.value.trim() || (typeVal ? typeVal.charAt(0).toUpperCase() + typeVal.slice(1) : '') || 'Clinical Use #' + (idx + 1);
+    }
+});
 </script>
 {% endblock %}

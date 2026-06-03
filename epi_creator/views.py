@@ -76,6 +76,17 @@ def wizard_new():
     return redirect(url_for("gh_epi_creator.wizard_step", step=STEPS[0]))
 
 
+@gh_epi_creator.route("/wizard/reset", methods=["POST"])
+def wizard_reset():
+    session.clear()
+    session["data"] = {}
+    if request.headers.get("HX-Request"):
+        resp = make_response("")
+        resp.headers["HX-Redirect"] = url_for("gh_epi_creator.wizard_step", step=STEPS[0])
+        return resp
+    return redirect(url_for("gh_epi_creator.wizard_step", step=STEPS[0]))
+
+
 @gh_epi_creator.route("/wizard/<step>", methods=["GET"])
 def wizard_step(step):
     if "data" not in session:
@@ -152,6 +163,7 @@ def wizard_submit(step):
             if k in HTML_FIELDS and row[k]:
                 row[k] = sanitize_html(row[k])
     session["data"][sheet_name] = rows
+    session["bundle_saved"] = (sheet_name == "Bundle")
     session.modified = True
 
     current_idx = STEPS.index(step)
@@ -178,6 +190,9 @@ def wizard_submit(step):
 def wizard_generate():
     if "data" not in session or not session["data"]:
         return "<div class='alert alert-danger'>No data to generate. Please fill in the forms first.</div>"
+
+    if not session.get("bundle_saved", False):
+        return "<div class='alert alert-warning'>Please save the Bundle step (Step 11) before generating.</div>"
 
     pre_gen_errors = validate_pre_generation(session["data"])
     if pre_gen_errors:

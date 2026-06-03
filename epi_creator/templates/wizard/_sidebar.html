@@ -62,4 +62,10 @@
         Processing...
     </div>
     <div id="generate-result" class="mt-2"></div>
+    <button class="btn btn-outline-secondary btn-sm w-100 mt-2"
+            hx-post="{{ url_for('gh_epi_creator.wizard_reset') }}"
+            hx-confirm="Start a new ePI? All current data will be lost."
+            title="Clear all data and start over">
+        Start New ePI
+    </button>
 </div>

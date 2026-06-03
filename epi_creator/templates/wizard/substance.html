@@ -16,7 +16,7 @@
         <div class="card-entry mb-3">
             <div class="card-entry-header">
                 <strong>Substance #{{ loop.index }}</strong>
-                <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button>
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();" {% if row_list|length <= 1 and loop.index0 == 0 %}style="display:none"{% endif %}>Remove</button>
             </div>
             <div class="row g-2">
                 <div class="col-md-6"><label class="form-label">Name *</label><input class="form-control {{ 'field-error' if field_has_error(errors, s_idx, 'name') }}" name="name_{{ s_idx }}" aria-required="true" value="{{ row.get('name','') }}" placeholder="e.g. acmesub"></div>
@@ -125,7 +125,7 @@ function addRow() {
         + `<input type="hidden" name="mw_count_${idx}" value="1">`
         + `<button type="button" class="btn btn-sm btn-outline-secondary mt-1" onclick="addMWRow(${idx})">+ Add Weight</button>`
         + `</div></div>`;
-    c.appendChild(d); rowCounter++; updateRowCount();
+    c.appendChild(d); c.querySelectorAll('.btn-outline-danger').forEach(function(btn) { btn.style.display = ''; }); rowCounter++; updateRowCount();
 }
 
 function updateRowCount() {

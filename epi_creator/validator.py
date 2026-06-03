@@ -1,3 +1,18 @@
+RESOURCE_DISPLAY_NAMES = {
+    "MedicinalProductDefinition": "Medicinal Product",
+    "RegulatedAuthorization": "Regulated Auth",
+    "ManufacturedItemDefinition": "Manufactured Item",
+    "AdministrableProductDefinition": "Administrable Product",
+    "PackagedProductDefinition": "Packaged Product",
+    "ClinicalUseDefinition": "Clinical Use",
+    "Organization": "Organization",
+    "Substance": "Substance",
+    "Ingredient": "Ingredient",
+    "Composition": "Composition",
+    "Bundle": "Bundle",
+}
+
+
 def validate_row(row, sheet, session_data=None):
     """Return list of (field_key, message) for a single row.
 
@@ -38,6 +53,8 @@ def validate_row(row, sheet, session_data=None):
         if not value or (isinstance(value, str) and value.strip() == ""):
             err(field_key, f"{field_label} is required")
 
+    LABEL_MAP = {"doseForm": "Dose Form", "unit_presentation": "Unit Presentation", "route": "Route of Admin"}
+
     if sheet == "AdministrableProductDefinition":
         check_required(row.get("identifier"), "identifier", "Identifier")
         check_numeric(row.get("unit_presentationID"), "unit_presentationID", "Unit Presentation ID")
@@ -48,7 +65,8 @@ def validate_row(row, sheet, session_data=None):
                                ("route", "routes")):
             val = (row.get(fk) or "").strip()
             if val and val not in get_lookup(lookup_key):
-                err(fk, f"{fk} '{val}' is not in the controlled vocabulary. Pick from the list.")
+                label = LABEL_MAP.get(fk, fk)
+                err(fk, f"{label} '{val}' is not in the controlled vocabulary. Pick from the list.")
 
     elif sheet == "Ingredient":
         check_required(row.get("name"), "name", "Name")
@@ -95,10 +113,12 @@ def validate_row(row, sheet, session_data=None):
                                ("unit_presentation", "unitPresentations")):
             val = (row.get(fk) or "").strip()
             if val and val not in get_lookup(lookup_key):
-                err(fk, f"{fk} '{val}' is not in the controlled vocabulary. Pick from the list.")
+                label = LABEL_MAP.get(fk, fk)
+                err(fk, f"{label} '{val}' is not in the controlled vocabulary. Pick from the list.")
 
     elif sheet == "MedicinalProductDefinition":
         check_required(row.get("productname"), "productname", "Product Name")
+        check_required(row.get("inventedNamePart"), "inventedNamePart", "Invented Name Part")
         check_required(row.get("ScientificNamePart"), "ScientificNamePart", "Scientific Name Part")
         check_required(row.get("StrengthPart"), "StrengthPart", "Strength Part")
         check_required(row.get("PharmaceuticalDosePart"), "PharmaceuticalDosePart", "Pharmaceutical Dose Part")
@@ -106,7 +126,6 @@ def validate_row(row, sheet, session_data=None):
         check_required(row.get("countryCode"), "countryCode", "Country Code")
         check_required(row.get("language"), "language", "Language")
         check_required(row.get("languageID"), "languageID", "Language ID")
-        check_required(row.get("inventedNamePart"), "inventedNamePart", "Invented Name Part")
         check_required(row.get("statusSuply"), "statusSuply", "Status Supply")
         check_spaces(row.get("countryCode"), "countryCode", "Country Code")
         check_numeric(row.get("statusSuplyID"), "statusSuplyID", "Status Supply ID")
@@ -131,10 +150,10 @@ def validate_row(row, sheet, session_data=None):
     elif sheet == "PackagedProductDefinition":
         check_required(row.get("name"), "name", "Name")
         check_required(row.get("statusDate"), "statusDate", "Status Date")
-        check_required(row.get("packaging_quantity"), "packaging_quantity", "Packaging Quantity")
-        check_required(row.get("packaging_identifier"), "packaging_identifier", "Packaging Identifier")
+        check_required(row.get("packaging_quantity"), "packaging_quantity", "Pkg Qty")
+        check_required(row.get("packaging_identifier"), "packaging_identifier", "Pkg ID")
         check_spaces(row.get("identifier"), "identifier", "Identifier")
-        check_numeric(row.get("packaging_quantity"), "packaging_quantity", "Packaging Quantity")
+        check_numeric(row.get("packaging_quantity"), "packaging_quantity", "Pkg Qty")
         check_no_newline(row.get("name"), "name", "Name")
 
     elif sheet == "Substance":
@@ -173,6 +192,8 @@ def validate_row(row, sheet, session_data=None):
 
     elif sheet == "Bundle":
         check_required(row.get("language"), "language", "Language")
+        check_required(row.get("identifier_system"), "identifier_system", "Identifier System")
+        check_required(row.get("identifier_value"), "identifier_value", "Identifier Value")
 
     return errors
 
@@ -204,7 +225,8 @@ def is_step_complete(step_key, session_data):
         return False, [f"Unknown step: {step_key}"]
     rows = (session_data or {}).get(sheet, [])
     if not rows:
-        return False, [f"{sheet} has no entries yet."]
+        display = RESOURCE_DISPLAY_NAMES.get(sheet, sheet)
+        return False, [f"{display} has no entries yet."]
     blockers = []
     for i, row in enumerate(rows):
         for _fk, msg in validate_row(row, sheet, session_data=session_data):
@@ -269,7 +291,8 @@ def validate_sheet_data(rows, sheet_name, session_data=None):
     """
     all_errors = []
     if sheet_name in MULTI_ROW_SHEETS and not rows:
-        all_errors.append((0, [("__sheet__", f"At least one {sheet_name} entry is required.")]))
+        display = RESOURCE_DISPLAY_NAMES.get(sheet_name, sheet_name)
+        all_errors.append((0, [("__sheet__", f"At least one {display} entry is required.")]))
         return all_errors
     for idx, row in enumerate(rows):
         errs = validate_row(row, sheet_name, session_data=session_data)
@@ -291,7 +314,8 @@ def validate_pre_generation(session_data):
     ]
     for sheet in required_sheets:
         if not session_data.get(sheet) or len(session_data[sheet]) == 0:
-            errors.append(f"{sheet} is required. Please fill in the form.")
+            display = RESOURCE_DISPLAY_NAMES.get(sheet, sheet)
+            errors.append(f"{display} is required. Please fill in the form.")
 
     singles = [
         "MedicinalProductDefinition",
@@ -300,8 +324,9 @@ def validate_pre_generation(session_data):
     ]
     for sheet in singles:
         if sheet in session_data and len(session_data[sheet]) > 1:
+            display = RESOURCE_DISPLAY_NAMES.get(sheet, sheet)
             errors.append(
-                f"{sheet} must have exactly one entry. Found {len(session_data[sheet])}."
+                f"{display} must have exactly one entry. Found {len(session_data[sheet])}."
             )
 
     if "Ingredient" in session_data:

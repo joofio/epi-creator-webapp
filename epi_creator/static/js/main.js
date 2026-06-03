@@ -21,6 +21,25 @@ document.body.addEventListener('htmx:afterSwap', function (evt) {
   }
 });
 
+// Clear field-error styling and error banner when user corrects fields
+document.body.addEventListener('htmx:afterSwap', function (evt) {
+  if (!evt.target || evt.target.id !== 'wizard-container') return;
+  var form = evt.target.querySelector('form');
+  if (!form) return;
+  form.addEventListener('input', function (e) {
+    var field = e.target;
+    if (field.classList.contains('field-error')) {
+      field.classList.remove('field-error');
+    }
+    // If no more field-error elements remain, hide the banner
+    var remaining = form.querySelectorAll('.field-error');
+    var banner = form.querySelector('[data-form-errors]');
+    if (remaining.length === 0 && banner) {
+      banner.style.display = 'none';
+    }
+  });
+});
+
 // Block submit if any autocomplete has typed-but-unmatched text.
 document.body.addEventListener('htmx:beforeRequest', function (evt) {
   var form = evt.target;

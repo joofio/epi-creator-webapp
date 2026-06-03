@@ -19,14 +19,14 @@
             </select>
         </div>
         <div class="col-md-4">
-            <label class="form-label">Identifier System</label>
-            <input class="form-control" name="identifier_system_0" value="{{ row.get('identifier_system','') }}"
-                   placeholder="e.g. https://www.gravitatehealth.eu/sid/doc">
+            <label class="form-label">Identifier System *</label>
+            <input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'identifier_system') }}" name="identifier_system_0" value="{{ row.get('identifier_system','') }}"
+                   placeholder="e.g. https://www.gravitatehealth.eu/sid/doc" aria-required="true">
         </div>
         <div class="col-md-4">
-            <label class="form-label">Identifier Value</label>
-            <input class="form-control" name="identifier_value_0" value="{{ row.get('identifier_value','') }}"
-                   placeholder="e.g. acmedrug-xx">
+            <label class="form-label">Identifier Value *</label>
+            <input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'identifier_value') }}" name="identifier_value_0" value="{{ row.get('identifier_value','') }}"
+                   placeholder="e.g. acmedrug-xx" aria-required="true">
         </div>
     </div>
     <input type="hidden" name="id_0" value="{{ row.get('id','') }}">

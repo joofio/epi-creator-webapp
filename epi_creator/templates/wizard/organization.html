@@ -130,6 +130,7 @@ function addOrgRow() {
         <input type="hidden" name="id_${orgRowCount}">
     </div>`;
     container.appendChild(div);
+    container.querySelectorAll('.btn-outline-danger').forEach(function(btn) { btn.style.display = ''; });
     orgRowCount++;
     updateOrgCount();
 }

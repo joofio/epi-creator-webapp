@@ -14,14 +14,14 @@
         {% for row in row_list %}
         <div class="card-entry mb-3">
             <div class="card-entry-header">
-                <strong>{{ row.get('name') or row.get('role') or 'New' }}</strong>
-                <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button>
+                <strong>{{ row.get('name') or 'Ingredient #' ~ loop.index }}</strong>
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();" {% if row_list|length <= 1 and loop.index0 == 0 %}style="display:none"{% endif %}>Remove</button>
             </div>
             <div class="row g-2">
                 <div class="col-md-4"><label class="form-label">Name *</label><input class="form-control {{ 'field-error' if field_has_error(errors, loop.index0, 'name') }}" name="name_{{ loop.index0 }}" aria-required="true" value="{{ row.get('name','') }}" placeholder="e.g. acmedrug-active"></div>
                 <div class="col-md-3">
                     <label class="form-label">Role *</label>
-                    <select class="form-select {{ 'field-error' if field_has_error(errors, loop.index0, 'role') }}" name="role_{{ loop.index0 }}" aria-required="true" onchange="const c=this.closest('.card-entry'); const n=c.querySelector('input[name^=&quot;name_&quot;]'); c.querySelector('strong').textContent = this.value || n.value || 'New';">
+                    <select class="form-select {{ 'field-error' if field_has_error(errors, loop.index0, 'role') }}" name="role_{{ loop.index0 }}" aria-required="true" onchange="const c=this.closest('.card-entry'); const n=c.querySelector('input[name^=&quot;name_&quot;]'); c.querySelector('strong').textContent = n.value || this.value || 'New';">
                         <option value="">-- Select --</option>
                         <option value="Active" {% if row.get('role','')=='Active' %}selected{% endif %}>Active</option>
                         <option value="Excipient" {% if row.get('role','')=='Excipient' %}selected{% endif %}>Excipient</option>
@@ -79,16 +79,28 @@ function autoFillSBText(select) {
 function addRow() {
     const c = document.getElementById('ingredient-rows'), d = document.createElement('div');
     d.className = 'card-entry mb-3';
-    d.innerHTML = `<div class="card-entry-header"><strong>New</strong><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button></div>
-    <div class="row g-2"><div class="col-md-4"><label class="form-label">Name *</label><input class="form-control" name="name_${rowCounter}" aria-required="true" placeholder="e.g. acmedrug-active"></div><div class="col-md-3"><label class="form-label">Role *</label><select class="form-select" name="role_${rowCounter}" aria-required="true" onchange="const c=this.closest('.card-entry'); const n=c.querySelector('input[name^=&quot;name_&quot;]'); c.querySelector('strong').textContent = this.value || n.value || 'New';"><option value="">-- Select --</option><option>Active</option><option>Excipient</option><option>Adjuvant</option><option>Solvent / Diluent</option></select></div><div class="col-md-5"><label class="form-label">Identifier (GSRS)</label><input class="form-control" name="identifier_${rowCounter}" placeholder="e.g. J0E2756Z7N (must match a Substance)"></div></div>
+    d.innerHTML = `<div class="card-entry-header"><strong>Ingredient #${rowCounter+1}</strong><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button></div>
+    <div class="row g-2"><div class="col-md-4"><label class="form-label">Name *</label><input class="form-control" name="name_${rowCounter}" aria-required="true" placeholder="e.g. acmedrug-active"></div><div class="col-md-3"><label class="form-label">Role *</label><select class="form-select" name="role_${rowCounter}" aria-required="true" onchange="const c=this.closest('.card-entry'); const n=c.querySelector('input[name^=&quot;name_&quot;]'); c.querySelector('strong').textContent = n.value || this.value || 'New';"><option value="">-- Select --</option><option>Active</option><option>Excipient</option><option>Adjuvant</option><option>Solvent / Diluent</option></select></div><div class="col-md-5"><label class="form-label">Identifier (GSRS)</label><input class="form-control" name="identifier_${rowCounter}" placeholder="e.g. J0E2756Z7N (must match a Substance)"></div></div>
          <div class="row g-2 mt-1"><div class="col-md-3"><label class="form-label">Strength Basis</label><select class="form-select" name="StrengthBasis_${rowCounter}" onchange="autoFillSBText(this)"><option value="">-- Select --</option><option value="active-moiety">Active moiety</option><option value="free-acid">Free acid</option><option value="free-base">Free base</option><option value="base">Base</option><option value="anhydrous">Anhydrous</option><option value="hydrate">Hydrate</option></select></div><div class="col-md-3"><label class="form-label">Strength Basis Text</label><input class="form-control" name="StrengthBasisText_${rowCounter}" placeholder="e.g. Active moiety"></div><div class="col-md-2"><label class="form-label">Quantity</label><input class="form-control" name="quantity_${rowCounter}" placeholder="e.g. 75"></div><div class="col-md-2"><label class="form-label">Quantity Unit</label><input class="form-control" name="quantity unit_${rowCounter}" placeholder="e.g. mg"></div><input type="hidden" name="id_${rowCounter}"></div>`;
-    c.appendChild(d); rowCounter++; updateRowCount();
+    c.appendChild(d); c.querySelectorAll('.btn-outline-danger').forEach(function(btn) { btn.style.display = ''; }); rowCounter++; updateRowCount();
 }
 function updateRowCount() {
     const rows = document.querySelectorAll('#ingredient-rows .card-entry');
     document.querySelector('input[name="row_count"]').value = rows.length;
-    rows.forEach((r,i) => { const s = r.querySelector('select'); r.querySelector('strong').textContent = s ? (s.value||'New') : 'New'; r.querySelectorAll('input,select').forEach(el => el.name = el.name.replace(/_\d+$/,'_'+i)); });
+    rows.forEach((r,i) => {
+        const nameInput = r.querySelector('input[name^="name_"]');
+        const nameVal = nameInput ? nameInput.value.trim() : '';
+        r.querySelector('strong').textContent = nameVal || 'Ingredient #' + (i + 1);
+        r.querySelectorAll('input,select').forEach(el => el.name = el.name.replace(/_\d+$/,'_'+i));
+    });
     rowCounter = rows.length;
 }
+document.getElementById('ingredient-rows').addEventListener('input', function(e) {
+    if (e.target.name && e.target.name.startsWith('name_')) {
+        var card = e.target.closest('.card-entry');
+        var idx = Array.from(card.parentElement.children).indexOf(card);
+        card.querySelector('strong').textContent = e.target.value.trim() || 'Ingredient #' + (idx + 1);
+    }
+});
 </script>
 {% endblock %}
