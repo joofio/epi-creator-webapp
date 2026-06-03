@@ -12,6 +12,25 @@ RESOURCE_DISPLAY_NAMES = {
     "Bundle": "Bundle",
 }
 
+VALID_COUNTRY_CODES = {
+    "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX", "AZ",
+    "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ", "BR", "BS",
+    "BT", "BV", "BW", "BY", "BZ", "CA", "CC", "CD", "CF", "CG", "CH", "CI", "CK", "CL", "CM", "CN",
+    "CO", "CR", "CU", "CV", "CW", "CX", "CY", "CZ", "DE", "DJ", "DK", "DM", "DO", "DZ", "EC", "EE",
+    "EG", "EH", "ER", "ES", "ET", "FI", "FJ", "FK", "FM", "FO", "FR", "GA", "GB", "GD", "GE", "GF",
+    "GG", "GH", "GI", "GL", "GM", "GN", "GP", "GQ", "GR", "GS", "GT", "GU", "GW", "GY", "HK", "HM",
+    "HN", "HR", "HT", "HU", "ID", "IE", "IL", "IM", "IN", "IO", "IQ", "IR", "IS", "IT", "JE", "JM",
+    "JO", "JP", "KE", "KG", "KH", "KI", "KM", "KN", "KP", "KR", "KW", "KY", "KZ", "LA", "LB", "LC",
+    "LI", "LK", "LR", "LS", "LT", "LU", "LV", "LY", "MA", "MC", "MD", "ME", "MF", "MG", "MH", "MK",
+    "ML", "MM", "MN", "MO", "MP", "MQ", "MR", "MS", "MT", "MU", "MV", "MW", "MX", "MY", "MZ", "NA",
+    "NC", "NE", "NF", "NG", "NI", "NL", "NO", "NP", "NR", "NU", "NZ", "OM", "PA", "PE", "PF", "PG",
+    "PH", "PK", "PL", "PM", "PN", "PR", "PS", "PT", "PW", "PY", "QA", "RE", "RO", "RS", "RU", "RW",
+    "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "SS",
+    "ST", "SV", "SX", "SY", "SZ", "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO",
+    "TR", "TT", "TV", "TW", "TZ", "UA", "UG", "UM", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI",
+    "VN", "VU", "WF", "WS", "YE", "YT", "ZA", "ZM", "ZW"
+}
+
 
 def validate_row(row, sheet, session_data=None):
     """Return list of (field_key, message) for a single row.
@@ -53,6 +72,32 @@ def validate_row(row, sheet, session_data=None):
         if not value or (isinstance(value, str) and value.strip() == ""):
             err(field_key, f"{field_label} is required")
 
+    def check_xss(value, field_key, field_label):
+        """Warn about potential XSS patterns in input (does not block)."""
+        if not value or not isinstance(value, str):
+            return
+        warnings = []
+        if '<script' in value.lower():
+            warnings.append("script tags")
+        if 'onerror=' in value.lower() or 'onload=' in value.lower() or 'onclick=' in value.lower():
+            warnings.append("event handlers")
+        if 'javascript:' in value.lower():
+            warnings.append("javascript: protocol")
+        if '<img' in value.lower() and 'onerror' in value.lower():
+            warnings.append("image with event handler")
+        if warnings:
+            err(field_key, f"{field_label} contains potentially unsafe content ({', '.join(warnings)}). This will be sanitized before storage.")
+
+    def check_country_code(value, field_key, field_label):
+        """Validate country code is a valid ISO 3166-1 alpha-2 code."""
+        if not value or not isinstance(value, str):
+            return
+        value = value.strip().upper()
+        if not value:
+            return
+        if value not in VALID_COUNTRY_CODES:
+            err(field_key, f"{field_label} '{value}' is not a valid ISO 3166-1 alpha-2 country code. Use 2-letter codes like DK, FR, DE, PT.")
+
     LABEL_MAP = {"doseForm": "Dose Form", "unit_presentation": "Unit Presentation", "route": "Route of Admin"}
 
     if sheet == "AdministrableProductDefinition":
@@ -75,6 +120,7 @@ def validate_row(row, sheet, session_data=None):
         check_spaces(row.get("StrengthBasis"), "StrengthBasis", "Strength Basis")
         check_numeric(row.get("quantity"), "quantity", "Quantity")
         check_no_newline(row.get("name"), "name", "Name")
+        check_xss(row.get("name"), "name", "Name")
         role = (row.get("role") or "").lower()
         if role in ("active", "ativo"):
             if not row.get("StrengthBasis") or str(row.get("StrengthBasis")).strip() == "":
@@ -134,6 +180,20 @@ def validate_row(row, sheet, session_data=None):
         check_no_newline(row.get("ScientificNamePart"), "ScientificNamePart", "Scientific Name Part")
         check_no_newline(row.get("StrengthPart"), "StrengthPart", "Strength Part")
         check_no_newline(row.get("PharmaceuticalDosePart"), "PharmaceuticalDosePart", "Pharmaceutical Dose Part")
+        check_xss(row.get("productname"), "productname", "Product Name")
+        check_xss(row.get("inventedNamePart"), "inventedNamePart", "Invented Name Part")
+        check_xss(row.get("ScientificNamePart"), "ScientificNamePart", "Scientific Name Part")
+        check_country_code(row.get("countryCode"), "countryCode", "Country Code")
+
+        # Validate identifiers
+        identifier_system = (row.get("identifier_system") or "").strip()
+        identifier_value = (row.get("identifier_value") or "").strip()
+        if not identifier_system and not identifier_value:
+            err("identifier_system", "At least one Identifier is required")
+        elif identifier_system and not identifier_value:
+            err("identifier_value", "Identifier Value is required when Identifier System is provided")
+        elif identifier_value and not identifier_system:
+            err("identifier_system", "Identifier System is required when Identifier Value is provided")
 
     elif sheet == "Organization":
         check_required(row.get("name"), "name", "Name")
@@ -146,6 +206,9 @@ def validate_row(row, sheet, session_data=None):
         check_numeric(row.get("address_postalCode"), "address_postalCode", "Postal Code")
         check_numeric(row.get("typeID"), "typeID", "Type ID")
         check_no_newline(row.get("name"), "name", "Name")
+        check_xss(row.get("name"), "name", "Name")
+        check_xss(row.get("address_line"), "address_line", "Address Line")
+        check_country_code(row.get("address_country"), "address_country", "Country")
 
     elif sheet == "PackagedProductDefinition":
         check_required(row.get("name"), "name", "Name")
@@ -155,12 +218,14 @@ def validate_row(row, sheet, session_data=None):
         check_spaces(row.get("identifier"), "identifier", "Identifier")
         check_numeric(row.get("packaging_quantity"), "packaging_quantity", "Pkg Qty")
         check_no_newline(row.get("name"), "name", "Name")
+        check_xss(row.get("name"), "name", "Name")
 
     elif sheet == "Substance":
         check_required(row.get("name"), "name", "Name")
         check_required(row.get("identifier"), "identifier", "Identifier")
         check_no_newline(row.get("name"), "name", "Name")
         check_spaces(row.get("identifier"), "identifier", "Identifier")
+        check_xss(row.get("name"), "name", "Name")
 
     elif sheet == "ClinicalUseDefinition":
         check_required(row.get("type"), "type", "Type")
@@ -170,6 +235,8 @@ def validate_row(row, sheet, session_data=None):
         check_no_newline(row.get("name"), "name", "Name")
         check_spaces(row.get("identifier"), "identifier", "Identifier")
         check_numeric(row.get("conceptID"), "conceptID", "Concept ID")
+        check_xss(row.get("name"), "name", "Name")
+        check_xss(row.get("concept"), "concept", "Concept")
         if row.get("type") and row.get("type") not in ("Indication", "Contraindication", "Interaction"):
             err("type", "Type must be one of: Indication, Contraindication, Interaction")
 
@@ -189,6 +256,17 @@ def validate_row(row, sheet, session_data=None):
             err("reference", "Reference must be MedicinalProduct or PackagedProduct")
         if row.get("regionID") and str(row.get("regionID")).strip() != "":
             check_numeric(row.get("regionID"), "regionID", "Region ID")
+
+        # Cross-reference validation
+        reference = row.get("reference")
+        if reference == "MedicinalProduct":
+            mp_rows = (session_data or {}).get("MedicinalProductDefinition", [])
+            if not mp_rows:
+                err("reference", "No MedicinalProduct defined yet. Please complete the Medicinal Product step first.")
+        elif reference == "PackagedProduct":
+            pp_rows = (session_data or {}).get("PackagedProductDefinition", [])
+            if not pp_rows:
+                err("reference", "No PackagedProduct defined yet. Please complete the Packaged Product step first.")
 
     elif sheet == "Bundle":
         check_required(row.get("language"), "language", "Language")
@@ -231,6 +309,16 @@ def is_step_complete(step_key, session_data):
     for i, row in enumerate(rows):
         for _fk, msg in validate_row(row, sheet, session_data=session_data):
             blockers.append(f"Row {i + 1}: {msg}")
+
+    # Cross-step business rules for Organization
+    if sheet == "Organization":
+        has_mah = any(
+            (r.get("type") or "").lower() == "marketing authorisation holder"
+            for r in rows
+        )
+        if not has_mah:
+            blockers.append("At least one Marketing Authorisation Holder organization is required.")
+
     return (len(blockers) == 0), blockers
 
 

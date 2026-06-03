@@ -21,6 +21,7 @@
         <p class="text-muted">Fill in the forms across 11 steps to generate a complete FHIR package with FSH and JSON resources.</p>
 
         <form method="post" action="{{ url_for('gh_epi_creator.wizard_new') }}" class="mt-4">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <button type="submit" class="btn btn-primary btn-lg px-5">Start Wizard</button>
         </form>
 

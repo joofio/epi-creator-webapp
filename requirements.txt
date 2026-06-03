@@ -3,6 +3,7 @@ openpyxl==3.1.0
 gunicorn
 flask
 flask-session
+flask-wtf
 cachelib
 nh3>=0.2.21
 

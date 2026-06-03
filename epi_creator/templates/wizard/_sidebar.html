@@ -52,6 +52,7 @@
     <button id="generate-btn"
             class="btn btn-success generate-btn w-100"
             hx-post="{{ url_for('gh_epi_creator.wizard_generate') }}"
+            hx-vals='{"csrf_token": "{{ csrf_token() }}"}'
             hx-target="#generate-result"
             hx-swap="innerHTML"
             hx-indicator="#generate-spinner"
@@ -64,6 +65,7 @@
     <div id="generate-result" class="mt-2"></div>
     <button class="btn btn-outline-secondary btn-sm w-100 mt-2"
             hx-post="{{ url_for('gh_epi_creator.wizard_reset') }}"
+            hx-vals='{"csrf_token": "{{ csrf_token() }}"}'
             hx-confirm="Start a new ePI? All current data will be lost."
             title="Clear all data and start over">
         Start New ePI

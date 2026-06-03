@@ -7,6 +7,7 @@ from logging.handlers import RotatingFileHandler
 
 from flask import Flask
 from flask_session import Session
+from flask_wtf.csrf import CSRFProtect
 
 
 class StreamToLogger:
@@ -25,13 +26,16 @@ class StreamToLogger:
 
 def create_app():
     app = Flask(__name__)
-    app.config["SECRET_KEY"] = os.urandom(24)
+    app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-secret-key-change-in-production")
     app.config["SESSION_TYPE"] = "filesystem"
     app.config["SESSION_FILE_DIR"] = os.path.join(
         os.path.dirname(os.path.dirname(__file__)), "flask_session"
     )
     os.makedirs(app.config["SESSION_FILE_DIR"], exist_ok=True)
     Session(app)
+
+    csrf = CSRFProtect()
+    csrf.init_app(app)
 
     log_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logs")
     os.makedirs(log_dir, exist_ok=True)

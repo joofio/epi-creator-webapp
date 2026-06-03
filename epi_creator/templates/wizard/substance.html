@@ -6,6 +6,7 @@
 <form method="post" novalidate
       hx-target="#wizard-container" hx-swap="innerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
       >
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     {% include "wizard/_form_errors.html" %}
     {% set row_list = rows if rows and rows|length > 0 else [{}] %}
     <input type="hidden" name="row_count" value="{{ row_list|length }}">

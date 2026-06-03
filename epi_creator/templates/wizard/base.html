@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>ePI Creator — {{ step_title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
@@ -11,9 +12,10 @@
             integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
             crossorigin="anonymous"></script>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://unpkg.com/htmx-ext-response-targets/response-targets.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
     <script src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
     <style>
         [x-cloak] { display: none !important; }
         .wizard-container {
@@ -162,8 +164,8 @@
         }
     </style>
 </head>
-<body>
-<div class="wizard-container" id="wizard-container">
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token() }}"}'>
+<div class="wizard-container" id="wizard-container" hx-ext="response-targets">
     {% include 'wizard/_sidebar.html' %}
     <div class="wizard-main">
         {% block content %}{% endblock %}
