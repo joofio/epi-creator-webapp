@@ -43,27 +43,39 @@
         </div>
     </div>
     <div class="row g-2 mb-3">
-        <div class="col-md-4">
+        <div class="col-md-4" x-data="autocomplete('countriesWithCodes', 'countryCode_0', 'country_0')">
             <label class="form-label">Country *</label>
-            <input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'country') }}" name="country_0"
-                   aria-required="true" value="{{ row.get('country','') }}"
-                   placeholder="e.g. Denmark">
-        </div>
-        <div class="col-md-2">
-            <label class="form-label">Country Code *</label>
-            <input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'countryCode') }}" name="countryCode_0"
-                   aria-required="true" value="{{ row.get('countryCode','') }}" placeholder="e.g. DK">
+            <div class="autocomplete-wrapper">
+                <input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'country') }}" name="country_0"
+                       aria-required="true" value="{{ row.get('country','') }}"
+                       x-model="query" @input="search()" @focus="search()" placeholder="Search country...">
+                <input type="hidden" name="countryCode_0" value="{{ row.get('countryCode','') }}">
+                <div class="autocomplete-dropdown" x-show="open" @click.away="open = false">
+                    <template x-for="item in items">
+                        <div class="item" @click="select(item)"
+                             x-text="typeof item === 'object' ? (item.label || item.name || item.text) : item"></div>
+                    </template>
+                </div>
+                <div x-show="noMatch" class="text-warning small mt-1" x-cloak>
+                    No country matches &quot;<span x-text="query"></span>&quot;.
+                </div>
+                <div x-show="selectedLabel && !open" class="text-muted small mt-1">
+                    <span x-text="selectedLabel"></span>
+                    <button type="button" @click="clear()" class="btn btn-sm p-0 ms-1" style="font-size:11px;color:#6c757d">&times; clear</button>
+                </div>
+            </div>
         </div>
         <div class="col-md-3">
             <label class="form-label">Language *</label>
-            <input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'language') }}" name="language_0"
-                   aria-required="true" value="{{ row.get('language','') }}" placeholder="e.g. English">
+            <select class="form-select {{ 'field-error' if field_has_error(errors, 0, 'language') }}" name="language_0"
+                    aria-required="true" onchange="autoFillLanguageID(this)">
+                <option value="">-- Select Language --</option>
+                {% for lang in languages %}
+                <option value="{{ lang.name }}" {% if row.get('language','') == lang.name %}selected{% endif %}>{{ lang.name }}</option>
+                {% endfor %}
+            </select>
         </div>
-        <div class="col-md-3">
-            <label class="form-label">Language ID *</label>
-            <input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'languageID') }}" name="languageID_0"
-                   aria-required="true" value="{{ row.get('languageID','') }}" placeholder="e.g. en">
-        </div>
+        <input type="hidden" name="languageID_0" value="{{ row.get('languageID','') }}">
     </div>
     <div class="row g-2 mb-3">
         <div class="col-md-4">
@@ -153,6 +165,13 @@ const STATUS_SUPPLY_IDS = {
 function autoFillStatusID(select) {
     const hidden = document.querySelector('input[name="statusSuplyID_0"]');
     if (hidden) hidden.value = STATUS_SUPPLY_IDS[select.value] || '';
+}
+const LANGUAGE_IDS = {
+    {% for lang in languages %}'{{ lang.name }}': '{{ lang.code }}',{% endfor %}
+};
+function autoFillLanguageID(select) {
+    const hidden = document.querySelector('input[name="languageID_0"]');
+    if (hidden) hidden.value = LANGUAGE_IDS[select.value] || '';
 }
 
 let pipeCounters = { id: {{ max_id|default(0) }}, class: {{ max_cls|default(0) }} };

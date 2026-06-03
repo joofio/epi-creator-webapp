@@ -1,8 +1,7 @@
 {% extends base_template %}
 {% block content %}
 <h2>Clinical Use Definition</h2>
-<p class="section-description">Indications, contraindications, and interactions. Add one entry per clinical use.</p>
-<p class="text-muted small mb-3"><em>At least one entry is required.</em></p>
+<p class="section-description">Indications, contraindications, and interactions. Optionally add entries for clinical use. Zero or more allowed.</p>
 
 <form method="post" novalidate
       hx-target="#wizard-container" hx-swap="innerHTML" hx-post="{{ url_for('gh_epi_creator.wizard_submit', step=step) }}"
@@ -17,7 +16,7 @@
         <div class="card-entry mb-3">
             <div class="card-entry-header">
                 <strong>{{ row.get('name') or (row.get('type','')|capitalize) or 'Clinical Use #' ~ loop.index }}</strong>
-                <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();" {% if row_list|length <= 1 and loop.index0 == 0 %}style="display:none"{% endif %}>Remove</button>
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.card-entry').remove(); updateRowCount();">Remove</button>
             </div>
             <div class="row g-2">
                 <div class="col-md-3">

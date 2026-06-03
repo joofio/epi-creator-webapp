@@ -1,4 +1,5 @@
 import os
+import re
 
 from flask import (
     Blueprint,
@@ -233,7 +234,16 @@ def api_lookup(category):
     items = get_lookup(category)
 
     if q:
-        items = [i for i in items if q in str(i).lower()]
+        filtered = []
+        for i in items:
+            if isinstance(i, dict):
+                searchable = " ".join(str(v).lower() for v in i.values())
+                if q in searchable:
+                    filtered.append(i)
+            else:
+                if q in str(i).lower():
+                    filtered.append(i)
+        items = filtered
 
     category_to_id = {
         "doseForms": "doseForm",
@@ -256,6 +266,9 @@ def api_lookup(category):
     return jsonify(result)
 
 
+_ROW_SUFFIX_RE = re.compile(r"_\d+(?:_p\d+)?$")
+
+
 def _parse_form_rows(form_data, sheet_name):
     """Parse request.form into a list of row dicts.
 
@@ -263,6 +276,10 @@ def _parse_form_rows(form_data, sheet_name):
     fields are blank) so that validation can report per-field errors.
     Previously blank rows were dropped, which caused the form to
     silently advance on empty submission.
+
+    Handles both regular fields (``name_0``) and pipe-group fields
+    (``identifier_system_0_p0``).  Pipe-group keys are kept verbatim so
+    that :func:`_consolidate_pipe_fields` can merge them later.
     """
     rows = []
 
@@ -278,12 +295,12 @@ def _parse_form_rows(form_data, sheet_name):
 
     for i in range(max_rows):
         row = {}
-        suffix = "_" + str(i)
         for key, values in form_data.items():
             if key.startswith("row_count"):
                 continue
-            if key.endswith(suffix):
-                col_name = key[: -len(suffix)]
+            m = _ROW_SUFFIX_RE.search(key)
+            if m and m.group().startswith("_" + str(i)):
+                col_name = key[: m.start()]
                 row[col_name] = values[0] if values else ""
         rows.append(row)
 

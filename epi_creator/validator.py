@@ -116,6 +116,7 @@ def validate_row(row, sheet, session_data=None):
     elif sheet == "Ingredient":
         check_required(row.get("name"), "name", "Name")
         check_required(row.get("role"), "role", "Role")
+        check_required(row.get("identifier"), "identifier", "Identifier")
         check_spaces(row.get("identifier"), "identifier", "Identifier")
         check_spaces(row.get("StrengthBasis"), "StrengthBasis", "Strength Basis")
         check_numeric(row.get("quantity"), "quantity", "Quantity")
@@ -127,8 +128,6 @@ def validate_row(row, sheet, session_data=None):
                 err("StrengthBasis", "Strength Basis is required for active ingredients")
             if not row.get("quantity") or str(row.get("quantity")).strip() == "":
                 err("quantity", "Quantity is required for active ingredients")
-            if not row.get("identifier") or str(row.get("identifier")).strip() == "":
-                err("identifier", "Identifier is required for active ingredients (substance code)")
 
         ingredient_identifier = (row.get("identifier") or "").strip()
         if ingredient_identifier:
@@ -212,6 +211,7 @@ def validate_row(row, sheet, session_data=None):
 
     elif sheet == "PackagedProductDefinition":
         check_required(row.get("name"), "name", "Name")
+        check_required(row.get("type"), "type", "Type")
         check_required(row.get("statusDate"), "statusDate", "Status Date")
         check_required(row.get("packaging_quantity"), "packaging_quantity", "Pkg Qty")
         check_required(row.get("packaging_identifier"), "packaging_identifier", "Pkg ID")
@@ -303,6 +303,8 @@ def is_step_complete(step_key, session_data):
         return False, [f"Unknown step: {step_key}"]
     rows = (session_data or {}).get(sheet, [])
     if not rows:
+        if sheet == "ClinicalUseDefinition":
+            return True, []
         display = RESOURCE_DISPLAY_NAMES.get(sheet, sheet)
         return False, [f"{display} has no entries yet."]
     blockers = []
@@ -327,7 +329,6 @@ MULTI_ROW_SHEETS = {
     "Substance",
     "Ingredient",
     "RegulatedAuthorization",
-    "ClinicalUseDefinition",
     "Composition",
     "PackagedProductDefinition",
 }
