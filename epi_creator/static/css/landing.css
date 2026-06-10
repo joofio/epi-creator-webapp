@@ -280,3 +280,42 @@ body.landing *::after {
   color: var(--ink-faint);
   user-select: none;
 }
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .cta {
+    background: var(--glass-strong);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-layer::before,
+  .orb--1,
+  .orb--2,
+  .orb--3,
+  .cta,
+  .cta__arrow,
+  .links a {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .cta:hover {
+    transform: none;
+  }
+
+  .cta:hover .cta__arrow {
+    transform: none;
+  }
+}
+
+@media print {
+  body.landing {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .bg-layer,
+  .cta {
+    display: none;
+  }
+}
