@@ -104,7 +104,7 @@ body.landing *::after {
   right: 6%;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, #c4b5fd 0%, transparent 70%);
+  background: radial-gradient(circle, var(--accent-violet) 0%, transparent 70%);
   animation: drift-2 34s var(--ease) infinite;
 }
 
