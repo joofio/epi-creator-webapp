@@ -187,3 +187,61 @@ body.landing *::after {
   line-height: 1.55;
   color: var(--ink-dim);
 }
+
+.cta-form {
+  margin: 2.25rem 0 1.5rem;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.95em 1.6em;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  box-shadow: var(--shadow-glow);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+          backdrop-filter: blur(14px) saturate(140%);
+  transition:
+    transform 200ms var(--ease),
+    background-color 200ms var(--ease),
+    box-shadow 200ms var(--ease);
+}
+
+.cta__arrow {
+  display: inline-block;
+  transition: transform 200ms var(--ease);
+}
+
+.cta:hover {
+  background: var(--glass-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow-hover);
+}
+
+.cta:hover .cta__arrow {
+  transform: translateX(4px);
+}
+
+.cta:active {
+  transform: translateY(0);
+}
+
+.cta:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 4px;
+}
+
+@media (max-width: 480px) {
+  .cta {
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+  }
+}
