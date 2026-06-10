@@ -41,3 +41,97 @@ body.landing *::before,
 body.landing *::after {
   box-sizing: border-box;
 }
+
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, var(--bg-stop-1) 0%, var(--bg-stop-2) 50%, var(--bg-stop-3) 100%);
+}
+
+.bg-layer::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140vmax;
+  height: 140vmax;
+  transform: translate(-50%, -50%) rotate(-12deg);
+  background: conic-gradient(
+    from var(--angle),
+    rgba(125, 211, 252, 0.18) 0deg,
+    rgba(196, 181, 253, 0.18) 90deg,
+    rgba(244, 114, 182, 0.16) 180deg,
+    rgba(125, 211, 252, 0.18) 270deg,
+    rgba(125, 211, 252, 0.18) 360deg
+  );
+  -webkit-mask-image: radial-gradient(circle at center, black 0%, black 35%, transparent 70%);
+          mask-image: radial-gradient(circle at center, black 0%, black 35%, transparent 70%);
+  filter: blur(40px);
+  opacity: 0.85;
+  animation: mesh-rotate 30s linear infinite;
+}
+
+.bg-layer .vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+.orb--1 {
+  top: 10%;
+  left: 8%;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, #7dd3fc 0%, transparent 70%);
+  animation: drift-1 26s var(--ease) infinite;
+}
+
+.orb--2 {
+  top: 55%;
+  right: 6%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #c4b5fd 0%, transparent 70%);
+  animation: drift-2 34s var(--ease) infinite;
+}
+
+.orb--3 {
+  bottom: 5%;
+  left: 30%;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, #f472b6 0%, transparent 70%);
+  animation: drift-3 18s var(--ease) infinite;
+}
+
+@keyframes mesh-rotate {
+  to { --angle: 360deg; }
+}
+
+@keyframes drift-1 {
+  0%, 100% { transform: translate(0, 0); }
+  50%      { transform: translate(60px, 40px); }
+}
+
+@keyframes drift-2 {
+  0%, 100% { transform: translate(0, 0); }
+  50%      { transform: translate(-50px, -60px); }
+}
+
+@keyframes drift-3 {
+  0%, 100% { transform: translate(0, 0); }
+  50%      { transform: translate(40px, -50px); }
+}
