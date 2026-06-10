@@ -135,3 +135,55 @@ body.landing *::after {
   0%, 100% { transform: translate(0, 0); }
   50%      { transform: translate(40px, -50px); }
 }
+
+.hero {
+  position: relative;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: clamp(24px, 5vw, 64px);
+}
+
+.hero__inner {
+  width: 100%;
+  max-width: 56ch;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 1rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 30px rgba(186, 230, 253, 0.15);
+}
+
+.lead {
+  margin: 1.25rem auto 0.5rem;
+  max-width: 38ch;
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.sub {
+  margin: 0 auto;
+  max-width: 46ch;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--ink-dim);
+}
