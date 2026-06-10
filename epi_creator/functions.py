@@ -45,7 +45,7 @@ SHEET_COLUMNS = {
     ],
     "Organization": [
         "name", "identifier", "type", "typeID", "id",
-        "address_line", "address_city", "address_country", "address_postalCode",
+        "address_line", "address_city", "address_country", "address_countryName", "address_postalCode",
     ],
     "ClinicalUseDefinition": [
         "type", "name", "identifier", "identifier_system",
@@ -127,6 +127,18 @@ def create_env(TEMPLATE_FOLDER):
         return str(hash_object.hexdigest())
 
     env.filters["create_hash_id"] = hash_id
+
+    def iso2to3(value):
+        from epi_creator.lookup import get_lookup
+        if value is None:
+            return ""
+        code = str(value).strip().upper()
+        if not code:
+            return ""
+        mapping = get_lookup("iso2to3") or {}
+        return mapping.get(code, "")
+
+    env.filters["iso2to3"] = iso2to3
     return env
 
 

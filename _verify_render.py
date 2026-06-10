@@ -28,6 +28,7 @@ def main():
                 "address_line": "123 Main St",
                 "address_city": "Lisbon",
                 "address_country": "PT",
+                "address_countryName": "Portugal",
                 "address_postalCode": "1000",
             }
         ],

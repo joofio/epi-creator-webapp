@@ -1,5 +1,5 @@
 document.addEventListener('alpine:init', () => {
-    Alpine.data('autocomplete', (category, idField, labelField) => ({
+    Alpine.data('autocomplete', (category, idField, labelField, idKey) => ({
         query: '',
         items: [],
         open: false,
@@ -8,6 +8,7 @@ document.addEventListener('alpine:init', () => {
         selectedId: '',
         idFieldName: idField || '',
         labelFieldName: labelField || '',
+        idKeyName: idKey || 'id',
 
         init() {
             const hidden = this.$el.querySelector('input[type="hidden"]');
@@ -40,9 +41,13 @@ document.addEventListener('alpine:init', () => {
         },
 
         select(item) {
-            if (typeof item === 'object') {
-                this.selectedLabel = item.label || item.name || item.text || item;
-                this.selectedId = item.id || item.code || item.value || '';
+            if (typeof item === 'object' && item !== null) {
+                this.selectedLabel = item.label || item.name || item.text || '';
+                if (this.idKeyName && item[this.idKeyName] !== undefined) {
+                    this.selectedId = item[this.idKeyName];
+                } else {
+                    this.selectedId = item.id || item.code || item.value || '';
+                }
             } else {
                 this.selectedLabel = item;
                 this.selectedId = item;

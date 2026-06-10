@@ -62,12 +62,28 @@
                            value="{{ row.get('address_city','') }}"
                            placeholder="e.g. Paris">
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-3" x-data="autocomplete('countriesWithCodes', 'address_country_{{ loop.index0 }}', 'address_countryName_{{ loop.index0 }}', 'code')">
                     <label class="form-label">Country *</label>
-                    <input class="form-control {{ 'field-error' if field_has_error(errors, loop.index0, 'address_country') }}"
-                           name="address_country_{{ loop.index0 }}" aria-required="true"
-                           value="{{ row.get('address_country','') }}"
-                           placeholder="e.g. FR">
+                    <div class="autocomplete-wrapper">
+                        <input class="form-control {{ 'field-error' if field_has_error(errors, loop.index0, 'address_country') }}"
+                               name="address_countryName_{{ loop.index0 }}" aria-required="true"
+                               value="{{ row.get('address_countryName','') }}"
+                               x-model="query" @input="search()" @focus="search()" placeholder="Search country...">
+                        <input type="hidden" name="address_country_{{ loop.index0 }}" value="{{ row.get('address_country','') }}">
+                        <div class="autocomplete-dropdown" x-show="open" @click.away="open = false">
+                            <template x-for="item in items">
+                                <div class="item" @click="select(item)"
+                                     x-text="typeof item === 'object' ? (item.label || item.name || item.text) : item"></div>
+                            </template>
+                        </div>
+                        <div x-show="noMatch" class="text-warning small mt-1" x-cloak>
+                            No country matches &quot;<span x-text="query"></span>&quot;.
+                        </div>
+                        <div x-show="selectedLabel && !open" class="text-muted small mt-1">
+                            <span x-text="selectedLabel"></span>
+                            <button type="button" @click="clear()" class="btn btn-sm p-0 ms-1" style="font-size:11px;color:#6c757d">&times; clear</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-2">
                     <label class="form-label">Postal Code</label>
@@ -126,7 +142,7 @@ function addOrgRow() {
         <input type="hidden" name="typeID_${orgRowCount}">
         <div class="col-md-6"><label class="form-label">Address Line *</label><input class="form-control" name="address_line_${orgRowCount}" required placeholder="e.g. Rue de la Pharmacie 12"></div>
         <div class="col-md-3"><label class="form-label">City *</label><input class="form-control" name="address_city_${orgRowCount}" required placeholder="e.g. Paris"></div>
-        <div class="col-md-1"><label class="form-label">Country *</label><input class="form-control" name="address_country_${orgRowCount}" required placeholder="e.g. FR"></div>
+        <div class="col-md-3" x-data="autocomplete('countriesWithCodes', 'address_country_${orgRowCount}', 'address_countryName_${orgRowCount}', 'code')"><label class="form-label">Country *</label><div class="autocomplete-wrapper"><input class="form-control" name="address_countryName_${orgRowCount}" required placeholder="Search country..." x-model="query" @input="search()" @focus="search()"><input type="hidden" name="address_country_${orgRowCount}"><div class="autocomplete-dropdown" x-show="open" @click.away="open = false"><template x-for="item in items"><div class="item" @click="select(item)" x-text="typeof item === 'object' ? (item.label || item.name || item.text) : item"></div></template></div><div x-show="noMatch" class="text-warning small mt-1" x-cloak>No country matches &quot;<span x-text="query"></span>&quot;.</div><div x-show="selectedLabel && !open" class="text-muted small mt-1"><span x-text="selectedLabel"></span><button type="button" @click="clear()" class="btn btn-sm p-0 ms-1" style="font-size:11px;color:#6c757d">&times; clear</button></div></div></div>
         <div class="col-md-2"><label class="form-label">Postal Code</label><input class="form-control" name="address_postalCode_${orgRowCount}" placeholder="e.g. 75001"></div>
         <input type="hidden" name="id_${orgRowCount}">
     </div>`;
@@ -147,6 +163,9 @@ function updateOrgCount() {
         });
     });
     orgRowCount = rows.length;
+    if (window.Alpine && typeof Alpine.initTree === 'function') {
+        rows.forEach((r) => Alpine.initTree(r));
+    }
 }
 </script>
 {% endblock %}

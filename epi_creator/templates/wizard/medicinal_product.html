@@ -43,7 +43,7 @@
         </div>
     </div>
     <div class="row g-2 mb-3">
-        <div class="col-md-4" x-data="autocomplete('countriesWithCodes', 'countryCode_0', 'country_0')">
+        <div class="col-md-4" x-data="autocomplete('countriesWithCodes', 'countryCode_0', 'country_0', 'code')">
             <label class="form-label">Country *</label>
             <div class="autocomplete-wrapper">
                 <input class="form-control {{ 'field-error' if field_has_error(errors, 0, 'country') }}" name="country_0"

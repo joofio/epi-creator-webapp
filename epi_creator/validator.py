@@ -207,6 +207,7 @@ def validate_row(row, sheet, session_data=None):
         check_no_newline(row.get("name"), "name", "Name")
         check_xss(row.get("name"), "name", "Name")
         check_xss(row.get("address_line"), "address_line", "Address Line")
+        check_xss(row.get("address_countryName"), "address_countryName", "Country")
         check_country_code(row.get("address_country"), "address_country", "Country")
 
     elif sheet == "PackagedProductDefinition":

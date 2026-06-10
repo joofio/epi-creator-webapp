@@ -56,12 +56,23 @@ Usage: #example
 
 * contact
   * address
-    {{ "* text = \"{} {} {}\"".format(row.address_line|trim,row.address_city|trim|replace('nan',''),row.address_country|trim|replace('nan','')) }}
+    {{ "* text = \"{} {} {}\"".format(row.address_line|trim,row.address_city|trim|replace('nan',''),row.address_countryName|trim|replace('nan','')) }}
     * use = #work
     * type = #physical
     {{ "* line = \"{}\"".format(row.address_line|trim) if row.address_line|string not in ("nan","")}}
     {{ "* city = \"{}\"".format(row.address_city|trim) if row.address_city|string not in ("nan","")}}
-    {{ "* country = \"{}\"".format(row.address_country|trim) if row.address_country|string not in ("nan","")}}
+    {% if row.address_country|string not in ("nan","") and row.address_country|trim %}
+    {% set ns.country_alpha3 = row.address_country|iso2to3 %}
+    {% if ns.country_alpha3 %}
+    {% if row.address_countryName|string not in ("nan","") and row.address_countryName|trim %}
+    * country = "{{ ns.country_alpha3 }}" "{{ row.address_countryName|trim }}"
+    {%- else %}
+    * country = "{{ ns.country_alpha3 }}"
+    {%- endif %}
+    {% else %}
+    // WARNING[org-country] - no alpha-3 mapping for address_country='{{ row.address_country|trim }}' in INDEX:{{ index+1 }}
+    {%- endif %}
+    {%- endif %}
     {{ "* postalCode = \"{}\"".format(row.address_postalCode|trim) if row.address_postalCode|string not in ("nan","")}}
 
 

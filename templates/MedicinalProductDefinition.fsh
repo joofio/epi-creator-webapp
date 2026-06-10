@@ -53,8 +53,14 @@ Usage: #example
     * type = $spor-productNamePartType-cs#220000000005 "Pharmaceutical dose form part"
   
   * usage
-    * country = urn:iso:std:iso:3166#{{ row["countryCode"]  }} "{{ row["country"]  }}"
-    * jurisdiction = urn:iso:std:iso:3166#{{ row["countryCode"]  }} "{{ row["country"]  }}"
+    {% if row["countryCode"]|iso2to3 %}
+    * country = urn:iso:std:iso:3166#{{ row["countryCode"]|iso2to3  }} "{{ row["country"]  }}"
+    * jurisdiction = urn:iso:std:iso:3166#{{ row["countryCode"]|iso2to3  }} "{{ row["country"]  }}"
+    {% else %}
+    // WARNING[mp-country] - no alpha-3 mapping for countryCode='{{ row["countryCode"]|trim }}' in INDEX:{{ index+1 }}
+    * country = "{{ row["country"]  }}"
+    * jurisdiction = "{{ row["country"]  }}"
+    {%- endif %}
     * language = urn:ietf:bcp:47#{{ row["languageID"]  }}  "{{ row["language"]  }}"
 
 {% endif %}
